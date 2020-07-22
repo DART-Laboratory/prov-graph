@@ -26,13 +26,13 @@ const node_limit_per_request = 30;
 
 // Simulation
 const force_strength = -800;
-const link_strength = 0.2;
+const link_strength = 0.4;
 const force_x_strength = 0.1;
 const force_y_strength = 0.1;
 
 // Nodes
-const default_node_size = 15;
-const default_stroke_width = 2;
+const default_node_size = 10;
+const default_stroke_width = 1;
 const default_node_color = "#80E810";
 const active_node_margin = 6;
 const active_node_margin_opacity = 0.3;
@@ -45,6 +45,6 @@ const node_position_y = 'graphexpy';
 const default_edge_stroke_width = 3;
 const default_edge_color = "#CCC";
 const edge_label_color = "#111";
-// Choose between curved (true) and straight edges (false). 
+// Choose between curved (true) and straight edges (false).
 // If set to false, multiple edges between 2 nodes will all be straight and overlap.
-const use_curved_edges = true;
+const use_curved_edges = false;
