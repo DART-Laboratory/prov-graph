@@ -34,21 +34,7 @@ var graphShapes = (function(){
 	}
 
 	function node_color(d){
-		if (colored_prop!="none"){
-			if (colored_prop == "label"){
-				return color_palette(node_code_color(d.label));	
-			}
-			else if (typeof d.properties[colored_prop] !=="undefined"){
-				if ('summary' in d.properties[colored_prop]){
-					return color_palette(node_code_color(d.properties[colored_prop]['summary']));
-				}else {
-					return color_palette(node_code_color(d.properties[colored_prop][0].value));
-				}	
-			}
-			else if ('color' in d.properties) {return d.properties.color[0].value;}
-			else {return default_node_color;}
-		}
-		else if ('color' in d.properties) {return d.properties.color[0].value;}
+		if ('color' in d.properties) {return d.properties.color[0].value;}
 		else {return default_node_color;}
 	}
 
@@ -59,12 +45,13 @@ var graphShapes = (function(){
 
 	function node_text(d){
 		if ('node_text' in d){return d.node_text;}
-		else {return d.id;}
+		else {return d.label;}
 	}
 
 	function node_subtext(d){
 		if ('node_subtext' in d){return d.node_subtext;}
-		else {return d.label;}
+		if ('name' in d){return d.name;}
+		else {return '';}
 	}
 
 	function edge_stroke_width(d){
