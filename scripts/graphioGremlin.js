@@ -95,7 +95,6 @@ var graphioGremlin = (function(){
 		let input_field = $('#search_field').val();
 		let label_field = $('#label_field').val();
 		let limit_field = $('#limit_field').val();
-        let search_type = $('#search_type').val();
         let communication_method = $('#communication_method').val();
 		//console.log(input_field)
 		var filtered_string = input_string;//You may add .replace(/\W+/g, ''); to refuse any character not in the alphabet
@@ -107,17 +106,10 @@ var graphioGremlin = (function(){
 		}
 		if (input_field !== "" && input_string !== "") {
 			has_str += ".has('" + input_field + "',";
-			switch (search_type) {
-				case "eq":
-					if (isInt(input_string)){
-						has_str += filtered_string + ")"
-					} else {
-						has_str += "'" + filtered_string + "')"
-					}
-					break;
-				case "contains":
-					has_str += "textContains('" + filtered_string + "'))";
-					break;
+			if (isInt(input_string)){
+				has_str += filtered_string + ")"
+			} else {
+				has_str += "'" + filtered_string + "')"
 			}
 		} else if (limit_field === "" || limit_field < 0) {
 				limit_field = node_limit_per_request;
@@ -190,9 +182,10 @@ var graphioGremlin = (function(){
 
 		// 'inject' is necessary in case of an isolated node ('both' would lead to an empty answer)
 		console.log('Query for the node and its neigbhors')
-		console.log(gremlin_query_nodes)
+
 		var gremlin_query_edges = "edges = " + traversal_source + ".V("+id+").bothE("+(edge_filter?"'"+edge_filter+"'":"")+")";
 		var gremlin_query = gremlin_query_nodes+'\n'+gremlin_query_edges+'\n'+'[nodes.toList(),edges.toList()]'
+		console.log(gremlin_query)
 		// while busy, show we're doing something in the messageArea.
 		$('#messageArea').html('<h3>(loading)</h3>');
 		var message = "<p>Query ID: "+ d.id +"</p>"

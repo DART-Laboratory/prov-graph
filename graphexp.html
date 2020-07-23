@@ -54,23 +54,17 @@
 			<div class="nav container" id="search_bar">
 				<div class="nav inputs_container_top">
 					<div class="nav input_unit_container">
-						<label for="label_field">Node label:</label>
+						<label for="label_field">Node
+						Label Filter:</label>
 						<input name="label_field" id="label_field" value="" />
 					</div>
 					<div class="nav input_unit_container">
 						<label for="search_field">Node property:</label>
-						<input name="search_field" id="search_field" value="" />
+						<input name="search_field" id="search_field" value="ID" />
 					</div>
 					<div class="nav input_unit_container">
 						<label class="nav input_label" for="search_value">Property value:</label>
 						<input name="search_value" id="search_value" value="" />
-					</div>
-					<div class="nav input_unit_container">
-						<label for="search_type">Type of search:</label>
-						<select name="search_type" id="search_type">
-							<option value="eq">Equals</option>
-							<option value="contains">Contains</option>
-						</select>
 					</div>
 					<div class="nav input_unit_container">
 						<label for="limit_field">Results limit:</label>
@@ -78,13 +72,14 @@
 					</div>
 				</div>
 				<div class="nav controls">
-					<button name="search query" onclick="search_query();">Search</button>
+					<button name="search query"
+					onclick="search_query();">Forward Search</button>
 				</div>
 			</div>
 			<div class="nav container" id="graph_bar">
 				<div class="nav inputs_container_bottom">
 					<div class="nav input_unit_container">
-						<label class="nav input_label" for="edge_filter">Traverse by edge:</label>
+						<label class="nav input_label" for="edge_filter">Filter By Edge Label:</label>
 						<input name="edge_filter" id="edge_filter" value="" />
 					</div>
 					<div class="nav input_unit_container">
@@ -110,19 +105,11 @@
 					<svg></svg>
 				</div>
 
-				<div class="aside left_bar" style="background-color:transparent;pointer-events:auto;">
-					<div  id="graphInfoBar" style="background-color:transparent;pointer-events:auto;">
-						<button name="graphInfo" onclick="get_graph_info();">Get graph info</button>
-						<input type="checkbox" name="showgraphinfo" id="showgraphinfo" onchange="show_hide_element('#graphInfo')"/>Show/hide graph info
-					</div>
-					<div  id="graphInfo" style="background-color:transparent;pointer-events:none;">	
-					</div>
-				</div>
 
 				<div class="aside right_bar" id="details" style="background-color:transparent;pointer-events:auto;">
 					<div id="messageArea"></div><div id="outputArea"></div>
 					<div id="nodeInfo" style="background-color:transparent;overflow:scroll; height:400px;">
-					</div>				
+					</div>
 				</div>
 				<!--
 				<div  class="aside" id="ImageInfo" style="background-color:transparent;">
@@ -164,7 +151,7 @@
 					     <button onclick="editVertexForm()"  style="height:25px; width:150px" > Edit Vertex </button><br>
 					     <button onclick="addEditEdgeForm()"     style="height:25px; width:150px" > Add/Edit Edge </button><br>
 					</div>
-					
+
 					<div class="nav input_unit_container", id="addVertexForm" style="display:none;">
 						<table>
 					     <tr>
@@ -180,9 +167,9 @@
 					     <td><input type="text" name="vertexPropertyValue" id="vertexPropertyValue" style="height:18px; width:500px" placeholder="Enter Comma Seperated Property Value (e.g. Sandeep,27,male)"> </td>
 					     </tr>
 						 </table>
-						 <button class=Center" style="margin-top:1%" onclick="addVertex()"> Add Vertex </button>						 
+						 <button class=Center" style="margin-top:1%" onclick="addVertex()"> Add Vertex </button>
 					</div>
-					
+
 					<div class="nav input_unit_container", id="editVertexForm" style="display:none;">
 						<table>
 						<tr>
@@ -199,10 +186,10 @@
  					    </tr>
 						</table>
 						 <button class=Center" style="margin-top:1%" onclick="editVertex()"> Edit Vertex </button>
-						
-					</div>					
 
-					
+					</div>
+
+
 					<div class="nav input_unit_container", id="addEditEdgeForm" style="display:none;">
 					    <table>
 						<tr>
@@ -228,8 +215,8 @@
 						 </table>
 					     <button class=Center" style="margin-top:1%" onclick="addEditEdge()"> Add/Edit Edge </button>
 					</div>
-					
-					
+
+
 
 
 			</div>
@@ -245,7 +232,7 @@
 			// Create the graph canvas in the chosen div element
 			graph_viz.init("#main");
 			// Add the zoom layer to the graph
-			//var svg_graph = 
+			//var svg_graph =
 			graph_viz.addzoom();
 			//graph_viz.layers.set_nb_layers(4);
 
@@ -268,7 +255,7 @@
 		//nav_choices.append("li").append("button").attr("onclick",search_query).text("Search")
 		var select = d3.select('#prop_choice')
 			.append('select').attr('class','select').attr('id','search_field')
-		
+
 		var select_node = select.append('optgroup').attr('label','Nodes')
 			//.on('change',onchange)
 
@@ -298,14 +285,14 @@
 			.data(prop_list).enter().append("li");
 			//.append('label');
 
-			
+
 		property_label.append('input').attr('type','checkbox').attr('id',function (d) { return item+"_"+d; })
 			.attr('id_nb',function (d) { return prop_list.indexOf(d); })
 			//.attr('onchange',function(d){display_prop(d);});
 			.attr('onchange','display_prop(this)');
 
 		property_label.append('label').text(function (d) { return d; });
-		
+
 
 	}
 
@@ -337,7 +324,7 @@
 		var text_offset = 10;
 		var prop_name = prop_id.slice(prop_id.indexOf("_")+1);
 		var item = prop_id.slice(0,prop_id.indexOf("_"));
-		console.log(prop_id,item)		
+		console.log(prop_id,item)
 		if(d3.select("#"+prop_id).property("checked")){
 			if (item=='nodes'){
 				var elements_text = d3.selectAll('.node');
@@ -375,7 +362,7 @@
 			//.text(function (d) {return d.label});
 			prop_id_nb = prop_id_nb + 1;
 		}
-		else { 
+		else {
 			console.log('Bad item name.'); return 1;
 		}
 		elements_text.classed("prop_details",true).classed(prop_id,true)

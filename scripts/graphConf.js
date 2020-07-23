@@ -42,7 +42,7 @@ const node_position_x = 'graphexpx';
 const node_position_y = 'none';
 
 // Edges
-const default_edge_stroke_width = 1;
+const default_edge_stroke_width = 3;
 const default_edge_color = "#CCC";
 const edge_label_color = "#111";
 // Choose between curved (true) and straight edges (false).

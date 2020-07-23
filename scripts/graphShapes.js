@@ -144,9 +144,6 @@ var graphShapes = (function(){
 				var chosen_node = d3.select(this);
 				if(!chosen_node.classed("pinned"))
 					d3.select(this).select(".Pin").style("visibility", "hidden");
-				var show_checked = document.getElementById ("showName").checked;
-				if (!show_checked)
-					d3.select(this).selectAll(".text_details").style("visibility", "hidden");
 		  });
 
 	}
