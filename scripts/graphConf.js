@@ -5,6 +5,11 @@
 //const host = "some_gremlin_server"
 const host = false;
 
+const SERVER_ADDRESS='localhost';
+const SERVER_PORT='8182';
+const SERVER_PROTOCOL='websocket';
+const SERVER_COMMUNICATION_METHOD='GraphSON3';
+
 // For implementations like Neptune where only single commands are allowed per request
 // set to true
 const SINGLE_COMMANDS_AND_NO_VARS = false;

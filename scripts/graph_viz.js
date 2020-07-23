@@ -34,10 +34,10 @@ var graph_viz = (function () {
 
 	function init(label) {
 		_svg = d3.select(label).select("svg");
-		_svg_width = +d3.select(label).node().getBoundingClientRect().width
+		_svg_width = +d3.select(label).node().getBoundingClientRect().width;
 		_svg_height = +d3.select(label).node().getBoundingClientRect().height;
 		_svg.attr("width", _svg_width).attr("height", _svg_height);
-		//console.log([_svg_width,_svg_height])
+		console.log([_svg_width,_svg_height])
 
 	}
 

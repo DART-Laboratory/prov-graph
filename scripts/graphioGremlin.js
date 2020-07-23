@@ -95,7 +95,6 @@ var graphioGremlin = (function(){
 		let input_field = $('#search_field').val();
 		let label_field = $('#label_field').val();
 		let limit_field = $('#limit_field').val();
-        let communication_method = $('#communication_method').val();
 		//console.log(input_field)
 		var filtered_string = input_string;//You may add .replace(/\W+/g, ''); to refuse any character not in the alphabet
 		if (filtered_string.length>50) filtered_string = filtered_string.substring(0,50); // limit string length
@@ -162,7 +161,7 @@ var graphioGremlin = (function(){
 		// Query sent to the server when a node is clicked
 		//
         var edge_filter = $('#edge_filter').val();
-        var communication_method = $('#communication_method').val();
+        var communication_method = SERVER_COMMUNICATION_METHOD;
 		var id = d.id;
 		if (typeof id === 'string' || id instanceof String) { // Add quotes if id is a string (not a number).
 			id = '"'+id+'"';
@@ -205,9 +204,9 @@ var graphioGremlin = (function(){
 
 	function send_to_server(gremlin_query,query_type,active_node,message, callback){
 
-		let server_address = $('#server_address').val();
-		let server_port = $('#server_port').val();
-		let COMMUNICATION_PROTOCOL = $('#server_protocol').val();
+		let server_address = SERVER_ADDRESS;
+		let server_port = SERVER_PORT;
+		let COMMUNICATION_PROTOCOL = SERVER_PROTOCOL;
 			if (COMMUNICATION_PROTOCOL == 'REST'){
 				let server_url = ""
 				if(REST_USE_HTTPS){
@@ -370,7 +369,7 @@ var graphioGremlin = (function(){
 
 	//////////////////////////////////////////////////////////////////////////////////////////////////
 	function handle_server_answer(data,query_type,active_node,message){
-		let COMMUNICATION_METHOD = $('#communication_method').val();
+		let COMMUNICATION_METHOD = SERVER_COMMUNICATION_METHOD;
 		if (query_type == 'editGraph'){
 			//console.log(data)
 			$('#outputArea').html("<p> Data successfully written to the DB.</p>");
@@ -505,7 +504,7 @@ var graphioGremlin = (function(){
 	}
 
     function extract_infov3(data) {
-        var isGraphSON3_4 = ($('#communication_method').val() == "GraphSON3_4");
+        var isGraphSON3_4 = (SERVER_COMMUNICATION_METHOD == "GraphSON3_4");
         var data_dic = { id: data.id, label: data.label, type: data.type, properties: {} };
         var prop_dic = {};
         // VERSION 3.4
