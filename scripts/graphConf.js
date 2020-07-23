@@ -38,7 +38,7 @@ const active_node_margin = 6;
 const active_node_margin_opacity = 0.3;
 // Node position info in the DB
 // Replace by the key storing the node position inside the DB if any
-const node_position_x = 'none';
+const node_position_x = 'graphexpx';
 const node_position_y = 'none';
 
 // Edges
