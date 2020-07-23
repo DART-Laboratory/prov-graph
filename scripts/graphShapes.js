@@ -44,14 +44,8 @@ var graphShapes = (function(){
 	}
 
 	function node_text(d){
-		if ('node_text' in d){return d.node_text;}
+		if ('name' in d.properties){return d.properties.name[0].value;}
 		else {return d.label;}
-	}
-
-	function node_subtext(d){
-		if ('node_subtext' in d){return d.node_subtext;}
-		if ('name' in d){return d.name;}
-		else {return '';}
 	}
 
 	function edge_stroke_width(d){
@@ -101,14 +95,7 @@ var graphShapes = (function(){
 		node_deco.append("text").classed("text_details",true)
 		  .attr("x",function(d){return node_size(d)+2;})
 		  .text(node_text)
-		  .style("visibility", "hidden");
-
-		node_deco.append("text").classed("text_details",true)
-		  .attr("x",function(d){return node_size(d)+2;})
-		  .attr("y",node_size)
-		  .text(node_subtext)
-		  .style("visibility", "hidden");
-
+		  .style("visibility", "visible");
 
 		// Add the node pin
 		var node_pin = node_deco.append("circle").classed("Pin",true)
