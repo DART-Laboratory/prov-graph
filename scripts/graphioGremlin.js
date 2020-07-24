@@ -530,6 +530,10 @@ var graphioGremlin = (function(){
 			        // a value in fx and/or fy tells D3js to fix the position at this value in the layout
 			        if (key2 == node_position_x) {
 				        data_dic.fx = prop_dic[node_position_x]['0']['value'] * 200 + 30;
+				        // if (prop_dic[node_position_x]['0']['value'] == 0){
+						// 	var _svg_height = +d3.select("#main").node().getBoundingClientRect().height;
+						// 	data_dic.fy = _svg_height / 2;
+						// }
 			        }
 			        if (key2 == node_position_y) {
 				        data_dic.fy = prop_dic[node_position_y]['0']['value'];

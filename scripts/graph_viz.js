@@ -323,14 +323,10 @@ var graph_viz = (function () {
 			.force("charge", d3.forceManyBody().strength(force_strength))
 			.force("link", d3.forceLink().strength(link_strength).id(function (d) { return d.id; })).force("Collision", d3.forceCollide().radius(10));
 
+		var force_y = force_x_strength;
+		var force_x = force_y_strength;
 		if (center_f == 1) {
-			var force_y = force_x_strength;
-			var force_x = force_y_strength;
 			_simulation.force("center", d3.forceCenter(_svg_width / 2, _svg_height / 2));
-		}
-		else {
-			var force_y = 0;
-			var force_x = 0;
 		}
 		_simulation.force("y", d3.forceY().strength(function (d) {
 			return force_y;
