@@ -396,15 +396,7 @@ var graphioGremlin = (function(){
 			$('#messageArea').html('');
 
 		}
-		if (query_type=='graphInfo'){
-			infobox.display_graph_info(data);
-			_node_properties = make_properties_list(data[1][0]);
-			_edge_properties = make_properties_list(data[3][0]);
-			change_nav_bar(_node_properties,_edge_properties);
-			display_properties_bar(_node_properties,'nodes','Node properties:');
-			display_properties_bar(_edge_properties,'edges','Edge properties:');
-			display_color_choice(_node_properties,'nodes','Node color by:');
-		} else {
+
 			//console.log(data);
 			var graph = arrange_data(data);
 			//console.log(graph)
@@ -412,31 +404,12 @@ var graphioGremlin = (function(){
 			else if (query_type=='search') var center_f = 1;
 			else return;
 			graph_viz.refresh_data(graph,center_f,active_node);
-		}
 
 		$('#outputArea').html(message);
 		$('#messageArea').html('');
 	}
 
 
-
-	//////////////////////////////////////////////////////////////////////////////////////////////////
-	function make_properties_list(data){
-		var prop_dic = {};
-		for (var prop_str in data){
-			prop_str = prop_str.replace(/[\[\ \"\'\]]/g,''); // get rid of symbols [,",',] and spaces
-			var prop_list = prop_str.split(',');
-			//prop_list = prop_list.map(function (e){e=e.slice(1); return e;});
-			for (var prop_idx in prop_list){
-				prop_dic[prop_list[prop_idx]] = 0;
-			}
-		}
-		var properties_list = [];
-		for (var key in prop_dic){
-			properties_list.push(key);
-		}
-		return properties_list;
-	}
 
 	///////////////////////////////////////////////////
 	function idIndex(list,elem) {

@@ -129,77 +129,6 @@
 		document.getElementById('nbLayers').value = default_nb_of_layers;
 	}
 
-	function change_nav_bar(node_data,edge_data){
-		var nav_bar = d3.select("#prop_choice");
-		nav_bar.select("input").remove();
-		nav_bar.select("select").remove();
-		//nav_choices = nav_bar.append("ul");
-		//nav_choices.append("li").append("button").attr("onclick",search_query).text("Search")
-		var select = d3.select('#prop_choice')
-			.append('select').attr('class','select').attr('id','search_field')
-
-		var select_node = select.append('optgroup').attr('label','Nodes')
-			//.on('change',onchange)
-
-		var select_edge = select.append('optgroup').attr('label','Edges')
-
-		var node_options = select_node
-			.selectAll('option')
-			.data(node_data).enter()
-			.append('option')
-			.text(function (d) { return d; });
-
-		var edge_options = select_edge
-			.selectAll('option')
-			.data(edge_data).enter()
-			.append('option')
-			.text(function (d) { return d; });
-
-	}
-
-	function display_properties_bar(prop_list,item,text){
-		var nav_bar = d3.select("#graphInfoBar");
-		nav_bar.select("#property_bar_"+item).remove();
-		var property_bar = nav_bar.append("div").attr("id","property_bar_"+item);
-		property_bar.append('text').text(text).style("font-weight","bold");
-		//d3.select('#property_bar').append('text').text('hello')
-		var property_label = property_bar.selectAll('input').append("ul")
-			.data(prop_list).enter().append("li");
-			//.append('label');
-
-
-		property_label.append('input').attr('type','checkbox').attr('id',function (d) { return item+"_"+d; })
-			.attr('id_nb',function (d) { return prop_list.indexOf(d); })
-			//.attr('onchange',function(d){display_prop(d);});
-			.attr('onchange','display_prop(this)');
-
-		property_label.append('label').text(function (d) { return d; });
-
-
-	}
-
-	function display_color_choice(prop_list,item,text){
-		prop_list = ['none','label'].concat(prop_list);
-		var nav_bar = d3.select("#graphInfoBar");
-		nav_bar.select("#color_choice_"+item).remove();
-		var color_bar = nav_bar.append("div").attr("id","color_choice_"+item);
-		color_bar.append("div").append("text").text(text).style("font-weight","bold");
-		color_bar.append("div").append("select").attr("class","select").attr("id","color_select_"+item)
-			.attr("onchange","colorize(this)")
-			.selectAll("option")
-			.data(prop_list).enter()
-			.append("option")
-			.text(function (d) { return d; });
-	}
-
-	function colorize(selection){
-		var value = selection.value;
-		console.log('Color by '+value);
-		graphShapes.colorize(value);
-
-	}
-
-
 	function attach_property(graph_objects,prop_name,prop_id_nb,item){
 		var text_base_offset = 10;
 		var text_offset = 10;
@@ -260,14 +189,6 @@
 		console.log(nb_layers)
 		graph_viz.layers.set_nb_layers(nb_layers);
 
-	}
-
-	function show_hide_element(element_label){
-		element = d3.select(element_label);
-		var input = document.getElementById ("showgraphinfo");
-		var isChecked = input.checked;
-		if (isChecked) element.style("display", "inline");
-		else {element.style("display", "none");}
 	}
 
 

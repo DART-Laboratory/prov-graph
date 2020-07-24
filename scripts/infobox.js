@@ -93,11 +93,7 @@ var infobox = (function(){
 		var element = d3.select(element_label);
 		element.style('display','inline');
 	}
-
-	function show_graph_info(){
-		show_element(_)
-	}
-
+	
 	function display_info(node_data){
 		// remove previous info		
 		_display_IDinfo(node_data)
