@@ -24,60 +24,46 @@
 <script src="scripts/editGraph.js"></script>
 
 <script type="text/javascript">
-
 	///////////////////////////////////////////////
 	function search_query(){
 		//if (typeof graph_viz.simulation!=='undefined') {graph_viz.simulation.stop(); console.log('Simulation stopped!');}
 		graphioGremlin.search_query();
 	}
-
-	function get_graph_info(){
-		graphioGremlin.get_graph_info();
-		infobox.show_element("#graphInfo");
-		document.getElementById ("showgraphinfo").checked = true;
-	}
 </script>
 <!-- ------------------------------------------------- -->
 
-
-
 	</head>
 	<body>
-		<!--
-		<div class="header">
-			<div class="container">
-				<h1 class="header-heading">Graph Explorer v 0.6</h1>
-			</div>
-		</div>
-		-->
 		<div class="nav-bar">
 			<div class="nav container" id="search_bar">
 				<div class="nav inputs_container_top">
 					<div class="nav input_unit_container">
-						<label for="label_field">Node
-						Label Filter:</label>
-						<input name="label_field" id="label_field" value="" />
-					</div>
-					<div class="nav input_unit_container">
-						<label for="search_field">Node property:</label>
+						<label for="search_field">Node Key:</label>
 						<input name="search_field" id="search_field" value="ID" />
-					</div>
-					<div class="nav input_unit_container">
-						<label class="nav input_label" for="search_value">Property value:</label>
+						<label class="nav input_label" for="search_value">Node Value:</label>
 						<input name="search_value" id="search_value" value="" />
 					</div>
-					<div class="nav input_unit_container">
-						<label for="limit_field">Results limit:</label>
-						<input name="limit_field" id="limit_field" value="30" min="1" max="1000" type="number"/>
-					</div>
+
 				</div>
 				<div class="nav controls">
 					<button name="search query"
 					onclick="search_query();">Forward Search</button>
 				</div>
+				<div class="nav controls">
+					<button name="clear" onclick="graph_viz.clear();">Clear</button>
+				</div>
 			</div>
 			<div class="nav container" id="graph_bar">
 				<div class="nav inputs_container_bottom">
+					<div class="nav input_unit_container">
+						<label for="label_field">Node
+							Label Filter:</label>
+						<input name="label_field" id="label_field" value="" />
+					</div>
+					<div class="nav input_unit_container">
+						<label for="limit_field">Results limit:</label>
+						<input name="limit_field" id="limit_field" value="30" min="1" max="1000" type="number"/>
+					</div>
 					<div class="nav input_unit_container">
 						<label class="nav input_label" for="edge_filter">Filter By Edge Label:</label>
 						<input name="edge_filter" id="edge_filter" value="" />
@@ -99,9 +85,7 @@
 						<label class="nav input_label" for="showEdge">Show Edge labels</label>
 					</div>
 				</div>
-				<div class="nav controls">
-					<button name="clear" onclick="graph_viz.clear();">Clear</button>
-				</div>
+
 			</div>
 		</div>
 		<div class="content">
@@ -213,33 +197,6 @@
 		console.log('Color by '+value);
 		graphShapes.colorize(value);
 
-	}
-
-	function display_prop(prop){
-		var prop_id = prop.id;
-		var prop_id_nb = prop.getAttribute('id_nb');
-		var text_base_offset = 10;
-		var text_offset = 10;
-		var prop_name = prop_id.slice(prop_id.indexOf("_")+1);
-		var item = prop_id.slice(0,prop_id.indexOf("_"));
-		console.log(prop_id,item)
-		if(d3.select("#"+prop_id).property("checked")){
-			if (item=='nodes'){
-				var elements_text = d3.selectAll('.node');
-			} else if (item=='edges'){
-				var elements_text = d3.selectAll('.edgelabel');
-			}
-			attach_property(elements_text,prop_name,prop_id_nb,item)
-		}
-		else{
-			if (item=='nodes'){
-				d3.selectAll('.node').select('.'+prop_id).remove();
-			}
-			else if (item=='edges'){
-				d3.selectAll('.edgelabel').select('.'+prop_id).remove();
-			}
-
-		}
 	}
 
 

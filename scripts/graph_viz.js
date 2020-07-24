@@ -321,7 +321,7 @@ var graph_viz = (function () {
 		// Define the force applied to the nodes
 		_simulation = d3.forceSimulation()
 			.force("charge", d3.forceManyBody().strength(force_strength))
-			.force("link", d3.forceLink().strength(link_strength).id(function (d) { return d.id; }));
+			.force("link", d3.forceLink().strength(link_strength).id(function (d) { return d.id; })).force("Collision", d3.forceCollide().radius(8));
 
 		if (center_f == 1) {
 			var force_y = force_x_strength;

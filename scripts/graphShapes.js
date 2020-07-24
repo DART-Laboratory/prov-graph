@@ -214,6 +214,7 @@ var graphShapes = (function(){
 		var edgelabels_deco = edgelabels.append('text')
 			.attr('dy',-3)
 			.style("pointer-events", "none")
+			.style("visibility", "hidden")
 			.attr('class','edgelabel').classed("active_edgelabel",true)
 			.attr('id',function (d, i) {return 'edgelabel' + d.id})
 			.attr("ID",function(d) { return d.id;})
