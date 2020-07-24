@@ -556,7 +556,7 @@ var graphioGremlin = (function(){
 			        // If  a node position is defined in the DB, the node will be positioned accordingly
 			        // a value in fx and/or fy tells D3js to fix the position at this value in the layout
 			        if (key2 == node_position_x) {
-				        data_dic.fx = prop_dic[node_position_x]['0']['value'] * 100 + 20;
+				        data_dic.fx = prop_dic[node_position_x]['0']['value'] * 200 + 30;
 			        }
 			        if (key2 == node_position_y) {
 				        data_dic.fy = prop_dic[node_position_y]['0']['value'];

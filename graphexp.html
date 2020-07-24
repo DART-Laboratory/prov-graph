@@ -94,6 +94,10 @@
 						<input type="checkbox" name="showName_box" id="showName" onclick="graphShapes.show_names()"/>
 						<label class="nav input_label" for="showName">Show Node labels</label>
 					</div>
+					<div class="nav input_unit_container">
+						<input type="checkbox" name="showEdge_box" id="showEdge" onclick="graphShapes.show_names_edges()"/>
+						<label class="nav input_label" for="showEdge">Show Edge labels</label>
+					</div>
 				</div>
 				<div class="nav controls">
 					<button name="clear" onclick="graph_viz.clear();">Clear</button>
@@ -106,9 +110,9 @@
 				</div>
 
 
-				<div class="aside right_bar" id="details" style="background-color:transparent;pointer-events:auto;">
+				<div class="aside right_bar" id="details" style="pointer-events:auto;">
 					<div id="messageArea"></div><div id="outputArea"></div>
-					<div id="nodeInfo" style="background-color:transparent;overflow:scroll; height:400px;">
+					<div id="nodeInfo" style="background-color:transparent;overflow:scroll; height:650px;">
 					</div>
 				</div>
 				<!--

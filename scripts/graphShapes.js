@@ -322,9 +322,27 @@ var graphShapes = (function(){
 		var isChecked = input.checked;
 		if (isChecked) text_to_show.style("visibility", "visible");
 		else {text_to_show.style("visibility", "hidden");}
-	}	
+	}
+
+	function show_names_edges(){
+		var text_to_show = d3.selectAll(".active_edgelabel");
+		var text_to_show_old = d3.selectAll(".edgelabel");
+		var input = document.getElementById ("showEdge");
+		var isChecked = input.checked;
+		if (isChecked) {
+			text_to_show.style("visibility", "visible");
+			text_to_show_old.style("visibility", "visible");
+		}
+		else {
+			text_to_show.style("visibility", "hidden");
+			text_to_show_old.style("visibility", "hidden");
+		}
+	}
+
+
 	return {
 		show_names : show_names,
+		show_names_edges : show_names_edges,
 		decorate_node : decorate_node,
 		decorate_link : decorate_link,
 		node_color : node_color,
