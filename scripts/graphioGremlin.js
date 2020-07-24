@@ -52,40 +52,6 @@ var graphioGremlin = (function(){
 			return returnQuery;
 		}
 
-	function get_graph_info(){
-		var gremlin_query_nodes = "nodes = " + traversal_source + ".V().limit(" + limit_graphinfo_request + ").groupCount().by(label);"
-		var gremlin_query_edges = "edges = " + traversal_source + ".E().limit(" + limit_graphinfo_request + ").groupCount().by(label);"
-		var gremlin_query_nodes_prop = "nodesprop = " + traversal_source + ".V().limit(" + limit_graphinfo_request + ").valueMap().select(keys).groupCount();"
-		var gremlin_query_edges_prop = "edgesprop = " + traversal_source + ".E().limit(" + limit_graphinfo_request + ").valueMap().select(keys).groupCount();"
-
-		var gremlin_query = gremlin_query_nodes+gremlin_query_nodes_prop
-			+gremlin_query_edges+gremlin_query_edges_prop
-			+ "[nodes.toList(),nodesprop.toList(),edges.toList(),edgesprop.toList()]"
-		// while busy, show we're doing something in the messageArea.
-		$('#messageArea').html('<h3>(loading)</h3>');
-		var message = ""
-				if(SINGLE_COMMANDS_AND_NO_VARS){
-					var node_label_query = create_single_command(gremlin_query_nodes);
-					var edge_label_query = create_single_command(gremlin_query_edges);
-					var node_prop_query = create_single_command(gremlin_query_nodes_prop);
-					var edge_prop_query = create_single_command(gremlin_query_edges_prop);
-					send_to_server(node_label_query, null, null, null, function(nodeLabels){
-					   send_to_server(edge_label_query, null, null, null, function(edgeLabels){
-						   send_to_server(node_prop_query, null, null, null, function(nodeProps){
-							   send_to_server(edge_prop_query, null, null, null, function(edgeProps){
-								   var combinedData = [nodeLabels, nodeProps, edgeLabels, edgeProps];
-								   console.log("Combined data", combinedData);
-								   handle_server_answer(combinedData,'graphInfo',null,message);
-							   });
-						   });
-					   });
-					});
-				} else {
-					send_to_server(gremlin_query,'graphInfo',null,message)
-				}
-	}
-
-
 
 	function search_query() {
 		// Query sent to the server when clicking the search button
@@ -601,7 +567,6 @@ function get_vertex_prop_in_list(vertexProperty){
 	return {
 		get_node_properties : get_node_properties,
 		get_edge_properties : get_edge_properties,
-		get_graph_info : get_graph_info,
 		search_query : search_query,
 		click_query : click_query,
 		send_to_server : send_to_server
