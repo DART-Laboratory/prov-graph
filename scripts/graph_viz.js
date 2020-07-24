@@ -321,7 +321,7 @@ var graph_viz = (function () {
 		// Define the force applied to the nodes
 		_simulation = d3.forceSimulation()
 			.force("charge", d3.forceManyBody().strength(force_strength))
-			.force("link", d3.forceLink().strength(link_strength).id(function (d) { return d.id; })).force("Collision", d3.forceCollide().radius(8));
+			.force("link", d3.forceLink().strength(link_strength).id(function (d) { return d.id; })).force("Collision", d3.forceCollide().radius(10));
 
 		if (center_f == 1) {
 			var force_y = force_x_strength;
@@ -435,33 +435,20 @@ var graph_viz = (function () {
 		// move the nodes and links at each simulation step, following this rule:
 		function ticked() {
 			_links.attr('d', function (d) {
-				if (use_curved_edges) {
-					var dx = d.target.x - d.source.x;
-					var dy = d.target.y - d.source.y;
-					var dr = Math.sqrt((dx * dx + dy * dy) / d.linknum);
-					return "M" + d.source.x + "," + d.source.y + "A" + dr + "," + dr + " 0 0,1 " + d.target.x + "," + d.target.y;
-				} else {
-					return "M" + d.source.x + "," + d.source.y + "L" + d.target.x + "," + d.target.y;
-				}
+				//return "M" + d.source.x + "," + d.source.y + "L" + d.target.x + "," + d.target.y;
+					return positionLink(d);
 			});
 			_nodes
 				.attr("transform", function (d) { return "translate(" + d.x + ", " + d.y + ")"; });
 
 			edgepaths.attr('d', function (d) {
-				if (use_curved_edges) {
-					var dx = d.target.x - d.source.x;
-					var dy = d.target.y - d.source.y;
-					var dr = Math.sqrt((dx * dx + dy * dy) / d.linknum);
-					return "M" + d.source.x + "," + d.source.y + "A" + dr + "," + dr + " 0 0,1 " + d.target.x + "," + d.target.y;
-				} else {
-					return "M" + d.source.x + "," + d.source.y + "L" + d.target.x + "," + d.target.y;
-				}
+					//return "M" + d.source.x + "," + d.source.y + "L" + d.target.x + "," + d.target.y;
+					return positionLink(d);
 			});
 
 			edgelabels.attr('transform', function (d) {
 				if (d.target.x < d.source.x) {
 					var bbox = this.getBBox();
-
 					var rx = bbox.x + bbox.width / 2;
 					var ry = bbox.y + bbox.height / 2;
 					return 'rotate(180 ' + rx + ' ' + ry + ')';
@@ -474,6 +461,33 @@ var graph_viz = (function () {
 
 	}
 
+
+	function positionLink(d) {
+		var offset_above = 30;
+		var offset_below = -30;
+		var offset;
+		if (d.target.y > _svg_height / 2){
+			offset = offset_below
+		}else{
+			offset = offset_above
+		}
+
+
+		var midpoint_x = (d.source.x + d.target.x) / 2;
+		var midpoint_y = (d.source.y + d.target.y) / 2;
+
+		var dx = (d.target.x - d.source.x);
+		var dy = (d.target.y - d.source.y);
+
+		var normalise = Math.sqrt((dx * dx) + (dy * dy));
+
+		var offSetX = midpoint_x + offset*(dy/normalise);
+		var offSetY = midpoint_y - offset*(dx/normalise);
+
+		return "M" + d.source.x + "," + d.source.y +
+			"S" + offSetX + "," + offSetY +
+			" " + d.target.x + "," + d.target.y;
+	}
 
 	function get_node_edges(node_id) {
 		// Return the in and out edges of node with id 'node_id'
