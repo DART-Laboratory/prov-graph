@@ -36,7 +36,7 @@ const force_x_strength = 0.1;
 const force_y_strength = 0.1;
 
 // Nodes
-const default_node_size = 8;
+const default_node_size = 10;
 const default_stroke_width = 1;
 const default_node_color = "#80E810";
 const active_node_margin = 6;

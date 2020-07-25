@@ -115,7 +115,7 @@ Layout styles
 .nav.inputs_container_bottom {
 	grid-row: 1 / 2;
 	display: grid;
-	grid-template-columns: auto auto auto auto auto auto auto;
+	grid-template-columns: auto auto auto auto auto auto auto auto;
 	grid-auto-flow: row;
 }
 .nav.input_unit_container {

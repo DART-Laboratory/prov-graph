@@ -53,18 +53,10 @@ var graphShapes = (function(){
 		else {return default_edge_stroke_width;}
 	}
 
-	function edge_text(d){
-		if ('text' in d){return d.text;}
-		else {return d.properties.weight;}
-	}
-
 	function edge_color(d){
 		if ('color' in d){return d.color;}
 		else {return default_edge_color;}
 	}
-
-
-
 
 	/////////////////////////////////////////////////////////////
 	// decorate the node
@@ -77,9 +69,8 @@ var graphShapes = (function(){
 			.attr("class", "active_node").attr("ID",function(d) { return d.id;})
 			.classed("node",true);
 
-
 		// Attach the event listener
-		attach_node_actions(node_deco)
+		attach_node_actions(node_deco);
 
 		node_deco.moveToFront();
 
@@ -105,7 +96,7 @@ var graphShapes = (function(){
 			.moveToBack()
 			.style("visibility", "hidden");
 
-		node_pin.on("click",graph_viz.graph_events.pin_it);
+			node_pin.on("click",graph_viz.graph_events.pin_it);
 
 		// spot the active node and draw additional circle around it
 		if(with_active_node){
@@ -123,7 +114,7 @@ var graphShapes = (function(){
 		}
 
 		// add property info if checkbox checked
-		add_checkbox_prop('nodes',node_deco)
+		add_checkbox_prop('nodes',node_deco);
 
 		return node_deco;
 	}
