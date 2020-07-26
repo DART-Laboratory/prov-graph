@@ -113,9 +113,6 @@ var graphShapes = (function(){
 			});
 		}
 
-		// add property info if checkbox checked
-		add_checkbox_prop('nodes',node_deco);
-
 		return node_deco;
 	}
 
@@ -129,7 +126,7 @@ var graphShapes = (function(){
 	  	node.on("click", graph_viz.graph_events.clicked)
 			.on("mouseover", function(){
 				d3.select(this).select(".Pin").style("visibility", "visible");
-				d3.select(this).selectAll(".text_details").style("visibility", "visible");
+				//d3.select(this).selectAll(".text_details").style("visibility", "visible");
 		  	})
 			.on("mouseout", function(){
 				var chosen_node = d3.select(this);
@@ -167,31 +164,11 @@ var graphShapes = (function(){
 			.text(function (d) {return d.label});
 
 		// Attach the edge actions
-		attach_edge_actions(edges_deco)
-
-		// Add property info if checkbox checked
-		add_checkbox_prop('edges',edgelabels_deco)
+		//attach_edge_actions(edges_deco)
 
 		return [edges_deco,edgepaths_deco,edgelabels_deco]
-
 	}
 
-	function add_checkbox_prop(item,selected_items){
-		// Add text from a property if the checkbox is checked on the sidebar
-		if (item=='edges'){
-			var item_properties = graphioGremlin.get_edge_properties();
-		} else if (item=='nodes'){
-			var item_properties = graphioGremlin.get_node_properties();
-		}
-		for (var prop_idx in item_properties){
-			var prop_name = item_properties[prop_idx];
-			var prop_id_nb = prop_idx;
-			var prop_id = item+"_"+prop_name;
-			if((!d3.select("#"+prop_id).empty()) && d3.select("#"+prop_id).property("checked")){
-				attach_property(selected_items,prop_name,prop_id_nb,item);
-			}
-		}		
-	}
 
 	function create_edge_label(edgepaths,edgelabels){
 		var edgepaths_deco = edgepaths.append('path')
@@ -217,17 +194,17 @@ var graphShapes = (function(){
 
 	}
 
-	function attach_edge_actions(edge){
-		edge.on("mouseover", function(){
-			console.log('mouse over!!');
-			d3.select(this).selectAll(".text_details").style("visibility", "visible");
-		  })
-		  .on("mouseout", function(){
-			d3.select(this).selectAll(".text_details").style("visibility", "hidden");
-		  })
-		  .on("click", function(d){console.log('edge clicked!');infobox.display_info(d);});
-
-	}
+	// function attach_edge_actions(edge){
+	// 	edge.on("mouseover", function(){
+	// 		console.log('mouse over!!');
+	// 		d3.select(this).selectAll(".text_details").style("visibility", "visible");
+	// 	  })
+	// 	  .on("mouseout", function(){
+	// 		d3.select(this).selectAll(".text_details").style("visibility", "hidden");
+	// 	  })
+	// 	  .on("click", function(d){console.log('edge clicked!');infobox.display_info(d);});
+	//
+	// }
 
 
 
@@ -244,49 +221,6 @@ var graphShapes = (function(){
 		};
 	}
 
-	function colorize(prop_name){
-		// Color the nodes according the value of the property 'prop_name'
-		colored_prop = prop_name;
-		var value_list = d3.selectAll(".node").data();
-		if (prop_name =="none"){
-			d3.selectAll(".base_circle").style("fill",function(d){
-				return node_color(d);	
-			});
-			d3.selectAll(".Pin").style("fill",function(d){
-				return node_color(d);	
-			});
-		}
-		else if (prop_name=="label"){
-			var value_set = new Set(value_list.map(function(d){	return d.label;}));
-			node_code_color = d3.scaleOrdinal().domain(value_set).range(d3.range(0,value_set.size));
-			d3.selectAll(".base_circle").style("fill",function(d){
-				return color_palette(node_code_color(d.label));	
-			});
-			d3.selectAll(".Pin").style("fill",function(d){
-				return color_palette(node_code_color(d.label));	
-			});
-		}
-		else{
-			var value_set = new Set(value_list.map(function(d){
-				if (typeof d.properties[prop_name]!=="undefined"){
-					return d.properties[prop_name][0].value;
-				}
-			}));
-			node_code_color = d3.scaleOrdinal().domain(value_set).range(d3.range(0,value_set.size))//value_set.length])
-			d3.selectAll(".base_circle").style("fill",function(d){
-				if (typeof d.properties[prop_name] !=="undefined"){
-					return color_palette(node_code_color(d.properties[prop_name][0].value));	
-				}
-				return node_color(d);
-			});
-			d3.selectAll(".Pin").style("fill",function(d){
-				if (typeof d.properties[prop_name] !=="undefined"){
-					return color_palette(node_code_color(d.properties[prop_name][0].value));	
-				}
-				return node_color(d);
-			});
-		}
-	}
 	///////////////////////////////////////
 	// https://github.com/wbkd/d3-extended
 	d3.selection.prototype.moveToFront = function() {
@@ -305,8 +239,6 @@ var graphShapes = (function(){
 	  } 
 	});
 	};
-
-
 	//////////////////////////////////////////////
 	function show_names(){
 		var text_to_show = d3.selectAll(".text_details");
@@ -315,7 +247,6 @@ var graphShapes = (function(){
 		if (isChecked) text_to_show.style("visibility", "visible");
 		else {text_to_show.style("visibility", "hidden");}
 	}
-
 	function show_names_edges(){
 		var text_to_show = d3.selectAll(".active_edgelabel");
 		var text_to_show_old = d3.selectAll(".edgelabel");
@@ -343,7 +274,6 @@ var graphShapes = (function(){
 		node_stroke_width : node_stroke_width,
 		create_edge_label : create_edge_label,
 		decorate_old_elements : decorate_old_elements,
-		colorize : colorize
 	};
 
 })();

@@ -254,7 +254,7 @@ var graphioGremlin = (function(){
 		}
 
 		//console.log(data);
-		var graph = arrange_data(data);
+		var graph = arrange_data(data, center_f, active_node);
 		//console.log(graph)
 		if (query_type=='click') var center_f = 0; //center_f=0 mean no attraction to the center for the nodes
 		else if (query_type=='search') var center_f = 1;
@@ -278,7 +278,7 @@ var graphioGremlin = (function(){
 	}
 
 
-	function arrange_datav3(data) {
+	function arrange_datav3(data, center_f, active_node) {
 		// Extract node and edges from the data returned for 'search' and 'click' request
 		// Create the graph object
 		var nodes=[], links=[];
@@ -288,11 +288,11 @@ var graphioGremlin = (function(){
 					data[key].forEach(function (item) {
 						if (!("inV" in item) && idIndex(nodes,item.id) == null){ // if vertex and not already in the list
 							item.type = "vertex";
-							nodes.push(extract_infov3(item));
+							nodes.push(extract_infov3(item, center_f, active_node));
 						}
 						if (("inV" in item) && idIndex(links,item.id) == null){
 							item.type = "edge";
-							links.push(extract_infov3(item));
+							links.push(extract_infov3(item, center_f, active_node));
 						}
 					});
 				}
@@ -302,7 +302,7 @@ var graphioGremlin = (function(){
 	}
 
 
-	function extract_infov3(data) {
+	function extract_infov3(data, center_f, active_node) {
 		var data_dic = { id: data.id, label: data.label, type: data.type, properties: {} };
 		var prop_dic = {};
 
@@ -321,7 +321,15 @@ var graphioGremlin = (function(){
 				// If  a node position is defined in the DB, the node will be positioned accordingly
 				// a value in fx and/or fy tells D3js to fix the position at this value in the layout
 				if (key2 == node_position_x) {
-					data_dic.fx = prop_dic[node_position_x]['0']['value'] * 200 + 30;
+					var x_pos = prop_dic[node_position_x]['0']['value'];
+					if (center_f != 1){
+						d3.selectAll(".active_node").each(function(d){
+							if(d.id==active_node){
+								x_pos = d.x;
+							}
+						});
+					}
+					data_dic.fx = x_pos + 200;
 					// if (prop_dic[node_position_x]['0']['value'] == 0){
 					// 	var _svg_height = +d3.select("#main").node().getBoundingClientRect().height;
 					// 	data_dic.fy = _svg_height / 2;

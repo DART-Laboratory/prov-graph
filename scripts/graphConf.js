@@ -28,12 +28,13 @@ const limit_graphinfo_request = 10000;
 // Graph configuration
 const default_nb_of_layers = 30;
 const node_limit_per_request = 30;
+const nodes_x_position_distance = 250;
 
 // Simulation
-const force_strength = -800;
+const force_strength = -900;
 const link_strength = 0.4;
-const force_x_strength = 0.1;
-const force_y_strength = 0.1;
+const force_x_strength = 0.05;
+const force_y_strength = 0.05;
 
 // Nodes
 const default_node_size = 10;
@@ -41,6 +42,7 @@ const default_stroke_width = 1;
 const default_node_color = "#80E810";
 const active_node_margin = 6;
 const active_node_margin_opacity = 0.3;
+
 // Node position info in the DB
 // Replace by the key storing the node position inside the DB if any
 const node_position_x = 'graphexpx';
@@ -48,7 +50,7 @@ const node_position_y = 'none';
 
 // Edges
 const default_edge_stroke_width = 3;
-const default_edge_color = "#CCC";
+const default_edge_color = "#959595";
 const edge_label_color = "#111";
 // Choose between curved (true) and straight edges (false).
 // If set to false, multiple edges between 2 nodes will all be straight and overlap.

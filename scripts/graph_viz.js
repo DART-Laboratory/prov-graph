@@ -41,7 +41,6 @@ var graph_viz = (function () {
 
 	}
 
-
 	function get_simulation_handle() {
 		return _simulation;
 	}
@@ -317,16 +316,24 @@ var graph_viz = (function () {
 	})();
 
 	////////////////////////////////////////////////////////////////////////////////////
-	function simulation_start(center_f) {
+	function simulation_start(center_f, with_active_node) {
 		// Define the force applied to the nodes
 		_simulation = d3.forceSimulation()
 			.force("charge", d3.forceManyBody().strength(force_strength))
-			.force("link", d3.forceLink().strength(link_strength).id(function (d) { return d.id; })).force("Collision", d3.forceCollide().radius(10));
+			.force("link", d3.forceLink().strength(link_strength).id(function (d) { return d.id; }))
+			.force("Collision", d3.forceCollide().radius(10));
 
 		var force_y = force_x_strength;
 		var force_x = force_y_strength;
 		if (center_f == 1) {
 			_simulation.force("center", d3.forceCenter(_svg_width / 2, _svg_height / 2));
+		}else{
+			d3.selectAll(".active_node").each(function(d){
+				if(d.id==with_active_node){
+					//console.log(d);
+					_simulation.force("center", d3.forceCenter(d.x, d.y));
+				}
+			});
 		}
 		_simulation.force("y", d3.forceY().strength(function (d) {
 			return force_y;
@@ -391,6 +398,7 @@ var graph_viz = (function () {
 
 
 		// nodes associated to the data are constructed
+		//console.log(all_nodes);
 		_nodes = all_nodes.enter();
 
 		// add node decoration
@@ -420,7 +428,7 @@ var graph_viz = (function () {
 		// simulation model and parameters
 
 
-		_simulation = simulation_start(center_f);
+		_simulation = simulation_start(center_f, with_active_node);
 		// Associate the simulation with the data
 		_simulation.nodes(_Nodes).on("tick", ticked);
 		_simulation.force("link").links(_Links);
@@ -480,9 +488,12 @@ var graph_viz = (function () {
 		var offSetX = midpoint_x + offset*(dy/normalise);
 		var offSetY = midpoint_y - offset*(dx/normalise);
 
+		var target_x_pos = d.target.x - (default_node_size/2);
+		var target_y_pos = d.target.y - (default_node_size/2);
+
 		return "M" + d.source.x + "," + d.source.y +
 			"S" + offSetX + "," + offSetY +
-			" " + d.target.x + "," + d.target.y;
+			" " + target_x_pos + "," + target_y_pos;
 	}
 
 	function get_node_edges(node_id) {
