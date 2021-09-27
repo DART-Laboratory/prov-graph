@@ -33,7 +33,7 @@ const nodes_x_position_distance = 250;
 // Simulation
 const force_strength = -900;
 const link_strength = 0.4;
-const force_x_strength = 0.05;
+const force_x_strength = 0.05; //0.05
 const force_y_strength = 0.05;
 
 // Nodes

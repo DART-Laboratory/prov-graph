@@ -17,6 +17,17 @@ limitations under the License.
 // Interface between the visualization and the Gremlin server.
 
 var traversal_source = getUrlParameter('ts');
+var node_history = {};
+//var elasticsearch = require('elasticsearch');
+
+// var client = new elasticsearch.Client({
+//       host: 'localhost:9200'
+//   });
+// var endpoint = 'http://localhost:9200/conn_index/_doc';
+// var table = ES.Table(endpoint);
+
+
+
 if (traversal_source == null) {
 	traversal_source = "g"
 }
@@ -26,8 +37,11 @@ var graphioGremlin = (function(){
 
 	var _node_properties = [];
 	var _edge_properties = [];
-
-
+	
+	function get_node_history()
+	{
+		return node_history;
+	}
 	function get_node_properties(){
 		return _node_properties;
 	}
@@ -57,6 +71,82 @@ var graphioGremlin = (function(){
 		// Query sent to the server when clicking the search button
 		//
 		// Preprocess query
+
+//////////////////////////////////////////////////////////////////////////////////experiment
+
+		// table.query({
+		//   q: 'proto:tcp'
+		  
+		// }).done(function(out) {
+		//   console.log(out,"query new");
+		// });
+// 		var query ='{“query”:{“match”:{“proto”:“tcp”}}}';
+
+// $.ajax({
+//         url: `http://localhost/conn_index/_doc/_search?
+//               source_content_type=application/json&source=${query}`,
+//         success: function(data) {
+//             console.log(data);
+//         }
+//     });
+// var data = {
+//             "query":[ 
+//             {
+//                 "match": {
+//                     "proto": "tcp"
+//                 }
+//             },
+//             {
+//                 "match": {
+//                     "id.resp_p" : 22
+//                 }
+//             }
+//             ]
+//         }; 
+var port_num=22;
+var data = {
+  "query": {
+    "bool": {
+      "must": [
+        {
+          "match": {
+            "proto": "tcp"
+          }
+        }//,
+        // {
+        //   "match": {
+        //     "id.resp_p":port_num
+        //     //"properties":{"resp_bytes":0}
+        //     //"label":"process"
+
+        //   }
+        // }
+      ]
+    }
+  }
+}
+
+$.ajax({
+            url: 'http://localhost:9200/conn_indexxxx/_doc/_search',
+            type: 'POST',
+            //contentType: 'application/json; charset=UTF-8',
+            //accept: "application/json",
+            //crossDomain: true,
+            contentType: "application/json;charset=UTF-8",
+            dataType: 'json',
+            data: JSON.stringify(data),
+            processData: false,
+            success: function(response) {
+                var data = response.hits.hits;
+                console.log("data",data)
+             //    for (const [key, value] of Object.entries(data)) {
+													//     console.log(key + ":" + value)
+													// }
+            }})
+
+
+/////////////////////////////////////////////////////////////////
+
 		let input_string = $('#search_value').val();
 		let input_field = $('#search_field').val();
 		let label_field = $('#label_field').val();
@@ -81,6 +171,7 @@ var graphioGremlin = (function(){
 		}
 
 		let gremlin_query_nodes = "nodes = " + traversal_source + ".V()" + has_str;
+		console.log(traversal_source.toString());
 		// Query limit
 		if (limit_field !== "" && isInt(limit_field) && limit_field > 0) {
 			gremlin_query_nodes += ".limit(" + limit_field + ")";
@@ -92,6 +183,7 @@ var graphioGremlin = (function(){
 		let gremlin_query_edges = "edges = " + traversal_source + ".V(nodes).aggregate('node').outE().as('edge').inV().where(within('node')).select('edge').toList();";
 		let gremlin_query_edges_no_vars = "edges = " + traversal_source + ".V()"+has_str+".aggregate('node').outE().as('edge').inV().where(within('node')).select('edge').toList();";
 		//let gremlin_query_edges_no_vars = "edges = " + traversal_source + ".V()"+has_str+".bothE();";
+		console.log(has_str,"here")
 		let gremlin_query = gremlin_query_nodes + gremlin_query_edges + "[nodes,edges]";
 		console.log(gremlin_query);
 
@@ -106,6 +198,9 @@ var graphioGremlin = (function(){
 		send_to_server(gremlin_query,'search',null,message);
 
 	}
+
+	///////////////////////////////////////////////////////data manipulation////////////////////////////////////////////////
+	
 
 	function isInt(value) {
 		return !isNaN(value) &&
@@ -130,11 +225,11 @@ var graphioGremlin = (function(){
 		//gremlin_query_nodes += 'fold().inject(' + traversal_source + '.V('+id+').valueMap()).unfold()'
 
 		// 'inject' is necessary in case of an isolated node ('both' would lead to an empty answer)
-		console.log('Query for the node and its neigbhors')
+		//console.log('Query for the node and its neigbhors')
 
 		var gremlin_query_edges = "edges = " + traversal_source + ".V("+id+").bothE("+(edge_filter?"'"+edge_filter+"'":"")+")";
 		var gremlin_query = gremlin_query_nodes+'\n'+gremlin_query_edges+'\n'+'[nodes.toList(),edges.toList()]';
-		console.log(gremlin_query);
+		//console.log(gremlin_query);
 		// while busy, show we're doing something in the messageArea.
 		$('#messageArea').html('<h3>(loading)</h3>');
 		var message = "<p>Query ID: "+ d.id +"</p>"
@@ -198,6 +293,7 @@ var graphioGremlin = (function(){
 
 		};
 		ws.onmessage = function (event){
+			//console.log(event.data,"event data")
 			var response = JSON.parse(event.data);
 			var code=Number(response.status.code)
 			if(!isInt(code) || code<200 || code>299) {
@@ -252,17 +348,19 @@ var graphioGremlin = (function(){
 			$('#messageArea').html('');
 
 		}
-
-		//console.log(data);
+		console.log("handleserver",data)
+		//console.log(center_f);
 		var graph = arrange_data(data, center_f, active_node);
-		//console.log(graph)
-		if (query_type=='click') var center_f = 0; //center_f=0 mean no attraction to the center for the nodes
+		//console.log(query_type)
+		if (query_type=='click') var center_f = 1; //center_f=0 mean no attraction to the center for the nodes
 		else if (query_type=='search') var center_f = 1;
 		else return;
+		//console.log("testhis",node_history)
+		//console.log(graph,"graph")
 		graph_viz.refresh_data(graph,center_f,active_node);
 
 		$('#outputArea').html(message);
-		$('#messageArea').html('');
+		$('#messageArea').html('AHHHHHHHHAHAAHHA');
 	}
 
 
@@ -281,6 +379,7 @@ var graphioGremlin = (function(){
 	function arrange_datav3(data, center_f, active_node) {
 		// Extract node and edges from the data returned for 'search' and 'click' request
 		// Create the graph object
+		console.log(data,"arrangedata")
 		var nodes=[], links=[];
 		if(data!=null) {
 			for (var key in data){
@@ -293,19 +392,112 @@ var graphioGremlin = (function(){
 						if (("inV" in item) && idIndex(links,item.id) == null){
 							item.type = "edge";
 							links.push(extract_infov3(item, center_f, active_node));
+							
 						}
 					});
 				}
 			}
 		}
+		// for (var i in links)
+		// 					{
+		// 						console.log("imp info", links[i].id,links[i].source,links[i].target)
+		// 						if (links[i].target==2386)
+		// 						{
+		// 							for (var j in nodes)
+		// 							{
+		// 								if (nodes[j].id ==2386)
+		// 								{
+		// 									nodes[j].fx=200;
+		// 								}
+		// 							}
+
+		// 						}
+		// 					}
+		var active_node_position=node_history[active_node];
+		for (var i in links)
+		{
+			for (var j in nodes)
+			{
+				if (nodes[j].id == links[i].source)
+				{
+					if (nodes[j].fx > active_node_position && nodes[j].id != active_node && !(nodes[j].id in node_history))
+					{
+						if (active_node==2262)
+						{
+						console.log("plscheck",nodes[j].fx,active_node_position,nodes[j].id) 
+						//console.log()
+					}
+
+						nodes[j].fx =active_node_position-150;
+						nodes[j].fx =find_position(nodes[j].fx,"backward")
+						if (nodes[j].id in node_history)
+						{
+						node_history[nodes[j].id]=nodes[j].fx;
+					}
+					}
+				}
+			}
+
+
+
+
+		}
 		return {nodes:nodes, links:links};
+	}
+
+	function find_position(position,direction)//finds a free space, inrements x value if not able to find out
+	{
+		if (direction=="forward"){
+		var found_free=true;
+		while (found_free)
+		{
+			for (var i in node_history)
+			{
+				if (position==node_history[i])
+					found_free=false;
+			}
+			if (found_free)
+			{
+				return position;
+			}
+			else
+			{
+				position=position+25;
+				found_free=true;
+			}
+		}
+	}
+	if (direction=="backward"){
+		console.log("backward called")
+		var found_free=true;
+		while (found_free)
+		{
+			for (var i in node_history)
+			{
+				if (position==node_history[i])
+					found_free=false;
+			}
+			if (found_free)
+			{
+				return position;
+			}
+			else
+			{
+				console.log("backward called change")
+				position=position-25;
+				found_free=true;
+			}
+		}
+	}
+
 	}
 
 
 	function extract_infov3(data, center_f, active_node) {
 		var data_dic = { id: data.id, label: data.label, type: data.type, properties: {} };
 		var prop_dic = {};
-
+		var node_pos_bool= true
+		console.log("pool",data)
 		prop_dic = data.properties;
 		//console.log(prop_dic)
 		for (var key2 in prop_dic) {
@@ -313,28 +505,78 @@ var graphioGremlin = (function(){
 				if (data.type == 'vertex'){// Extracting the Vertexproperties (properties of properties for vertices)
 					var property2 = prop_dic[key2];
 					property2['summary'] = get_vertex_prop_in_list(prop_dic[key2]).toString();
+
 				} else {
 					var property2 = prop_dic[key2]['value'];
 				}
 				//property = property.toString();
-				data_dic.properties[key2] = property2;
+				//below line was initially =property2
+				data_dic.properties[key2] = [property2[0]];
+				console.log(data_dic,"exinfo")
 				// If  a node position is defined in the DB, the node will be positioned accordingly
 				// a value in fx and/or fy tells D3js to fix the position at this value in the layout
+				//console.log(key2)
 				if (key2 == node_position_x) {
-					var x_pos = prop_dic[node_position_x]['0']['value'];
+					if (node_pos_bool==true){
+					var x_pos = 10 //prop_dic[node_position_x]['0']['value'];
+					//var x_pos =prop_dic[node_position_x]['0']['value'];
+					//console.log("zafirr",center_f)
+					console.log("changelength",node_history)
 					if (center_f != 1){
 						d3.selectAll(".active_node").each(function(d){
-							if(d.id==active_node){
-								x_pos = d.x;
+							if (!(d.id in node_history))
+							{
+								var x =d.id;
+							node_history[x]=d.x
+						}
+							//console.log("node history",node_history)
+							//console.log("id",d.id)
+							// if(d.id==active_node){
+							// 	x_pos = d.x;
+							// 	console.log("zafirr",x_pos)
+							// 	console.log(center_f)
+							// }
+							//console.log("lolol",node_history)
+							if(active_node in node_history){
+								// x_pos = d.x;
+								// console.log("zafirr",x_pos,d.id)
+								// console.log(center_f)
+							// 	if(d.id==active_node){
+							x_pos = node_history[active_node];
+							//console.log("zafirr",x_pos)
+							// 	console.log(center_f)
+							// }
 							}
 						});
 					}
+					if (!(data_dic.id in node_history) ){
 					data_dic.fx = x_pos + 200;
+					//console.log("xcid",data_dic.id,data_dic.type)
+					// for (var i in node_history)
+					// {
+					// 	console.log("variable",i)
+					// }
+					data_dic.fx=find_position(data_dic.fx,"forward");
+					node_pos_bool=false
+				}
+				else
+				{
+					data_dic.fx = node_history[data_dic.id];
+					// if (data_dic.fx=undefined)
+					// {
+					// 	data_dic.fx = x_pos + 200;	
+					// }
+					node_pos_bool=false
+				}
+
 					// if (prop_dic[node_position_x]['0']['value'] == 0){
 					// 	var _svg_height = +d3.select("#main").node().getBoundingClientRect().height;
 					// 	data_dic.fy = _svg_height / 2;
 					// }
+					//console.log(x_pos)
 				}
+			}
+				
 				if (key2 == node_position_y) {
 					data_dic.fy = prop_dic[node_position_y]['0']['value'];
 				}
@@ -351,6 +593,7 @@ var graphioGremlin = (function(){
 				}
 			}
 		}
+		//console.log("ccid",data_dic.id,data_dic.fx,data_dic.type)
 		return data_dic;
 	}
 
@@ -403,6 +646,7 @@ var graphioGremlin = (function(){
 		get_edge_properties : get_edge_properties,
 		search_query : search_query,
 		click_query : click_query,
-		send_to_server : send_to_server
+		send_to_server : send_to_server,
+		get_node_history : get_node_history
 	}
 })();

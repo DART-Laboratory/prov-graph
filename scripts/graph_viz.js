@@ -38,6 +38,7 @@ var graph_viz = (function () {
 		_svg_height = +d3.select(label).node().getBoundingClientRect().height;
 		_svg.attr("width", _svg_width).attr("height", _svg_height);
 		console.log([_svg_width,_svg_height])
+		console.log(label)
 
 	}
 
@@ -79,6 +80,7 @@ var graph_viz = (function () {
 
 	function create_arrows(edge_in) {
 		var edge_data = edge_in.data();
+		//console.log(edge_data)
 		var arrow_data = _svg.selectAll('.arrow').data();
 		var data = arrow_data.concat(edge_data);
 
@@ -139,7 +141,7 @@ var graph_viz = (function () {
 	//////////////////////////////////////////////////////////////
 	var layers = (function () {
 		// Submodule that handles layers of visualization
-
+		//console.log(document.getElementById("nbLayers"))
 		var nb_layers = default_nb_of_layers;
 		var old_Nodes = [];
 		var old_Links = [];
@@ -161,6 +163,7 @@ var graph_viz = (function () {
 				_svg.selectAll(".old_node" + kp).classed("old_node" + k, true);
 				_svg.selectAll(".old_edgepath" + kp).classed("old_edgepath" + k, true);
 				_svg.selectAll(".old_edgelabel" + kp).classed("old_edgelabel" + k, true);
+				//console.log(_svg.selectAll(".old_edgelabel" + kp).classed("old_edgelabel" + k, true))
 			};
 		}
 
@@ -169,10 +172,12 @@ var graph_viz = (function () {
 			old_Links = [];
 		}
 
-		function update_data(d) {
+		function update_data(d,active_node) {
 			// Save the data
 			var previous_nodes = _svg.selectAll("g").filter(".active_node");
 			var previous_nodes_data = previous_nodes.data();
+			//console.log(previous_nodes_data)
+			//console.log(old_Nodes)
 			old_Nodes = updateAdd(old_Nodes, previous_nodes_data);
 			var previous_links = _svg.selectAll(".active_edge");
 			var previous_links_data = previous_links.data();
@@ -181,14 +186,17 @@ var graph_viz = (function () {
 			// handle the pinned nodes
 			var pinned_Nodes = _svg.selectAll("g").filter(".pinned");
 			var pinned_nodes_data = pinned_Nodes.data();
+			//console.log(pinned_nodes_data)
 			// get the node data and merge it with the pinned nodes
 			_Nodes = d.nodes;
 			_Nodes = updateAdd(_Nodes, pinned_nodes_data);
 			// add coordinates to the new active nodes that already existed in the previous step
 			_Nodes = transfer_coordinates(_Nodes, old_Nodes);
+			//console.log(_Nodes)
 			// retrieve the links between nodes and pinned nodes
 			_Links = d.links.concat(previous_links_data); // first gather the links
-			_Links = find_active_links(_Links, _Nodes); // then find the ones that are between active nodes
+			_Links = find_active_links(_Links, _Nodes,active_node); // then find the ones that are between active nodes
+			//console.log(_Links)
 			
 			// Sort links by source, then target, then label
 			// This is used to set linknum
@@ -221,8 +229,11 @@ var graph_viz = (function () {
 			// Update lines of array1 with the ones of array2 when the elements' id match
 			// and add elements of array2 to array1 when they do not exist in array1
 			var arraytmp = array2.slice(0);
+			//console.log(array2)
+			//console.log(arraytmp)
 			var removeValFromIndex = [];
 			array1.forEach(function (d, index, thearray) {
+				//console.log(thearray)
 				for (var i = 0; i < arraytmp.length; i++) {
 					if (d.id == arraytmp[i].id) {
 						thearray[index] = arraytmp[i];
@@ -234,11 +245,13 @@ var graph_viz = (function () {
 			removeValFromIndex.sort();
 			for (var i = removeValFromIndex.length - 1; i >= 0; i--)
 				arraytmp.splice(removeValFromIndex[i], 1);
+			// console.log(arraytmp)
 			return array1.concat(arraytmp);
 		}
 
-		function find_active_links(list_of_links, active_nodes) {
+		function find_active_links(list_of_links, active_nodes,active_node) {
 			// find the links in the list_of_links that are between the active nodes and discard the others
+			//console.log("check11",active_node,"check",list_of_links,"check12")
 			var active_links = [];
 			list_of_links.forEach(function (row) {
 				for (var i = 0; i < active_nodes.length; i++) {
@@ -249,10 +262,21 @@ var graph_viz = (function () {
 							L_data['source'] = row.source.id;
 							L_data['target'] = row.target.id;
 							active_links = active_links.concat(L_data);
+							//console.log("check1",active_nodes[i].x,active_nodes[i].id)
+							//console.log(active_nodes)
+
+							//active_nodes[i].x = active_nodes.fx - 200;
+							//console.log("check1",active_nodes[i].x,active_nodes[i].id)
+							//console.log(active_node)
+
 						}
 						else if (active_nodes[i].id == row.source && active_nodes[j].id == row.target) {
 							var L_data = row;
 							active_links = active_links.concat(L_data);
+							//console.log("check13",active_nodes[i].x,active_nodes[i].id)
+							//active_nodes[i].x = active_node.fx - 200;
+							//console.log("check13",active_nodes[i].x,active_nodes[i].id)
+							//console.log(active_node)
 						}
 					}
 				}
@@ -298,7 +322,8 @@ var graph_viz = (function () {
 					list_old_elements.each(function (d) {
 						if (d.id == ID) {
 							d3.select(this).remove();
-							//console.log('Removed!!')
+							console.log(ID)
+							console.log('removed')
 						}
 					})
 				}
@@ -325,16 +350,27 @@ var graph_viz = (function () {
 
 		var force_y = force_x_strength;
 		var force_x = force_y_strength;
+		_svg_width = _svg_width + 500;/////////////////////////////////////////////////////////////////////////////////////////////////////
+		//_svg_height = +d3.select("body").node().getBoundingClientRect().height;
+		//_svg.attr("width", _svg_width).attr("height", _svg_height);
+		console.log(["letsee",_svg_width,_svg_height])
+		//console.log(label)
 		if (center_f == 1) {
-			_simulation.force("center", d3.forceCenter(_svg_width / 2, _svg_height / 2));
-		}else{
+			_simulation.force("center", d3.forceCenter(_svg_width+1000, _svg_height/2));/////////svg_hight +10,000 ////////////////////////////////////////////////////
+			console.log("herezafir1")
+	console.log(_svg_width, _svg_height)
+		}//else{///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 			d3.selectAll(".active_node").each(function(d){
+				console.log("herezafir2")
 				if(d.id==with_active_node){
 					//console.log(d);
-					_simulation.force("center", d3.forceCenter(d.x, d.y));
+					console.log(d.x,d.y)
+					console.log("herezafir3")
+					//_simulation.force("center", d3.forceCenter(d.x+1000, d.y));
+					_simulation.force("center", d3.forceCenter(_svg_width+1000, d.y));/////////////////////////////////////////////////////////////_svg+10,000
 				}
 			});
-		}
+		//}
 		_simulation.force("y", d3.forceY().strength(function (d) {
 			return force_y;
 		}))
@@ -351,7 +387,7 @@ var graph_viz = (function () {
 		// Main visualization function
 		var svg_graph = svg_handle();
 		layers.push_layers();
-		layers.update_data(d);
+		layers.update_data(d,with_active_node);
 
 		//////////////////////////////////////
 		// link handling
@@ -363,6 +399,7 @@ var graph_viz = (function () {
 			.data(_Links, function (d) { return d.id; });
 		var all_edgelabels = svg_graph.selectAll(".active_edgelabel")
 			.data(_Links, function (d) { return d.id; });
+			//console.log(all_links)
 
 		// links not active anymore are classified old_links
 		all_links.exit().classed("old_edge0", true).classed("active_edge", false);
@@ -370,23 +407,8 @@ var graph_viz = (function () {
 		all_edgelabels.exit().classed("old_edgelabel0", true).classed("active_edgelabel", false);
 
 
-		// handling active links associated to the data
-		var edgepaths_e = all_edgepaths.enter(),
-			edgelabels_e = all_edgelabels.enter(),
-			link_e = all_links.enter();
-		var decor_out = graphShapes.decorate_link(link_e, edgepaths_e, edgelabels_e);
-		_links = decor_out[0];
 
-		var edgepaths = decor_out[1],
-			edgelabels = decor_out[2];
-
-
-		// previous links plus new links are merged
-		_links = _links.merge(all_links);
-		edgepaths = edgepaths.merge(all_edgepaths);
-		edgelabels = edgelabels.merge(all_edgelabels);
-
-		///////////////////////////////////
+		//////////////////////////////////////////////////////////////////////////////////////////////brought it upwards before link handling
 		// node handling
 
 		var all_nodes = svg_graph.selectAll("g").filter(".active_node")
@@ -410,7 +432,65 @@ var graph_viz = (function () {
 		var focus_node_data = d3.select(".focus_node").data();
 		if (focus_node_data.length > 0){
 			infobox.display_info(focus_node_data[0]);
+			// infobox.display_info('lol');
+
 		}
+
+
+
+
+		// handling active links associated to the data
+		var edgepaths_e = all_edgepaths.enter(),
+			edgelabels_e = all_edgelabels.enter(),
+			link_e = all_links.enter();
+		var decor_out = graphShapes.decorate_link(link_e, edgepaths_e, edgelabels_e,node_deco);
+		_links = decor_out[0];
+
+		var edgepaths = decor_out[1],
+			edgelabels = decor_out[2];
+
+
+		// previous links plus new links are merged
+		_links = _links.merge(all_links);
+		edgepaths = edgepaths.merge(all_edgepaths);
+		edgelabels = edgelabels.merge(all_edgelabels);
+		////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////hiding nodes//////////
+		graphShapes.hide_process_only(true)
+		graphShapes.hide_zeek_only(true)
+		graphShapes.hide_registry_only(true)
+		graphShapes.hide_FILE_only(true)
+		graphShapes.hide_network_only(true)
+		graphShapes.show_names()
+		graphShapes.show_names_edges()
+		////////////////////////////////////////////////////////////////////////////////////////////
+
+		// ///////////////////////////////////
+		// // node handling
+
+		// var all_nodes = svg_graph.selectAll("g").filter(".active_node")
+		// 	.data(_Nodes, function (d) { return d.id; });
+
+		// //console.log(data_node);
+		// // old nodes not active any more are tagged
+		// all_nodes.exit().classed("old_node0", true).classed("active_node", false);//;attr("class","old_node0");
+
+
+		// // nodes associated to the data are constructed
+		// //console.log(all_nodes);
+		// _nodes = all_nodes.enter();
+
+		// // add node decoration
+		// var node_deco = graphShapes.decorate_node(_nodes, with_active_node);
+
+		// var _nodes = node_deco.merge(all_nodes);
+
+
+		// var focus_node_data = d3.select(".focus_node").data();
+		// if (focus_node_data.length > 0){
+		// 	infobox.display_info(focus_node_data[0]);
+		// 	// infobox.display_info('lol');
+
+		// }
 		//////////////////////////////////
 		// Additional clean up
 		graphShapes.decorate_old_elements(layers.depth());
@@ -524,6 +604,7 @@ var graph_viz = (function () {
 		function dragged(d) {
 			var connected_edges = get_node_edges(d.id);
 			var f_connected_edges = connected_edges.filter("*:not(.active_edge)")
+			console.log(f_connected_edges)
 			if (f_connected_edges._groups[0].length == 0) {
 				d.fx = d3.event.x;
 				d.fy = d3.event.y;
@@ -548,6 +629,7 @@ var graph_viz = (function () {
 
 		function clicked(d) {
 			d3.select(".focus_node").remove();
+			console.log('event!!',d)
 			var input = document.getElementById("freeze-in");
 			var isChecked = input.checked;
 			if (isChecked) infobox.display_info(d);
@@ -555,18 +637,41 @@ var graph_viz = (function () {
 				_simulation.stop();
 				// remove the oldest links and nodes
 				var stop_layer = layers.depth() - 1;
+				//////////////////////////////////////////////////////////////
+				var node_history=graphioGremlin.get_node_history()
+				console.log("deletehis",node_history)
+				var removed_id_list=[];
+				var remove_id=d3.selectAll(".old_node" + stop_layer)
+				remove_id.each(function(d){
+					var id=d3.select(this).attr("ID");
+					removed_id_list.push(id);
+
+				})
+				for (var i in removed_id_list)
+				{
+					//console.log(removed_id_list[i])
+					delete node_history[removed_id_list[i]];
+				}
+				var node_historyy=graphioGremlin.get_node_history()
+				console.log("deletehis",node_historyy)
+				console.log("remove_id",removed_id_list)
+				//////////////////////////////////////////////////////////////////
 				_svg.selectAll(".old_node" + stop_layer).remove();
 				_svg.selectAll(".old_edge" + stop_layer).remove();
 				_svg.selectAll(".old_edgepath" + stop_layer).remove();
 				_svg.selectAll(".old_edgelabel" + stop_layer).remove();
 				graphioGremlin.click_query(d);
 				//infobox.display_info(d);
-				console.log('event!!')
+				
 			}
+			// var inputt = document.getElementById("showProcess");
+			// var isCheckedd = inputt.checked;
+			// console.log(isCheckedd,"yesorno")
 		}
 
 
 		function pin_it(d) {
+			console.log("here")
 			d3.event.stopPropagation();
 			var node_pin = d3.select(this);
 			var pinned_node = d3.select(this.parentNode);

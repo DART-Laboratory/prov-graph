@@ -77,16 +77,36 @@
 						<label class="nav input_label" for="freeze-in">Freeze exploration</label>
 					</div>
 					<div class="nav input_unit_container">
-						<input type="checkbox" name="showName_box" id="showName" onclick="graphShapes.show_names()"/>
+						<input type="checkbox" name="showName_box" id="showName" onclick="graphShapes.show_names()" checked/>
 						<label class="nav input_label" for="showName">Show Node labels</label>
 					</div>
 					<div class="nav input_unit_container">
-						<input type="checkbox" name="showEdge_box" id="showEdge" onclick="graphShapes.show_names_edges()"/>
+						<input type="checkbox" name="showEdge_box" id="showEdge" onclick="graphShapes.show_names_edges()" checked/>
 						<label class="nav input_label" for="showEdge">Show Edge labels</label>
 					</div>
 					<div class="nav input_unit_container">
-						<input type="checkbox" name="showProcess_box" id="showProcess" onclick="graphShapes.show_names_processes()"/>
-						<label class="nav input_label" for="showProcess">Show Only Process Nodes</label>
+						<input type="checkbox" name="showProcess_box" id="hideProcess" onclick="graphShapes.hide_process_only(true)"/>
+						<label class="nav input_label" for="hideProcess"> Hide Process</label>
+					</div>
+					<div class="nav input_unit_container">
+						<input type="checkbox" name="showZEEK_box" id="hideZEEK" onclick="graphShapes.hide_zeek_only(true)"/>
+						<label class="nav input_label" for="hideZEEK"> Hide ZEEK</label>
+					</div>
+					<div class="nav input_unit_container">
+						<input type="checkbox" name="showRegistry_box" id="hideRegistry" onclick="graphShapes.hide_registry_only(true)"/>
+						<label class="nav input_label" for="hideRegistry"> Hide Registry</label>
+					</div>
+					<div class="nav input_unit_container">
+						<input type="checkbox" name="showFILE_box" id="hideFILE" onclick="graphShapes.hide_FILE_only(true)"/>
+						<label class="nav input_label" for="hideFILE"> Hide FILE</label>
+					</div>
+					<div class="nav input_unit_container">
+						<input type="checkbox" name="showNETWORK_box" id="hideNETWORK" onclick="graphShapes.hide_network_only(true)"/>
+						<label class="nav input_label" for="hideNETWORK"> Hide Network</label>
+					</div>
+					<div class="nav input_unit_container">
+						<input type="checkbox" name="showupcomingNETWORK_box" id="hideNETWORKupcoming" />
+						<label class="nav input_label" for="hideNETWORKupcoming"> Hide Network upcoming</label>
 					</div>
 				</div>
 
