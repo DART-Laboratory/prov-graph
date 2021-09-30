@@ -385,6 +385,9 @@ var graph_viz = (function () {
 	//////////////////////////////////////
 	function refresh_data(d, center_f, with_active_node) {
 		// Main visualization function
+		console.log("refresher",d)
+		console.log("refresher1",center_f)
+		console.log("refresher2",with_active_node)
 		var svg_graph = svg_handle();
 		layers.push_layers();
 		layers.update_data(d,with_active_node);
@@ -661,7 +664,7 @@ var graph_viz = (function () {
 				_svg.selectAll(".old_edgepath" + stop_layer).remove();
 				_svg.selectAll(".old_edgelabel" + stop_layer).remove();
 				graphioGremlin.click_query(d);
-				//infobox.display_info(d);
+				infobox.display_info(d);
 				
 			}
 			// var inputt = document.getElementById("showProcess");

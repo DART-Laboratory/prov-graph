@@ -18,6 +18,8 @@ limitations under the License.
 
 var traversal_source = getUrlParameter('ts');
 var node_history = {};
+//unique id for edge
+var edge_id=0;
 //var elasticsearch = require('elasticsearch');
 
 // var client = new elasticsearch.Client({
@@ -103,6 +105,7 @@ var graphioGremlin = (function(){
 //             }
 //             ]
 //         }; 
+let input_id = $('#search_value').val();
 var port_num=22;
 var data = {
   "query": {
@@ -110,24 +113,29 @@ var data = {
       "must": [
         {
           "match": {
-            "proto": "tcp"
+            //"proto": "tcp"
+            //"_id":input_id
+            "pid":20118
           }
-        }//,
-        // {
-        //   "match": {
-        //     "id.resp_p":port_num
-        //     //"properties":{"resp_bytes":0}
-        //     //"label":"process"
+        },
+        {
+          "match": {
+            //"id.resp_p":port_num
+            "ppid":20112
 
-        //   }
-        // }
+            //"properties":{"resp_bytes":0}
+            //"label":"process"
+
+          }
+        }
       ]
     }
   }
 }
 
 $.ajax({
-            url: 'http://localhost:9200/conn_indexxxx/_doc/_search',
+            //url: 'http://localhost:9200/conn_indexxxx/_doc/_search',
+            url: 'http://localhost:9200/process_index/_doc/_search',
             type: 'POST',
             //contentType: 'application/json; charset=UTF-8',
             //accept: "application/json",
@@ -136,9 +144,21 @@ $.ajax({
             dataType: 'json',
             data: JSON.stringify(data),
             processData: false,
+            async:false,
             success: function(response) {
                 var data = response.hits.hits;
                 console.log("data",data)
+                if (data.length != 0)
+                {
+                var data_list=data_manipulation(data,210,"process")
+                var test_dic={'nodes':data_list,'links':[]}
+								//console.log("graphnew",test_dic)
+								graph_viz.refresh_data(test_dic,1,null)
+              }
+              else
+              {
+              	console.log("invalid id")
+              }
              //    for (const [key, value] of Object.entries(data)) {
 													//     console.log(key + ":" + value)
 													// }
@@ -147,7 +167,8 @@ $.ajax({
 
 /////////////////////////////////////////////////////////////////
 
-		let input_string = $('#search_value').val();
+		//let input_string = $('#search_value').val();
+		let input_string= "89d8a0b2-5b72-402a-b50a-66f596583f53"
 		let input_field = $('#search_field').val();
 		let label_field = $('#label_field').val();
 		let limit_field = $('#limit_field').val();
@@ -185,7 +206,7 @@ $.ajax({
 		//let gremlin_query_edges_no_vars = "edges = " + traversal_source + ".V()"+has_str+".bothE();";
 		console.log(has_str,"here")
 		let gremlin_query = gremlin_query_nodes + gremlin_query_edges + "[nodes,edges]";
-		console.log(gremlin_query);
+		//console.log(gremlin_query);
 
 		// while busy, show we're doing something in the messageArea.
 		$('#messageArea').html('<h3>(loading)</h3>');
@@ -199,9 +220,109 @@ $.ajax({
 
 	}
 
-	///////////////////////////////////////////////////////data manipulation////////////////////////////////////////////////
-	
+	///////////////////////////////////////////////////////data node manipulation process////////////////////////////////////////////////
+function data_manipulation(data,val,type)
+{
+	var data_list=[]
+	console.log("manipulation data",data)
+	for (var key in data)
+	{
+		console.log("key",data[key])
+		var data_dict=data[key];
+		data_dict["id"]=data_dict['_id']
+		data_dict["properties"]=data_dict["_source"]
+		
+		data_dict['type']='vertex'
+		delete data_dict['_index']
+		delete data_dict['_type']
+		delete data_dict['_source']
+		delete data_dict['_score']
+		delete data_dict['_id']
+		//////////////////////////////////////////////////delete below line
+		if (type=="process")
+		{
+		data_dict["properties"]['name']=data_dict["properties"]['exe']
+		data_dict['label']="PROCESS"
+		}
+		if (type=="file")
+		{
+		data_dict["properties"]['name']=data_dict["properties"]['exe']
+		data_dict['label']="FILE"
+		}
+		if (type=="socket")
+		{
+		data_dict["properties"]['name']=data_dict["properties"]['exe']
+		data_dict['label']="SOCKET"
+		}
+		//console.log('datadict',data_dict)
+		for (var key2 in data_dict['properties'] )
+		{
+			//console.log('property',data_dict['properties'][key2])
+			data_dict['properties'][key2]=[{'id':1,'value':data_dict['properties'][key2],"label":key2}]
+			console.log('data_dict',data_dict)
+		}
+		data_dict['fx']=val;
+		data_list.push(data_dict)
+	}
 
+	return data_list;
+	
+}
+/////////////////////////////////////////////////////////////////////////////////edge manipulation start
+
+function edge_manipulation_process_process(data,curr_node,inorout,from,to)
+
+{// if conditions on labels
+	console.log("newedgedata",data,curr_node,inorout)
+	var edge_list=[]
+	for (var key in data)
+	{
+		var curr_edge_dict={}
+		//console.log(data[key])
+		var curr_data=data[key]
+		
+			curr_edge_dict.id=edge_id
+			edge_id=edge_id+1
+			if (from=="process" && to=="process")
+			{
+			curr_edge_dict.label='EXECUTE'/////////////////////////////////////////////////////////change this but find appropriate syscall
+				// if (inorout=="inbound")
+				// {
+				// 	curr_edge_dict.label=curr_data.
+				// }
+			}
+			if (from=="process" && to=="file")
+			{
+				//console.log("syscall",curr_data)
+			curr_edge_dict.label=curr_data.properties.syscall[0].value
+			}
+			if (from=="process" && to=="socket")
+			{
+				//console.log("syscall",curr_data)
+			curr_edge_dict.label=curr_data.properties.syscall[0].value
+			}
+
+			curr_edge_dict.type='edge'
+			curr_edge_dict.properies={'working':['yes']}
+			// curr_edge_dict.index=edge_id
+			// curr_edge_dict.linknum=edge_id
+			if (inorout=="inbound")
+		{
+			curr_edge_dict.source=curr_data
+			curr_edge_dict.target=curr_node
+			//curr_edge_dict.label=curr_data.syscall
+		}
+		else
+		{
+			curr_edge_dict.source=curr_node
+			curr_edge_dict.target=curr_data
+		}
+		edge_list.push(curr_edge_dict)
+	}
+	return edge_list
+}
+
+//////////////////////////////////////////////////////////////////////
 	function isInt(value) {
 		return !isNaN(value) &&
 			parseInt(Number(value)) == value &&
@@ -210,6 +331,308 @@ $.ajax({
 	function click_query(d) {
 		// Query sent to the server when a node is clicked
 		//
+		console.log("NODE CLICKED",d)
+
+var combined_nodes=[]
+var combined_edges=[]
+
+if (d.label=="PROCESS")///////////////////////////////////////////////////////////////////////correct this later to process
+{
+
+//////find ppid process
+var ppid_process=d.properties.ppid[0].value
+console.log("ppid_process",ppid_process)
+var node_pos=d.fx-100
+
+var data = {
+  "query": {
+    "bool": {
+      "must": [
+        {
+          "match": {
+            //"proto": "tcp"
+            //"_id":input_id
+            "pid":ppid_process
+          }
+        }//,
+        // {
+        //   "match": {
+        //     //"id.resp_p":port_num
+        //     "ppid":20120
+
+        //     //"properties":{"resp_bytes":0}
+        //     //"label":"process"
+
+        //   }
+        // }
+      ]
+    }
+  }
+}
+
+$.ajax({
+            //url: 'http://localhost:9200/conn_indexxxx/_doc/_search',
+            url: 'http://localhost:9200/process_index/_doc/_search',
+            type: 'POST',
+            //contentType: 'application/json; charset=UTF-8',
+            //accept: "application/json",
+            //crossDomain: true,
+            contentType: "application/json;charset=UTF-8",
+            dataType: 'json',
+            data: JSON.stringify(data),
+            processData: false,
+            async:false,
+            success: function(response) {
+                var data = response.hits.hits;
+                console.log("data",data)
+                if (data.length != 0)
+                {
+                	var pid_process=data_manipulation(data,node_pos,"process")
+                	console.log("pid data",pid_process)
+                combined_nodes=combined_nodes.concat(pid_process)
+                console.log("combined_nodes",combined_nodes)
+                var edges=edge_manipulation_process_process(pid_process,d,"inbound","process","process")
+                combined_edges=combined_edges.concat(edges)
+              }
+              else
+              {
+              	console.log("invalid id")
+              }
+             //    for (const [key, value] of Object.entries(data)) {
+													//     console.log(key + ":" + value)
+													// }
+            }})
+
+
+///////////////////////
+//////find  child pid process
+var pid_process=d.properties.pid[0].value
+console.log("ppid_process",ppid_process)
+var node_pos=d.fx+100
+
+var data = {
+  "query": {
+    "bool": {
+      "must": [
+        {
+          "match": {
+            //"proto": "tcp"
+            //"_id":input_id
+            "ppid":pid_process
+          }
+        }//,
+        // {
+        //   "match": {
+        //     //"id.resp_p":port_num
+        //     "ppid":20120
+
+        //     //"properties":{"resp_bytes":0}
+        //     //"label":"process"
+
+        //   }
+        // }
+      ]
+    }
+  }
+}
+
+$.ajax({
+            //url: 'http://localhost:9200/conn_indexxxx/_doc/_search',
+            url: 'http://localhost:9200/process_index/_doc/_search',
+            type: 'POST',
+            //contentType: 'application/json; charset=UTF-8',
+            //accept: "application/json",
+            //crossDomain: true,
+            contentType: "application/json;charset=UTF-8",
+            dataType: 'json',
+            data: JSON.stringify(data),
+            processData: false,
+            async:false,
+            success: function(response) {
+                var data = response.hits.hits;
+                console.log("data",data)
+                if (data.length != 0)
+                {
+                	var pid_process=data_manipulation(data,node_pos,"process")
+                	console.log("pid data",pid_process)
+                combined_nodes=combined_nodes.concat(pid_process)
+                console.log("combined_nodes",combined_nodes)
+                var edges=edge_manipulation_process_process(pid_process,d,"outbound","process","process")
+                combined_edges=combined_edges.concat(edges)
+              }
+              else
+              {
+              	console.log("invalid id")
+              }
+             //    for (const [key, value] of Object.entries(data)) {
+													//     console.log(key + ":" + value)
+													// }
+            }})
+
+
+
+
+
+//////find  child file of process
+var pid_process=d.properties.pid[0].value
+console.log("ppid_process",ppid_process)
+var node_pos=d.fx+100
+
+var data = {
+  "query": {
+    "bool": {
+      "must": [
+        {
+          "match": {
+            //"proto": "tcp"
+            //"_id":input_id
+            "pid":pid_process
+          }
+        }//,
+        // {
+        //   "match": {
+        //     //"id.resp_p":port_num
+        //     "ppid":20120
+
+        //     //"properties":{"resp_bytes":0}
+        //     //"label":"process"
+
+        //   }
+        // }
+      ]
+    }
+  }
+}
+
+$.ajax({
+            //url: 'http://localhost:9200/conn_indexxxx/_doc/_search',
+            url: 'http://localhost:9200/file_index/_doc/_search',
+            type: 'POST',
+            //contentType: 'application/json; charset=UTF-8',
+            //accept: "application/json",
+            //crossDomain: true,
+            contentType: "application/json;charset=UTF-8",
+            dataType: 'json',
+            data: JSON.stringify(data),
+            processData: false,
+            async:false,
+            success: function(response) {
+                var data = response.hits.hits;
+                console.log("data",data)
+                if (data.length != 0)
+                {
+                	var pid_process=data_manipulation(data,node_pos,"file")
+                	console.log("pid data",pid_process)
+                combined_nodes=combined_nodes.concat(pid_process)
+                console.log("combined_nodes",combined_nodes)
+                var edges=edge_manipulation_process_process(pid_process,d,"outbound","process","file")
+                combined_edges=combined_edges.concat(edges)
+              }
+              else
+              {
+              	console.log("invalid id")
+              }
+             //    for (const [key, value] of Object.entries(data)) {
+													//     console.log(key + ":" + value)
+													// }
+            }})
+
+
+
+//////find  child socket of process
+var pid_process=d.properties.pid[0].value
+//console.log("ppid_process",ppid_process)
+var node_pos=d.fx+100
+
+var data = {
+  "query": {
+    "bool": {
+      "must": [
+        {
+          "match": {
+            //"proto": "tcp"
+            //"_id":input_id
+            "pid":pid_process
+          }
+        }//,
+        // {
+        //   "match": {
+        //     //"id.resp_p":port_num
+        //     "ppid":20120
+
+        //     //"properties":{"resp_bytes":0}
+        //     //"label":"process"
+
+        //   }
+        // }
+      ]
+    }
+  }
+}
+
+$.ajax({
+            //url: 'http://localhost:9200/conn_indexxxx/_doc/_search',
+            url: 'http://localhost:9200/socket_index/_doc/_search',
+            type: 'POST',
+            //contentType: 'application/json; charset=UTF-8',
+            //accept: "application/json",
+            //crossDomain: true,
+            contentType: "application/json;charset=UTF-8",
+            dataType: 'json',
+            data: JSON.stringify(data),
+            processData: false,
+            async:false,
+            success: function(response) {
+                var data = response.hits.hits;
+                console.log("data",data)
+                if (data.length != 0)
+                {
+                	var pid_process=data_manipulation(data,node_pos,"socket")
+                	//console.log("pid data",pid_process)
+                combined_nodes=combined_nodes.concat(pid_process)
+                //console.log("combined_nodes",combined_nodes)
+                var edges=edge_manipulation_process_process(pid_process,d,"outbound","process","socket")
+                combined_edges=combined_edges.concat(edges)
+              }
+              else
+              {
+              	console.log("invalid id")
+              }
+             //    for (const [key, value] of Object.entries(data)) {
+													//     console.log(key + ":" + value)
+													// }
+            }})
+
+
+
+
+
+combined_nodes.push(d)
+console.log("combined_edges",combined_edges)
+var test_dic={'nodes':combined_nodes,'links':combined_edges}
+console.log("graphnew",test_dic)
+graph_viz.refresh_data(test_dic,1,d.id)
+
+
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 		var edge_filter = $('#edge_filter').val();
 		var communication_method = SERVER_COMMUNICATION_METHOD;
 		var id = d.id;
@@ -357,7 +780,8 @@ $.ajax({
 		else return;
 		//console.log("testhis",node_history)
 		//console.log(graph,"graph")
-		graph_viz.refresh_data(graph,center_f,active_node);
+		console.log('active_node',graph);
+		//graph_viz.refresh_data(graph,center_f,active_node);
 
 		$('#outputArea').html(message);
 		$('#messageArea').html('AHHHHHHHHAHAAHHA');
@@ -391,6 +815,7 @@ $.ajax({
 						}
 						if (("inV" in item) && idIndex(links,item.id) == null){
 							item.type = "edge";
+							console.log("edgeschecker",item)
 							links.push(extract_infov3(item, center_f, active_node));
 							
 						}
@@ -442,7 +867,8 @@ $.ajax({
 
 
 		}
-		return {nodes:nodes, links:links};
+		//console.log("linksfinder",links)
+		return {'nodes':nodes, 'links':links};
 	}
 
 	function find_position(position,direction)//finds a free space, inrements x value if not able to find out
@@ -592,8 +1018,13 @@ $.ajax({
 					data_dic.id = data.id.relationId;
 				}
 			}
+			data_dic['id']=edge_id
+			edge_id=edge_id+1;
+			data_dic['properties']={'working':['yes']}///////////////////////////////////////////////////////////////////////////////////////////////////v important above teo lines
+			console.log("dataedge",data_dic['id'],data_dic['linknum'])
 		}
 		//console.log("ccid",data_dic.id,data_dic.fx,data_dic.type)
+		//console.log("data_dicee",data_dic)
 		return data_dic;
 	}
 

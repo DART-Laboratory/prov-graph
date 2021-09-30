@@ -42,6 +42,8 @@ var graphShapes = (function(){
 				{return "#F2E205"
 			//return "red"
 		}
+		if(d.label=="SOCKET")
+				{return "#F25D27"}//same as registry
 
 			if(d.label=="REG_KEY")
 				{return "#F25D27"}
@@ -257,7 +259,7 @@ var graphShapes = (function(){
 		// Attach the arrows
 		edges_deco.attr("marker-end", function(d) {return "url(#marker_" + d.id + ")"})
 		.attr('stroke-width', edge_stroke_width)
-		.append('title').text(function(d){return d.properties.weight;});
+		.append('title').text(function(d){return 1;});
 
 		// Attach the edge labels
 		var e_label = create_edge_label(edgepaths,edgelabels);
