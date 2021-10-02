@@ -18,6 +18,7 @@ limitations under the License.
 
 var traversal_source = getUrlParameter('ts');
 var node_history = {};
+var node_position_list=[];
 //unique id for edge
 var edge_id=0;
 //var elasticsearch = require('elasticsearch');
@@ -114,19 +115,19 @@ var data = {
         {
           "match": {
             //"proto": "tcp"
-            //"_id":input_id
-            "pid":20118
+            "_id":input_id
+            //"pid":20118
           }
-        },
-        {
-          "match": {
-            //"id.resp_p":port_num
-            "ppid":20112
+        // },
+        // {
+        //   "match": {
+        //     //"id.resp_p":port_num
+        //     "ppid":20112
 
-            //"properties":{"resp_bytes":0}
-            //"label":"process"
+        //     //"properties":{"resp_bytes":0}
+        //     //"label":"process"
 
-          }
+        //   }
         }
       ]
     }
@@ -135,7 +136,7 @@ var data = {
 
 $.ajax({
             //url: 'http://localhost:9200/conn_indexxxx/_doc/_search',
-            url: 'http://localhost:9200/process_index/_doc/_search',
+            url: 'http://localhost:9200/file_index/_doc/_search',
             type: 'POST',
             //contentType: 'application/json; charset=UTF-8',
             //accept: "application/json",
@@ -150,7 +151,7 @@ $.ajax({
                 console.log("data",data)
                 if (data.length != 0)
                 {
-                var data_list=data_manipulation(data,210,"process")
+                var data_list=data_manipulation(data,210,"file")
                 var test_dic={'nodes':data_list,'links':[]}
 								//console.log("graphnew",test_dic)
 								graph_viz.refresh_data(test_dic,1,null)
@@ -164,6 +165,11 @@ $.ajax({
 													// }
             }})
 
+
+/////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+node_position_list.push(210)
+/////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
 /////////////////////////////////////////////////////////////////
 
@@ -254,6 +260,11 @@ function data_manipulation(data,val,type)
 		data_dict["properties"]['name']=data_dict["properties"]['exe']
 		data_dict['label']="SOCKET"
 		}
+		if (type=="conn")
+		{
+		data_dict["properties"]['name']="conn.log"
+		data_dict['label']="CONN"
+		}
 		//console.log('datadict',data_dict)
 		for (var key2 in data_dict['properties'] )
 		{
@@ -301,6 +312,20 @@ function edge_manipulation_process_process(data,curr_node,inorout,from,to)
 				//console.log("syscall",curr_data)
 			curr_edge_dict.label=curr_data.properties.syscall[0].value
 			}
+			if (from=="socket" && to=="conn")
+			{
+				//console.log("syscall",curr_data)
+			curr_edge_dict.label='CORRELATION'
+			}
+			if (from=="file" && to=="process")
+			{
+				curr_edge_dict.label=curr_node.properties.syscall[0].value
+			}
+			if (from=="socket" && to=="process")
+			{
+				curr_edge_dict.label=curr_node.properties.syscall[0].value
+			}
+
 
 			curr_edge_dict.type='edge'
 			curr_edge_dict.properies={'working':['yes']}
@@ -321,6 +346,96 @@ function edge_manipulation_process_process(data,curr_node,inorout,from,to)
 	}
 	return edge_list
 }
+
+
+
+
+////////////////////finding right node position////////////
+function find_node_position(position,direction)
+
+{
+		if (direction=="forward"){
+		var found_free=true;
+		while (found_free)
+		{
+			if (node_position_list.includes(position))
+			{
+				found_free=false;
+			}
+			if (found_free)
+			{
+				return position;
+			}
+			else
+			{
+				position=position+25;
+				found_free=true;
+			}
+		}
+	}
+	if (direction=="backward"){
+		var found_free=true;
+		while (found_free)
+		{
+			if (node_position_list.includes(position))
+			{
+				found_free=false;
+			}
+			if (found_free)
+			{
+				return position;
+			}
+			else
+			{
+				position=position-25;
+				found_free=true;
+			}
+		}
+	}
+
+
+
+
+	// 		for (var i in node_history)
+	// 		{
+	// 			if (position==node_history[i])
+	// 				found_free=false;
+	// 		}
+	// 		if (found_free)
+	// 		{
+	// 			return position;
+	// 		}
+	// 		else
+	// 		{
+	// 			position=position+25;
+	// 			found_free=true;
+	// 		}
+	// 	}
+	// }
+	// if (direction=="backward"){
+	// 	console.log("backward called")
+	// 	var found_free=true;
+	// 	while (found_free)
+	// 	{
+	// 		for (var i in node_history)
+	// 		{
+	// 			if (position==node_history[i])
+	// 				found_free=false;
+	// 		}
+	// 		if (found_free)
+	// 		{
+	// 			return position;
+	// 		}
+	// 		else
+	// 		{
+	// 			console.log("backward called change")
+	// 			position=position-25;
+	// 			found_free=true;
+	// 		}
+	// 	}
+	// }
+
+	}
 
 //////////////////////////////////////////////////////////////////////
 	function isInt(value) {
@@ -343,6 +458,7 @@ if (d.label=="PROCESS")/////////////////////////////////////////////////////////
 var ppid_process=d.properties.ppid[0].value
 console.log("ppid_process",ppid_process)
 var node_pos=d.fx-100
+var node_pos=find_node_position(node_pos,"backward")
 
 var data = {
   "query": {
@@ -410,6 +526,9 @@ var pid_process=d.properties.pid[0].value
 console.log("ppid_process",ppid_process)
 var node_pos=d.fx+100
 
+var node_pos=find_node_position(node_pos,"forward")
+//node_position_list.push()
+
 var data = {
   "query": {
     "bool": {
@@ -476,7 +595,7 @@ $.ajax({
 //////find  child file of process
 var pid_process=d.properties.pid[0].value
 console.log("ppid_process",ppid_process)
-var node_pos=d.fx+100
+//var node_pos=d.fx+100
 
 var data = {
   "query": {
@@ -542,7 +661,9 @@ $.ajax({
 //////find  child socket of process
 var pid_process=d.properties.pid[0].value
 //console.log("ppid_process",ppid_process)
-var node_pos=d.fx+100
+//var node_pos=d.fx+100
+
+
 
 var data = {
   "query": {
@@ -605,7 +726,7 @@ $.ajax({
 
 
 
-
+node_position_list.push(node_pos)
 
 combined_nodes.push(d)
 console.log("combined_edges",combined_edges)
@@ -617,7 +738,317 @@ graph_viz.refresh_data(test_dic,1,d.id)
 }
 
 
+//////////////////////////////handle socket node//////////////////////
 
+
+
+if (d.label=="SOCKET")///////////////////////////////////////////////////////////////////////correct this later to process
+{
+
+//////find conn socket
+var seuid=d.properties.seuid[0].value
+//console.log("ppid_process",ppid_process)
+var node_pos=d.fx+100
+var node_pos=find_node_position(node_pos,"forward")
+
+
+var data = {
+  "query": {
+    "bool": {
+      "must": [
+        {
+          "match": {
+            //"proto": "tcp"
+            //"_id":input_id
+            "orig_seuids":seuid
+          }
+        }//,
+        // {
+        //   "match": {
+        //     //"id.resp_p":port_num
+        //     "ppid":20120
+
+        //     //"properties":{"resp_bytes":0}
+        //     //"label":"process"
+
+        //   }
+        // }
+      ]
+    }
+  }
+}
+
+$.ajax({
+            //url: 'http://localhost:9200/conn_indexxxx/_doc/_search',
+            url: 'http://localhost:9200/conn_indexa/_doc/_search',
+            type: 'POST',
+            //contentType: 'application/json; charset=UTF-8',
+            //accept: "application/json",
+            //crossDomain: true,
+            contentType: "application/json;charset=UTF-8",
+            dataType: 'json',
+            data: JSON.stringify(data),
+            processData: false,
+            async:false,
+            success: function(response) {
+                var data = response.hits.hits;
+                console.log("data",data)
+                if (data.length != 0)
+                {
+                	var pid_process=data_manipulation(data,node_pos,"conn")
+                	//console.log("pid data",pid_process)
+                combined_nodes=combined_nodes.concat(pid_process)
+                //console.log("combined_nodes",combined_nodes)
+                var edges=edge_manipulation_process_process(pid_process,d,"outbound","socket","conn")
+                combined_edges=combined_edges.concat(edges)
+              }
+              else
+              {
+              	console.log("invalid id")
+              }
+             //    for (const [key, value] of Object.entries(data)) {
+													//     console.log(key + ":" + value)
+													// }
+            }})
+
+
+
+
+
+
+
+var data = {
+  "query": {
+    "bool": {
+      "must": [
+        {
+          "match": {
+            //"proto": "tcp"
+            //"_id":input_id
+            "resp_seuids":seuid
+          }
+        }//,
+        // {
+        //   "match": {
+        //     //"id.resp_p":port_num
+        //     "ppid":20120
+
+        //     //"properties":{"resp_bytes":0}
+        //     //"label":"process"
+
+        //   }
+        // }
+      ]
+    }
+  }
+}
+
+$.ajax({
+            //url: 'http://localhost:9200/conn_indexxxx/_doc/_search',
+            url: 'http://localhost:9200/conn_indexa/_doc/_search',
+            type: 'POST',
+            //contentType: 'application/json; charset=UTF-8',
+            //accept: "application/json",
+            //crossDomain: true,
+            contentType: "application/json;charset=UTF-8",
+            dataType: 'json',
+            data: JSON.stringify(data),
+            processData: false,
+            async:false,
+            success: function(response) {
+                var data = response.hits.hits;
+                console.log("data",data)
+                if (data.length != 0)
+                {
+                	var pid_process=data_manipulation(data,node_pos,"conn")
+                	//console.log("pid data",pid_process)
+                combined_nodes=combined_nodes.concat(pid_process)
+                //console.log("combined_nodes",combined_nodes)
+                var edges=edge_manipulation_process_process(pid_process,d,"outbound","socket","conn")
+                combined_edges=combined_edges.concat(edges)
+              }
+              else
+              {
+              	console.log("invalid id")
+              }
+             //    for (const [key, value] of Object.entries(data)) {
+													//     console.log(key + ":" + value)
+													// }
+            }})
+
+
+node_position_list.push(node_pos)
+
+
+///////////////////////////////////////////////find parent process of the socket
+
+
+var pid=d.properties.pid[0].value
+//console.log("ppid_process",ppid_process)
+var node_pos=d.fx-100
+var node_pos=find_node_position(node_pos,"backward")
+
+
+var data = {
+  "query": {
+    "bool": {
+      "must": [
+        {
+          "match": {
+            //"proto": "tcp"
+            //"_id":input_id
+            "pid":pid
+          }
+        }//,
+        // {
+        //   "match": {
+        //     //"id.resp_p":port_num
+        //     "ppid":20120
+
+        //     //"properties":{"resp_bytes":0}
+        //     //"label":"process"
+
+        //   }
+        // }
+      ]
+    }
+  }
+}
+
+$.ajax({
+            //url: 'http://localhost:9200/conn_indexxxx/_doc/_search',
+            url: 'http://localhost:9200/process_index/_doc/_search',
+            type: 'POST',
+            //contentType: 'application/json; charset=UTF-8',
+            //accept: "application/json",
+            //crossDomain: true,
+            contentType: "application/json;charset=UTF-8",
+            dataType: 'json',
+            data: JSON.stringify(data),
+            processData: false,
+            async:false,
+            success: function(response) {
+                var data = response.hits.hits;
+                console.log("data",data)
+                if (data.length != 0)
+                {
+                	var pid_process=data_manipulation(data,node_pos,"process")
+                	//console.log("pid data",pid_process)
+                combined_nodes=combined_nodes.concat(pid_process)
+                //console.log("combined_nodes",combined_nodes)
+                var edges=edge_manipulation_process_process(pid_process,d,"inbound","socket","process")
+                combined_edges=combined_edges.concat(edges)
+              }
+              else
+              {
+              	console.log("invalid id")
+              }
+             //    for (const [key, value] of Object.entries(data)) {
+													//     console.log(key + ":" + value)
+													// }
+            }})
+
+
+node_position_list.push(node_pos)
+
+
+combined_nodes.push(d)
+console.log("combined_edges",combined_edges)
+var test_dic={'nodes':combined_nodes,'links':combined_edges}
+console.log("graphnew",test_dic)
+graph_viz.refresh_data(test_dic,1,d.id)
+
+
+
+}
+
+
+
+if (d.label=="FILE")
+{
+
+
+///////////////handle parent process of file
+var pid=d.properties.pid[0].value
+//console.log("ppid_process",ppid_process)
+var node_pos=d.fx-100
+var node_pos=find_node_position(node_pos,"backward")
+
+
+var data = {
+  "query": {
+    "bool": {
+      "must": [
+        {
+          "match": {
+            //"proto": "tcp"
+            //"_id":input_id
+            "pid":pid
+          }
+        }//,
+        // {
+        //   "match": {
+        //     //"id.resp_p":port_num
+        //     "ppid":20120
+
+        //     //"properties":{"resp_bytes":0}
+        //     //"label":"process"
+
+        //   }
+        // }
+      ]
+    }
+  }
+}
+
+$.ajax({
+            //url: 'http://localhost:9200/conn_indexxxx/_doc/_search',
+            url: 'http://localhost:9200/process_index/_doc/_search',
+            type: 'POST',
+            //contentType: 'application/json; charset=UTF-8',
+            //accept: "application/json",
+            //crossDomain: true,
+            contentType: "application/json;charset=UTF-8",
+            dataType: 'json',
+            data: JSON.stringify(data),
+            processData: false,
+            async:false,
+            success: function(response) {
+                var data = response.hits.hits;
+                console.log("data",data)
+                if (data.length != 0)
+                {
+                	var pid_process=data_manipulation(data,node_pos,"process")
+                	//console.log("pid data",pid_process)
+                combined_nodes=combined_nodes.concat(pid_process)
+                //console.log("combined_nodes",combined_nodes)
+                var edges=edge_manipulation_process_process(pid_process,d,"inbound","file","process")
+                combined_edges=combined_edges.concat(edges)
+              }
+              else
+              {
+              	console.log("invalid id")
+              }
+             //    for (const [key, value] of Object.entries(data)) {
+													//     console.log(key + ":" + value)
+													// }
+            }})
+
+
+node_position_list.push(node_pos)
+
+
+combined_nodes.push(d)
+console.log("combined_edges",combined_edges)
+var test_dic={'nodes':combined_nodes,'links':combined_edges}
+console.log("graphnew",test_dic)
+graph_viz.refresh_data(test_dic,1,d.id)
+
+
+
+
+
+}
 
 
 
