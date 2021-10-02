@@ -49,6 +49,8 @@ var graphShapes = (function(){
 				{return "#F25D27"}
 			if(d.label=="NETWORK")
 				{return "#ce31bf"}
+			if(d.label=="SOCKET")
+				{return "#6B98F2"}
 			if(d.label=="ZEEK")
 				{return "#6B98F2"}
 			if(d.label=="ZEEKSUB")

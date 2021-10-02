@@ -21,6 +21,7 @@ var node_history = {};
 var node_position_list=[];
 //unique id for edge
 var edge_id=0;
+var node_position_history=[]
 //var elasticsearch = require('elasticsearch');
 
 // var client = new elasticsearch.Client({
@@ -116,27 +117,35 @@ var data = {
           "match": {
             //"proto": "tcp"
             "_id":input_id
-            //"pid":20118
+            //"pid":1471
+            //"pid":20112
+            //"pid":38838
           }
         // },
         // {
         //   "match": {
         //     //"id.resp_p":port_num
-        //     "ppid":20112
+        //     //"ppid":1338
 
         //     //"properties":{"resp_bytes":0}
         //     //"label":"process"
+        //     //"ppid":20110
+        //     "ppid":38813
 
         //   }
         }
       ]
     }
   }
+  ,
+  "size":500
 }
 
 $.ajax({
             //url: 'http://localhost:9200/conn_indexxxx/_doc/_search',
-            url: 'http://localhost:9200/file_index/_doc/_search',
+            // url: 'http://localhost:9200/file_index/_doc/_search',
+            url: 'http://localhost:9200/file_index_attack_two/_doc/_search',
+            //url: 'http://localhost:9200/process_dummy/_doc/_search',
             type: 'POST',
             //contentType: 'application/json; charset=UTF-8',
             //accept: "application/json",
@@ -247,12 +256,12 @@ function data_manipulation(data,val,type)
 		//////////////////////////////////////////////////delete below line
 		if (type=="process")
 		{
-		data_dict["properties"]['name']=data_dict["properties"]['exe']
+		data_dict["properties"]['name']=data_dict["properties"]['pid']
 		data_dict['label']="PROCESS"
 		}
 		if (type=="file")
 		{
-		data_dict["properties"]['name']=data_dict["properties"]['exe']
+		data_dict["properties"]['name']=data_dict["properties"]['path']
 		data_dict['label']="FILE"
 		}
 		if (type=="socket")
@@ -351,9 +360,17 @@ function edge_manipulation_process_process(data,curr_node,inorout,from,to)
 
 
 ////////////////////finding right node position////////////
-function find_node_position(position,direction)
+function find_node_position(position,direction,id)
 
 {
+	console.log("nodeposition",node_position_history)
+	if (node_position_history.includes(id))
+	{
+		//console.log("nodeposition",node_position_history)
+		//console.log("nodeposition2",id)
+		return position;
+	}
+	
 		if (direction=="forward"){
 		var found_free=true;
 		while (found_free)
@@ -458,7 +475,7 @@ if (d.label=="PROCESS")/////////////////////////////////////////////////////////
 var ppid_process=d.properties.ppid[0].value
 console.log("ppid_process",ppid_process)
 var node_pos=d.fx-100
-var node_pos=find_node_position(node_pos,"backward")
+var node_pos=find_node_position(node_pos,"backward",d.id)
 
 var data = {
   "query": {
@@ -484,11 +501,15 @@ var data = {
       ]
     }
   }
+  ,
+  "size":500
 }
 
 $.ajax({
             //url: 'http://localhost:9200/conn_indexxxx/_doc/_search',
-            url: 'http://localhost:9200/process_index/_doc/_search',
+            //url: 'http://localhost:9200/process_index/_doc/_search',
+            url: 'http://localhost:9200/process_index_attack_two/_doc/_search',
+            //url: 'http://localhost:9200/process_dummy/_doc/_search',
             type: 'POST',
             //contentType: 'application/json; charset=UTF-8',
             //accept: "application/json",
@@ -519,14 +540,15 @@ $.ajax({
 													// }
             }})
 
-
+node_position_list.push(node_pos)
+//node_position_history.push(d.id)
 ///////////////////////
 //////find  child pid process
 var pid_process=d.properties.pid[0].value
-console.log("ppid_process",ppid_process)
+//console.log("ppid_process",ppid_process)
 var node_pos=d.fx+100
 
-var node_pos=find_node_position(node_pos,"forward")
+var node_pos=find_node_position(node_pos,"forward",d.id)
 //node_position_list.push()
 
 var data = {
@@ -552,12 +574,14 @@ var data = {
         // }
       ]
     }
-  }
+  },
+  "size":500
 }
 
 $.ajax({
             //url: 'http://localhost:9200/conn_indexxxx/_doc/_search',
-            url: 'http://localhost:9200/process_index/_doc/_search',
+            url: 'http://localhost:9200/process_index_attack_two/_doc/_search',
+            //url: 'http://localhost:9200/process_dummy/_doc/_search',
             type: 'POST',
             //contentType: 'application/json; charset=UTF-8',
             //accept: "application/json",
@@ -594,7 +618,7 @@ $.ajax({
 
 //////find  child file of process
 var pid_process=d.properties.pid[0].value
-console.log("ppid_process",ppid_process)
+//console.log("ppid_process",ppid_process)
 //var node_pos=d.fx+100
 
 var data = {
@@ -621,11 +645,14 @@ var data = {
       ]
     }
   }
+  ,
+  "size":30
 }
 
 $.ajax({
             //url: 'http://localhost:9200/conn_indexxxx/_doc/_search',
-            url: 'http://localhost:9200/file_index/_doc/_search',
+            //url: 'http://localhost:9200/file_index/_doc/_search',
+            url: 'http://localhost:9200/file_index_attack_two/_doc/_search',
             type: 'POST',
             //contentType: 'application/json; charset=UTF-8',
             //accept: "application/json",
@@ -693,7 +720,8 @@ var data = {
 
 $.ajax({
             //url: 'http://localhost:9200/conn_indexxxx/_doc/_search',
-            url: 'http://localhost:9200/socket_index/_doc/_search',
+            //url: 'http://localhost:9200/socket_index/_doc/_search',
+            url: 'http://localhost:9200/socket_index_attack_two/_doc/_search',
             type: 'POST',
             //contentType: 'application/json; charset=UTF-8',
             //accept: "application/json",
@@ -727,6 +755,7 @@ $.ajax({
 
 
 node_position_list.push(node_pos)
+node_position_history.push(d.id)
 
 combined_nodes.push(d)
 console.log("combined_edges",combined_edges)
@@ -749,7 +778,7 @@ if (d.label=="SOCKET")//////////////////////////////////////////////////////////
 var seuid=d.properties.seuid[0].value
 //console.log("ppid_process",ppid_process)
 var node_pos=d.fx+100
-var node_pos=find_node_position(node_pos,"forward")
+var node_pos=find_node_position(node_pos,"forward",d.id)
 
 
 var data = {
@@ -776,6 +805,8 @@ var data = {
       ]
     }
   }
+  ,
+  "size":500
 }
 
 $.ajax({
@@ -841,6 +872,8 @@ var data = {
       ]
     }
   }
+  ,
+  "size":500
 }
 
 $.ajax({
@@ -878,6 +911,7 @@ $.ajax({
 
 
 node_position_list.push(node_pos)
+//node_position_history.push(d.id)
 
 
 ///////////////////////////////////////////////find parent process of the socket
@@ -886,7 +920,7 @@ node_position_list.push(node_pos)
 var pid=d.properties.pid[0].value
 //console.log("ppid_process",ppid_process)
 var node_pos=d.fx-100
-var node_pos=find_node_position(node_pos,"backward")
+var node_pos=find_node_position(node_pos,"backward",d.id)
 
 
 var data = {
@@ -913,11 +947,14 @@ var data = {
       ]
     }
   }
+  ,
+  "size":500
 }
 
 $.ajax({
             //url: 'http://localhost:9200/conn_indexxxx/_doc/_search',
-            url: 'http://localhost:9200/process_index/_doc/_search',
+            //url: 'http://localhost:9200/process_index/_doc/_search',
+            url: 'http://localhost:9200/process_index_attack_two/_doc/_search',
             type: 'POST',
             //contentType: 'application/json; charset=UTF-8',
             //accept: "application/json",
@@ -950,7 +987,7 @@ $.ajax({
 
 
 node_position_list.push(node_pos)
-
+node_position_history.push(d.id)
 
 combined_nodes.push(d)
 console.log("combined_edges",combined_edges)
@@ -972,7 +1009,7 @@ if (d.label=="FILE")
 var pid=d.properties.pid[0].value
 //console.log("ppid_process",ppid_process)
 var node_pos=d.fx-100
-var node_pos=find_node_position(node_pos,"backward")
+var node_pos=find_node_position(node_pos,"backward",d.id)
 
 
 var data = {
@@ -999,11 +1036,14 @@ var data = {
       ]
     }
   }
+  ,
+  "size":500
 }
 
 $.ajax({
             //url: 'http://localhost:9200/conn_indexxxx/_doc/_search',
-            url: 'http://localhost:9200/process_index/_doc/_search',
+            //url: 'http://localhost:9200/process_index/_doc/_search',
+            url: 'http://localhost:9200/process_index_attack_two/_doc/_search',
             type: 'POST',
             //contentType: 'application/json; charset=UTF-8',
             //accept: "application/json",
@@ -1036,7 +1076,7 @@ $.ajax({
 
 
 node_position_list.push(node_pos)
-
+node_position_history.push(d.id)
 
 combined_nodes.push(d)
 console.log("combined_edges",combined_edges)

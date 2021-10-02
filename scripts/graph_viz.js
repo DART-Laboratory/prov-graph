@@ -357,15 +357,15 @@ var graph_viz = (function () {
 		//console.log(label)
 		if (center_f == 1) {
 			_simulation.force("center", d3.forceCenter(_svg_width+1000, _svg_height/2));/////////svg_hight +10,000 ////////////////////////////////////////////////////
-			console.log("herezafir1")
-	console.log(_svg_width, _svg_height)
+			//console.log("herezafir1")
+	//console.log(_svg_width, _svg_height)
 		}//else{///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 			d3.selectAll(".active_node").each(function(d){
 				console.log("herezafir2")
 				if(d.id==with_active_node){
 					//console.log(d);
-					console.log(d.x,d.y)
-					console.log("herezafir3")
+					//console.log(d.x,d.y)
+					//console.log("herezafir3")
 					//_simulation.force("center", d3.forceCenter(d.x+1000, d.y));
 					_simulation.force("center", d3.forceCenter(_svg_width+1000, d.y));/////////////////////////////////////////////////////////////_svg+10,000
 				}
