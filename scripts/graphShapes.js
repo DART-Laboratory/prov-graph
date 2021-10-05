@@ -49,8 +49,8 @@ var graphShapes = (function(){
 				{return "#F25D27"}
 			if(d.label=="NETWORK")
 				{return "#ce31bf"}
-			if(d.label=="SOCKET")
-				{return "#6B98F2"}
+			// if(d.label=="SOCKET")
+			// 	{return "#6B98F2"}
 			if(d.label=="ZEEK")
 				{return "#6B98F2"}
 			if(d.label=="ZEEKSUB")
@@ -106,38 +106,38 @@ var graphShapes = (function(){
 			.attr("fill", node_color);
 		node_base_circle.append("title").text(node_title);
 		//////////////////////////////////////////////////////////////////////if you want to hide next only/////////////////////////////
-		var input = document.getElementById ("hideNETWORKupcoming");
-		var isChecked = input.checked;
-		console.log("ischecked",isChecked)
-		if (isChecked)
-		{
-			node_base_circle.each(function(d) {
-			var color=d3.select(this).attr("fill")
-			//console.log("whatcol",color)
-			if (color=="#ce31bf")
-			{
-			d3.select(this).style("visibility", "hidden");
-			}
-		})
-		}
-		else
-		{
-			// var color=node_base_circle.attr("fill")
-			// if (color=="#ce31bf")
-			// {
-			// node_base_circle.style("visibility", "visible");
-			// }
-			node_base_circle.each(function(d) {
-			var color=d3.select(this).attr("fill")
-			//console.log("whatcol",color)
-			if (color=="#ce31bf")
-			{
-			d3.select(this).style("visibility", "visible");
-			}
-		})
+		// var input = document.getElementById ("hideNETWORKupcoming");
+		// var isChecked = input.checked;
+		// console.log("ischecked",isChecked)
+		// if (isChecked)
+		// {
+		// 	node_base_circle.each(function(d) {
+		// 	var color=d3.select(this).attr("fill")
+		// 	//console.log("whatcol",color)
+		// 	if (color=="#ce31bf")
+		// 	{
+		// 	d3.select(this).style("visibility", "hidden");
+		// 	}
+		// })
+		// }
+		// else
+		// {
+		// 	// var color=node_base_circle.attr("fill")
+		// 	// if (color=="#ce31bf")
+		// 	// {
+		// 	// node_base_circle.style("visibility", "visible");
+		// 	// }
+		// 	node_base_circle.each(function(d) {
+		// 	var color=d3.select(this).attr("fill")
+		// 	//console.log("whatcol",color)
+		// 	if (color=="#ce31bf")
+		// 	{
+		// 	d3.select(this).style("visibility", "visible");
+		// 	}
+		// })
 
 			
-		}
+		// }
 		/////////////////////////////////////////////////////////////////////////////////////////////////////
 
 
@@ -150,44 +150,44 @@ var graphShapes = (function(){
 		  //.style("fill","black");
 		  //node_text.style("visibility", "visible");
 		/////////////////////////////////////////////////////////////////////////////////////if you want to hide next too////////////////////////
-		if (isChecked)
-		{
-			node_deco.each(function(d) {
-			var color=d3.select(this).select(".base_circle").attr("fill")
-			console.log("whatcol",color)
-			if (color=="#ce31bf")
-			{
-			d3.select(this).select(".text_details").style("visibility", "hidden");
-			}
-		})
-		}
-		else
-		{
-			// var color=node_base_circle.attr("fill")
-			// if (color=="#ce31bf")
-			// {
-			// node_base_circle.style("visibility", "visible");
-			// }
-		// 	node_content.each(function(d) {
-		// 	var color=d3.select(this).attr("fill")
-		// 	//console.log("whatcol",color)
+		// if (isChecked)
+		// {
+		// 	node_deco.each(function(d) {
+		// 	var color=d3.select(this).select(".base_circle").attr("fill")
+		// 	console.log("whatcol",color)
 		// 	if (color=="#ce31bf")
 		// 	{
-		// 	d3.select(this).style("visibility", "visible");
+		// 	d3.select(this).select(".text_details").style("visibility", "hidden");
 		// 	}
 		// })
-		node_deco.each(function(d) {
-			var color=d3.select(this).select(".base_circle").attr("fill")
-			console.log("whatcol",color)
-			if (color=="#ce31bf")
-			{
-			d3.select(this).select(".text_details").style("visibility", "visible");
-			}
-		})
+		// }
+		// else
+		// {
+		// 	// var color=node_base_circle.attr("fill")
+		// 	// if (color=="#ce31bf")
+		// 	// {
+		// 	// node_base_circle.style("visibility", "visible");
+		// 	// }
+		// // 	node_content.each(function(d) {
+		// // 	var color=d3.select(this).attr("fill")
+		// // 	//console.log("whatcol",color)
+		// // 	if (color=="#ce31bf")
+		// // 	{
+		// // 	d3.select(this).style("visibility", "visible");
+		// // 	}
+		// // })
+		// node_deco.each(function(d) {
+		// 	var color=d3.select(this).select(".base_circle").attr("fill")
+		// 	console.log("whatcol",color)
+		// 	if (color=="#ce31bf")
+		// 	{
+		// 	d3.select(this).select(".text_details").style("visibility", "visible");
+		// 	}
+		// })
 
 
 			
-		}
+		// }
 ///////////////////////////////////////////////////////////////////////////
 
 		// Add the node pin

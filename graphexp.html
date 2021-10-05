@@ -22,6 +22,14 @@
 <script src="scripts/graph_viz.js"></script>
 <script src="scripts/graphioGremlin.js"></script>
 <script src="scripts/editGraph.js"></script>
+<!-- <script src="http://crypto-js.googlecode.com/svn/tags/3.1.2/build/rollups/md5.js"></script> -->
+<!-- <script src="js/md5.min.js"></script> -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/crypto-js/4.0.0/core.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/crypto-js/3.1.9-1/md5.js"></script>
+<!-- <script type="text/javascript">
+   var hash = CryptoJS.MD5("Message");
+   alert(hash);
+</script> -->
 
 <script type="text/javascript">
 	///////////////////////////////////////////////
@@ -62,12 +70,12 @@
 					</div>
 					<div class="nav input_unit_container">
 						<label for="limit_field">Results limit:</label>
-						<input name="limit_field" id="limit_field" value="30" min="1" max="1000" type="number"/>
+						<input name="limit_field" id="limit_field" value="30" min="1" max="100" type="number"/>
 					</div>
-					<div class="nav input_unit_container">
+					<!-- <div class="nav input_unit_container">
 						<label class="nav input_label" for="edge_filter">Filter By Edge Label:</label>
 						<input name="edge_filter" id="edge_filter" value="" />
-					</div>
+					</div> -->
 					<div class="nav input_unit_container">
 						<label class="nav input_label" for="nbLayers">Nb of layers</label>
 						<input type="number" id="nbLayers" min="1" max="128" onclick="set_nb_layers()">
@@ -90,7 +98,7 @@
 					</div>
 					<div class="nav input_unit_container">
 						<input type="checkbox" name="showZEEK_box" id="hideZEEK" onclick="graphShapes.hide_zeek_only(true)"/>
-						<label class="nav input_label" for="hideZEEK"> Hide Conn.log</label>
+						<label class="nav input_label" for="hideZEEK"> Hide Zeek</label>
 					</div>
 					<div class="nav input_unit_container">
 						<input type="checkbox" name="showRegistry_box" id="hideRegistry" onclick="graphShapes.hide_registry_only(true)"/>
@@ -99,16 +107,16 @@
 					</div>
 					<div class="nav input_unit_container">
 						<input type="checkbox" name="showFILE_box" id="hideFILE" onclick="graphShapes.hide_FILE_only(true)"/>
-						<label class="nav input_label" for="hideFILE"> Hide FILE</label>
+						<label class="nav input_label" for="hideFILE"> Hide File</label>
 					</div>
 					<div class="nav input_unit_container">
 						<input type="checkbox" name="showNETWORK_box" id="hideNETWORK" onclick="graphShapes.hide_network_only(true)"/>
 						<label class="nav input_label" for="hideNETWORK"> Hide Network</label>
 					</div>
-					<div class="nav input_unit_container">
+					<!-- <div class="nav input_unit_container">
 						<input type="checkbox" name="showupcomingNETWORK_box" id="hideNETWORKupcoming" />
 						<label class="nav input_label" for="hideNETWORKupcoming"> Hide Network upcoming</label>
-					</div>
+					</div> -->
 				</div>
 
 			</div>
@@ -135,10 +143,10 @@
 			<div class="container" style="text-align:center">
 				Process <span class="dotP"></span> &emsp; &emsp;
 				File <span class="dotF"></span>&emsp;&emsp;
-				<!-- Network <span class="dotN"></span>&emsp;&emsp; -->
+				Network <span class="dotN"></span>&emsp;&emsp;
 				Socket <span class="dotR"></span>&emsp;&emsp;
 				<!-- changed registry to socket -->
-				Conn <span class="dotZ"></span>
+				Zeek <span class="dotZ"></span>
 				<!-- changed zeek to conn -->
 			</div>
 		</div>

@@ -641,8 +641,8 @@ var graph_viz = (function () {
 				// remove the oldest links and nodes
 				var stop_layer = layers.depth() - 1;
 				//////////////////////////////////////////////////////////////
-				var node_history=graphioGremlin.get_node_history()
-				console.log("deletehis",node_history)
+				//var node_history=graphioGremlin.get_node_history()
+				//console.log("deletehis",node_history)
 				var removed_id_list=[];
 				var remove_id=d3.selectAll(".old_node" + stop_layer)
 				remove_id.each(function(d){
@@ -650,14 +650,14 @@ var graph_viz = (function () {
 					removed_id_list.push(id);
 
 				})
-				for (var i in removed_id_list)
-				{
-					//console.log(removed_id_list[i])
-					delete node_history[removed_id_list[i]];
-				}
-				var node_historyy=graphioGremlin.get_node_history()
-				console.log("deletehis",node_historyy)
-				console.log("remove_id",removed_id_list)
+				// for (var i in removed_id_list)
+				// {
+				// 	//console.log(removed_id_list[i])
+				// 	delete node_history[removed_id_list[i]];
+				// }
+				// var node_historyy=graphioGremlin.get_node_history()
+				// console.log("deletehis",node_historyy)
+				// console.log("remove_id",removed_id_list)
 				//////////////////////////////////////////////////////////////////
 				_svg.selectAll(".old_node" + stop_layer).remove();
 				_svg.selectAll(".old_edge" + stop_layer).remove();
