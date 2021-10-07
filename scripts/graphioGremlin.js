@@ -29,6 +29,7 @@ var edge_id=0;
 var node_position_history=[]
 var merge_node_history=[]
 var merge_node_dict={}
+var search_fx=210;
 //var elasticsearch = require('elasticsearch');
 
 // var client = new elasticsearch.Client({
@@ -699,10 +700,19 @@ var graphioGremlin = (function(){
 //             ]
 //         }; 
 //console.log("forces",force_x_strength)
+let input_field = $('#search_field').val();
+console.log("inputf",input_field)
 $('#outputArea').html('ZEEK-AGENT Visualizer');
 $('#messageArea').html('ZEEK-AGENT Visualizer');
 let input_id = $('#search_value').val();
-var port_num=22;
+console.log("inputi",input_id)
+if (input_id=="")
+{
+    console.log("inputnoid")
+}
+
+if (input_field=="ID"){
+//var port_num=22;
 var data = {
   "query": {
     "bool": {
@@ -710,27 +720,34 @@ var data = {
         {
           "match": {
             //"proto": "tcp"
-            //"_id":input_id
+            "_id":input_id
             //"pid":1471
             //"pid":20112
             //"pid":38838
-            "pid":3971//for dns
+            //"pid":3971//for dns
             //"pid":1181
+            //"pid":2537
+            //"pid":2635
+            //"pid":2434
           }
-        },
-        {
-          "match": {
-            //"id.resp_p":port_num
-            //"ppid":1338
+        // },
+        // {
+        //   "match": {
+        //     //"id.resp_p":port_num
+        //     //"ppid":1338
 
-            //"properties":{"resp_bytes":0}
-            //"label":"process"
-            //"ppid":20110
-            //"ppid":38813
-            "ppid":3970
-            //"ppid":1//fordhcp
+        //     //"properties":{"resp_bytes":0}
+        //     //"label":"process"
+        //     //"ppid":20110
+        //     //"ppid":38813
+        //     //"ppid":3970
+        //     //"ppid":1//fordhcp
+        //     //"ppid":2434//ppid of attack1 process
+        //     "ppid":2634
+        //     //"ppid":2433
 
-          }
+
+        //   }
         }
       ]
     }
@@ -759,10 +776,12 @@ $.ajax({
                 console.log("data",data)
                 if (data.length != 0)
                 {
-                var data_list=data_manipulation(data,210,"process")
+                var data_list=data_manipulation(data,search_fx,"process")
                 var test_dic={'nodes':data_list,'links':[]}
 								//console.log("graphnew",test_dic)
 								graph_viz.refresh_data(test_dic,1,null)
+                                node_position_list.push(search_fx)
+                                search_fx=search_fx+25
               }
               else
               {
@@ -773,10 +792,372 @@ $.ajax({
 													// }
             }})
 
+$.ajax({
+            //url: 'http://localhost:9200/conn_indexxxx/_doc/_search',
+            // url: 'http://localhost:9200/file_index/_doc/_search',
+            //url: 'http://localhost:9200/file_index_attack_two/_doc/_search',
+            //url: 'http://localhost:9200/process_dummy/_doc/_search',
+            url: es_file_index_url,
+            type: 'POST',
+            //contentType: 'application/json; charset=UTF-8',
+            //accept: "application/json",
+            //crossDomain: true,
+            contentType: "application/json;charset=UTF-8",
+            dataType: 'json',
+            data: JSON.stringify(data),
+            processData: false,
+            async:false,
+            success: function(response) {
+                var data = response.hits.hits;
+                console.log("data",data)
+                if (data.length != 0)
+                {
+                var data_list=data_manipulation(data,search_fx,"file")
+                var test_dic={'nodes':data_list,'links':[]}
+                                //console.log("graphnew",test_dic)
+                                graph_viz.refresh_data(test_dic,1,null)
+                                node_position_list.push(search_fx)
+                                search_fx=search_fx+25
+              }
+              else
+              {
+                console.log("invalid id")
+              }
+             //    for (const [key, value] of Object.entries(data)) {
+                                                    //     console.log(key + ":" + value)
+                                                    // }
+            }})
 
+
+$.ajax({
+            //url: 'http://localhost:9200/conn_indexxxx/_doc/_search',
+            // url: 'http://localhost:9200/file_index/_doc/_search',
+            //url: 'http://localhost:9200/file_index_attack_two/_doc/_search',
+            //url: 'http://localhost:9200/process_dummy/_doc/_search',
+            url: es_socket_index_url,
+            type: 'POST',
+            //contentType: 'application/json; charset=UTF-8',
+            //accept: "application/json",
+            //crossDomain: true,
+            contentType: "application/json;charset=UTF-8",
+            dataType: 'json',
+            data: JSON.stringify(data),
+            processData: false,
+            async:false,
+            success: function(response) {
+                var data = response.hits.hits;
+                console.log("data",data)
+                if (data.length != 0)
+                {
+                var data_list=data_manipulation(data,search_fx,"socket")
+                var test_dic={'nodes':data_list,'links':[]}
+                                //console.log("graphnew",test_dic)
+                                graph_viz.refresh_data(test_dic,1,null)
+                                node_position_list.push(search_fx)
+                                search_fx=search_fx+25
+              }
+              else
+              {
+                console.log("invalid id")
+              }
+             //    for (const [key, value] of Object.entries(data)) {
+                                                    //     console.log(key + ":" + value)
+                                                    // }
+            }})
+
+$.ajax({
+            //url: 'http://localhost:9200/conn_indexxxx/_doc/_search',
+            // url: 'http://localhost:9200/file_index/_doc/_search',
+            //url: 'http://localhost:9200/file_index_attack_two/_doc/_search',
+            //url: 'http://localhost:9200/process_dummy/_doc/_search',
+            url: es_zeek_index_url,
+            type: 'POST',
+            //contentType: 'application/json; charset=UTF-8',
+            //accept: "application/json",
+            //crossDomain: true,
+            contentType: "application/json;charset=UTF-8",
+            dataType: 'json',
+            data: JSON.stringify(data),
+            processData: false,
+            async:false,
+            success: function(response) {
+                var data = response.hits.hits;
+                console.log("data",data)
+                if (data.length != 0)
+                {
+                var data_list=data_manipulation(data,search_fx,"conn")
+                var test_dic={'nodes':data_list,'links':[]}
+                                //console.log("graphnew",test_dic)
+                                graph_viz.refresh_data(test_dic,1,null)
+                                node_position_list.push(search_fx)
+                                search_fx=search_fx+25
+              }
+              else
+              {
+                console.log("invalid id")
+              }
+             //    for (const [key, value] of Object.entries(data)) {
+                                                    //     console.log(key + ":" + value)
+                                                    // }
+            }})
+
+}
+
+if (input_field=="PID"){
+
+input_id=parseInt(input_id)
+var data = {
+  "query": {
+    "bool": {
+      "must": [
+        {
+          "match": {
+            //"proto": "tcp"
+            "pid":input_id
+            //"pid":1471
+            //"pid":20112
+            //"pid":38838
+            //"pid":3971//for dns
+            //"pid":1181
+            //"pid":2537
+            //"pid":2635
+            //"pid":2434
+          }
+        // },
+        // {
+        //   "match": {
+        //     //"id.resp_p":port_num
+        //     //"ppid":1338
+
+        //     //"properties":{"resp_bytes":0}
+        //     //"label":"process"
+        //     //"ppid":20110
+        //     //"ppid":38813
+        //     //"ppid":3970
+        //     //"ppid":1//fordhcp
+        //     //"ppid":2434//ppid of attack1 process
+        //     "ppid":2634
+        //     //"ppid":2433
+
+
+        //   }
+        }
+      ]
+    }
+  }
+  ,
+  "size":node_limit_per_request
+}
+
+$.ajax({
+            //url: 'http://localhost:9200/conn_indexxxx/_doc/_search',
+            // url: 'http://localhost:9200/file_index/_doc/_search',
+            //url: 'http://localhost:9200/file_index_attack_two/_doc/_search',
+            //url: 'http://localhost:9200/process_dummy/_doc/_search',
+            url: es_process_index_url,
+            type: 'POST',
+            //contentType: 'application/json; charset=UTF-8',
+            //accept: "application/json",
+            //crossDomain: true,
+            contentType: "application/json;charset=UTF-8",
+            dataType: 'json',
+            data: JSON.stringify(data),
+            processData: false,
+            async:false,
+            success: function(response) {
+                var data = response.hits.hits;
+                console.log("data",data)
+                if (data.length != 0)
+                {
+                var data_list=data_manipulation(data,search_fx,"process")
+                var test_dic={'nodes':data_list,'links':[]}
+                                //console.log("graphnew",test_dic)
+                                graph_viz.refresh_data(test_dic,1,null)
+                                node_position_list.push(search_fx)
+                                search_fx=search_fx+25
+              }
+              else
+              {
+                console.log("invalid id")
+              }
+             //    for (const [key, value] of Object.entries(data)) {
+                                                    //     console.log(key + ":" + value)
+                                                    // }
+            }})
+
+
+    }
+
+
+
+
+
+    if (input_field=="FILE NAME"){
+
+//input_id=parseInt(input_id)
+var data = {
+  "query": {
+    "bool": {
+      "must": [
+        {
+          "match": {
+            //"proto": "tcp"
+            //"pid":input_id
+            //"pid":1471
+            //"pid":20112
+            //"pid":38838
+            //"pid":3971//for dns
+            //"pid":1181
+            //"pid":2537
+            //"pid":2635
+            //"pid":2434
+            "path":input_id
+          }
+        // },
+        // {
+        //   "match": {
+        //     //"id.resp_p":port_num
+        //     //"ppid":1338
+
+        //     //"properties":{"resp_bytes":0}
+        //     //"label":"process"
+        //     //"ppid":20110
+        //     //"ppid":38813
+        //     //"ppid":3970
+        //     //"ppid":1//fordhcp
+        //     //"ppid":2434//ppid of attack1 process
+        //     "ppid":2634
+        //     //"ppid":2433
+
+
+        //   }
+        }
+      ]
+    }
+  }
+  ,
+  "size":node_limit_per_request
+}
+
+$.ajax({
+            //url: 'http://localhost:9200/conn_indexxxx/_doc/_search',
+            // url: 'http://localhost:9200/file_index/_doc/_search',
+            //url: 'http://localhost:9200/file_index_attack_two/_doc/_search',
+            //url: 'http://localhost:9200/process_dummy/_doc/_search',
+            url: es_file_index_url,
+            type: 'POST',
+            //contentType: 'application/json; charset=UTF-8',
+            //accept: "application/json",
+            //crossDomain: true,
+            contentType: "application/json;charset=UTF-8",
+            dataType: 'json',
+            data: JSON.stringify(data),
+            processData: false,
+            async:false,
+            success: function(response) {
+                var data = response.hits.hits;
+                console.log("data",data)
+                if (data.length != 0)
+                {
+                var data_list=data_manipulation(data,search_fx,"file")
+                var test_dic={'nodes':data_list,'links':[]}
+                                //console.log("graphnew",test_dic)
+                                graph_viz.refresh_data(test_dic,1,null)
+                                node_position_list.push(search_fx)
+                                search_fx=search_fx+25
+              }
+              else
+              {
+                console.log("invalid id")
+              }
+             //    for (const [key, value] of Object.entries(data)) {
+                                                    //     console.log(key + ":" + value)
+                                                    // }
+            }})
+
+
+    }
+
+let label_field = $('#label_field').val();
+
+    if (input_id=="" && label_field!="")
+    {
+        var label_url=""
+        var label_node=""
+        if (label_field=="process")
+        {
+            label_url=es_process_index_url
+            label_node="process"
+        }
+        if (label_field=="file")
+        {
+            label_url=es_file_index_url
+            label_node="file"
+        }
+        if (label_field=="socket")
+        {
+            label_url=es_socket_index_url
+            label_node="socket"
+        }
+        if (label_field=="zeek")
+        {
+            label_url=es_zeek_index_url
+            label_node="conn"
+        }
+
+
+        var data={
+                    "query" : {
+                        "match_all" : {}
+                    }
+                    ,
+                    "size":node_limit_per_request
+                }
+
+
+        $.ajax({
+            //url: 'http://localhost:9200/conn_indexxxx/_doc/_search',
+            // url: 'http://localhost:9200/file_index/_doc/_search',
+            //url: 'http://localhost:9200/file_index_attack_two/_doc/_search',
+            //url: 'http://localhost:9200/process_dummy/_doc/_search',
+            url: label_url,
+            type: 'POST',
+            //contentType: 'application/json; charset=UTF-8',
+            //accept: "application/json",
+            //crossDomain: true,
+            contentType: "application/json;charset=UTF-8",
+            dataType: 'json',
+            data: JSON.stringify(data),
+            processData: false,
+            async:false,
+            success: function(response) {
+                var data = response.hits.hits;
+                console.log("data",data)
+                if (data.length != 0)
+                {
+                var data_list=data_manipulation(data,search_fx,label_node)
+                var test_dic={'nodes':data_list,'links':[]}
+                                //console.log("graphnew",test_dic)
+                                graph_viz.refresh_data(test_dic,1,null)
+                                node_position_list.push(search_fx)
+                                search_fx=search_fx+25
+              }
+              else
+              {
+                console.log("invalid id")
+              }
+             //    for (const [key, value] of Object.entries(data)) {
+                                                    //     console.log(key + ":" + value)
+                                                    // }
+            }})
+
+
+    }
+
+    //}
 /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
-node_position_list.push(210)
+
 /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
 /////////////////////////////////////////////////////////////////
@@ -840,10 +1221,10 @@ function data_manipulation(data,val,type)
 	//console.log("hash",CryptoJS.MD5('password'));
 	//console.log("hash",MD5("{"hahah12":"321",}"))
 	var data_list=[]
-	console.log("manipulation data",data)
+	//console.log("manipulation data",data)
 	for (var key in data)
 	{
-		console.log("key",data[key])
+		//console.log("key",data[key])
 		// console.log("hash",MD5(JSON.stringify(data_dict)))
 
 		var data_dict=data[key];
@@ -897,16 +1278,17 @@ function data_manipulation(data,val,type)
 		var ts=data_dict['properties']['ts']
 		var host_ts=data_dict['properties']['host_ts']
 		var dict_for_hash = JSON.parse(JSON.stringify(data_dict['properties']));
-		if (data_dict['label']!="ZEEK" || data_dict['label']!="NETWORK")
+		if (data_dict['label']!="ZEEK" && data_dict['label']!="NETWORK")
 		{
 		delete dict_for_hash['host_ts']
 	}
+
 		delete dict_for_hash['ts']
-		console.log('datadict',data_dict['properties'])
+		//console.log('datadict',data_dict['properties'])
 		//data_dict['properties']['ts']=ts
 		//data_dict['properties']['host_ts']=host_ts
-		console.log('datadict2',dict_for_hash)
-		console.log("hash",MD5(JSON.stringify(dict_for_hash)))
+		//console.log('datadict2',dict_for_hash)
+		//console.log("hash",MD5(JSON.stringify(dict_for_hash)))
 		var hash=MD5(JSON.stringify(dict_for_hash))
 
 		if (merge_node_history.includes(hash) )
@@ -928,7 +1310,7 @@ function data_manipulation(data,val,type)
 		{
 			//console.log('property',data_dict['properties'][key2])
 			data_dict['properties'][key2]=[{'id':1,'value':data_dict['properties'][key2],"label":key2}]
-			console.log('data_dict',data_dict)
+			//console.log('data_dict',data_dict)
 		}
 		data_dict['fx']=val;
 		data_list.push(data_dict)
@@ -945,7 +1327,7 @@ function data_manipulation(data,val,type)
         limit_field=node_visible_per_request_limit;
     }
     data_list=data_list.splice(0,limit_field)
-    console.log("datalist",data_list)
+    //console.log("datalist",data_list)
 	return data_list;
 	
 }
@@ -954,7 +1336,7 @@ function data_manipulation(data,val,type)
 function edge_manipulation_process_process(data,curr_node,inorout,from,to)
 
 {// if conditions on labels
-	console.log("newedgedata",data,curr_node,inorout)
+	//console.log("newedgedata",data,curr_node,inorout)
 	var edge_list=[]
 	for (var key in data)
 	{
@@ -995,6 +1377,11 @@ function edge_manipulation_process_process(data,curr_node,inorout,from,to)
 				//console.log("syscall",curr_data)
 			curr_edge_dict.label='CORRELATION'
 			}
+            if (from=="conn" && to=="socket")
+            {
+                //console.log("syscall",curr_data)
+            curr_edge_dict.label='CORRELATION'
+            }
             if (from=="conn" && to=="dns")
             {
                 //console.log("syscall",curr_data)
@@ -1042,7 +1429,7 @@ function edge_manipulation_process_process(data,curr_node,inorout,from,to)
 function find_node_position(position,direction,id)
 
 {
-	console.log("nodeposition",node_position_history)
+	//console.log("nodeposition",node_position_history)
 	if (node_position_history.includes(id))
 	{
 		//console.log("nodeposition",node_position_history)
@@ -1142,7 +1529,7 @@ function find_node_position(position,direction,id)
 	function click_query(d) {
 		// Query sent to the server when a node is clicked
 		//
-		console.log("NODE CLICKED",d)
+		//console.log("NODE CLICKED",d)
 
 var combined_nodes=[]
 var combined_edges=[]
@@ -1152,7 +1539,7 @@ if (d.label=="PROCESS")/////////////////////////////////////////////////////////
 
 //////find ppid process
 var ppid_process=d.properties.ppid[0].value
-console.log("ppid_process",ppid_process)
+//console.log("ppid_process",ppid_process)
 var node_pos=d.fx-100
 var node_pos=find_node_position(node_pos,"backward",d.id)
 
@@ -1205,9 +1592,9 @@ $.ajax({
                 if (data.length != 0)
                 {
                 	var pid_process=data_manipulation(data,node_pos,"process")
-                	console.log("pid data",pid_process)
+                	//console.log("pid data",pid_process)
                 combined_nodes=combined_nodes.concat(pid_process)
-                console.log("combined_nodes",combined_nodes)
+                //console.log("combined_nodes",combined_nodes)
                 var edges=edge_manipulation_process_process(pid_process,d,"inbound","process","process")
                 combined_edges=combined_edges.concat(edges)
               }
@@ -1805,10 +2192,171 @@ graph_viz.refresh_data(test_dic,1,d.id)
 
 if (d.label=="ZEEK")
 {
-
+var node_pos=d.fx-100
+var node_pos=find_node_position(node_pos,"backward",d.id)
 
 ///////////////handle parent process of file
 var uid=d.properties.uid[0].value
+try{
+var orig_seuid=d.properties.orig_seuids[0].value
+console.log("orig",orig_seuid)
+for (var key in orig_seuid)
+{
+    console.log("orig_se",orig_seuid[key])
+    var data = {
+  "query": {
+    "bool": {
+      "must": [
+        {
+          "match": {
+            //"proto": "tcp"
+            //"_id":input_id
+            "seuid":orig_seuid[key]
+          }
+        }//,
+        // {
+        //   "match": {
+        //     //"id.resp_p":port_num
+        //     "ppid":20120
+
+        //     //"properties":{"resp_bytes":0}
+        //     //"label":"process"
+
+        //   }
+        // }
+      ]
+    }
+  }
+  ,
+  "size":node_limit_per_request
+}
+
+$.ajax({
+            //url: 'http://localhost:9200/conn_indexxxx/_doc/_search',
+            //url: 'http://localhost:9200/process_index/_doc/_search',
+            //url: 'http://localhost:9200/process_index_attack_two/_doc/_search',
+            url: es_socket_index_url,
+            type: 'POST',
+            //contentType: 'application/json; charset=UTF-8',
+            //accept: "application/json",
+            //crossDomain: true,
+            contentType: "application/json;charset=UTF-8",
+            dataType: 'json',
+            data: JSON.stringify(data),
+            processData: false,
+            async:false,
+            success: function(response) {
+                var data = response.hits.hits;
+                console.log("data",data)
+                if (data.length != 0)
+                {
+                    var pid_process=data_manipulation(data,node_pos,"socket")
+                    //console.log("pid data",pid_process)
+                combined_nodes=combined_nodes.concat(pid_process)
+                //console.log("combined_nodes",combined_nodes)
+                var edges=edge_manipulation_process_process(pid_process,d,"inbound","conn","socket")
+                combined_edges=combined_edges.concat(edges)
+              }
+              else
+              {
+                console.log("invalid id")
+              }
+             //    for (const [key, value] of Object.entries(data)) {
+                                                    //     console.log(key + ":" + value)
+                                                    // }
+            }})
+
+
+
+
+
+}
+}
+catch (err){
+console.log("resp",err) }
+
+
+try{
+var resp_seuid=d.properties.resp_seuids[0].value
+//console.log("orig",orig_seuid)
+for (var key in orig_seuid)
+{
+    console.log("orig_se",orig_seuid[key])
+    var data = {
+  "query": {
+    "bool": {
+      "must": [
+        {
+          "match": {
+            //"proto": "tcp"
+            //"_id":input_id
+            "seuid":resp_seuid[key]
+          }
+        }//,
+        // {
+        //   "match": {
+        //     //"id.resp_p":port_num
+        //     "ppid":20120
+
+        //     //"properties":{"resp_bytes":0}
+        //     //"label":"process"
+
+        //   }
+        // }
+      ]
+    }
+  }
+  ,
+  "size":node_limit_per_request
+}
+
+$.ajax({
+            //url: 'http://localhost:9200/conn_indexxxx/_doc/_search',
+            //url: 'http://localhost:9200/process_index/_doc/_search',
+            //url: 'http://localhost:9200/process_index_attack_two/_doc/_search',
+            url: es_socket_index_url,
+            type: 'POST',
+            //contentType: 'application/json; charset=UTF-8',
+            //accept: "application/json",
+            //crossDomain: true,
+            contentType: "application/json;charset=UTF-8",
+            dataType: 'json',
+            data: JSON.stringify(data),
+            processData: false,
+            async:false,
+            success: function(response) {
+                var data = response.hits.hits;
+                console.log("data",data)
+                if (data.length != 0)
+                {
+                    var pid_process=data_manipulation(data,node_pos,"socket")
+                    //console.log("pid data",pid_process)
+                combined_nodes=combined_nodes.concat(pid_process)
+                //console.log("combined_nodes",combined_nodes)
+                var edges=edge_manipulation_process_process(pid_process,d,"inbound","conn","socket")
+                combined_edges=combined_edges.concat(edges)
+              }
+              else
+              {
+                console.log("invalid id")
+              }
+             //    for (const [key, value] of Object.entries(data)) {
+                                                    //     console.log(key + ":" + value)
+                                                    // }
+            }})
+
+
+
+
+
+}
+}
+catch (err){
+console.log("resp",err) }
+
+
+
+
 //console.log("ppid_process",ppid_process)
 var node_pos=d.fx+100
 var node_pos=find_node_position(node_pos,"forward",d.id)

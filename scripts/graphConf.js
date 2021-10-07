@@ -11,6 +11,7 @@ const es_socket_index_url='http://localhost:9200/socket_index_attack_two_new/_do
 const es_zeek_index_url='http://localhost:9200/zeek_index_attack_two_new/_doc/_search';
 const es_dhcp_index_url='http://localhost:9200/dhcp_index_attack_two_new/_doc/_search';
 const es_dns_index_url='http://localhost:9200/dns_index_attack_two_new/_doc/_search';
+//const es_zeek_index_url='http://localhost:9200/conn_index_attack_two_new_dummy_delete/_doc/_search';
 
 
 // if host is set, will override default localhost server option
