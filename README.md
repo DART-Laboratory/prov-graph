@@ -10,7 +10,7 @@ User friendly manipulation techniques of such a graph can also allow analysts to
 
 The displayed nodes and links are derived from the audit logs from Zeek-Agent (attach github link) which contains process, socket, file, network, and attribution of socket with network events. Each of these events are stored in a seperate json log file.
 
-To use Zeek-Agent Visualizer you need to be connected to elasticsearch that is configured for Cross-Origin Resource Sharing (CORS).
+To use Zeek-Agent Visualizer you need to be connected to elasticsearch running with ajax API that is configured for Cross-Origin Resource Sharing (CORS) and a recent web browser to display the visualization. 
 
 Each index in elasticsearch should have only one log file entry, each document in the table corresponds to a seperate log from a log file (e.g process.log containing process events).
 
@@ -18,6 +18,37 @@ For example the url: 'http://localhost:9200/file_index/_doc' will have 'file_ind
 
 **Note: You must not manipulate any log entries in an index such as adding an id or timestamp.**
 
+Lastly, on your browser, just access the 'graphexp.html' file
+
+## Features
+
+Zeek-Agent Visualizer offers many features that were designed while keeping in mind the needs of an analyst tracing an attack or observing a potential attack behaviour through this Visualizer.
+
+### Search
+There are multiple ways to search and display nodes.
+1)You can search on unique ids of process, file, socket, and zeek labels (nodes) assigned by elasticsearch
+2)You can search on file name
+3) You can search on process PID
+When searching on any of the above node key, make sure the label filter is 'none' or corresponds to the label being searched. for example while searching for file name, the node label must be either 'none' or 'file' to display the corresponding node. By default the node label is 'none'
+If you do not know value of any of the above mentioned fields, then you can search on the basis of labels (process,socket,file,zeek) and all the nodes within a certain limit specified will be displayed. This can help give an analyst a good reference node that can be then specifically searched
+
+### Node and edge information+exploration
+
+
+
+### Limit the number of nodes
+
+### Layering
+
+### Merging
+
+### Pin nodes and Clicked Node
+
+### Dynamic Positioning of nodes using d3.js
+
+### Freeze exploration
+
+### Hide nodes
 
 
 
