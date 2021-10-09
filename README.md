@@ -1,6 +1,7 @@
 # Zeek-Agent Visualizer
 Zeek-Agent Visualizer is a web-based graph visualization tool that allows secrity analysts to construct, explore and manipulate provenance graphs
 interactively for better threat alert investigation. This tool is designed to construct provenance graphs from kernel-level audit logs in a way that does not only assist in observing the behaviour of an attack, but also trace the attack from one endpoint e.g a compromised file to the other endpoint e.g the first process that was created due to the attack.
+
 User friendly manipulation techniques of such a graph can also allow analysts to observe other compromises that they might not be aware of.
 
 
@@ -26,20 +27,36 @@ Zeek-Agent Visualizer offers many features that were designed while keeping in m
 
 ### Search
 There are multiple ways to search and display nodes.
+
 1)You can search on unique ids of process, file, socket, and zeek labels (nodes) assigned by elasticsearch
+
 2)You can search on file name
+
 3) You can search on process PID
-When searching on any of the above node key, make sure the label filter is 'none' or corresponds to the label being searched. for example while searching for file name, the node label must be either 'none' or 'file' to display the corresponding node. By default the node label is 'none'
-If you do not know value of any of the above mentioned fields, then you can search on the basis of labels (process,socket,file,zeek) and all the nodes within a certain limit specified will be displayed. This can help give an analyst a good reference node that can be then specifically searched
+
+When searching on any of the above node key, make sure the label filter is 'none' or corresponds to the label being searched. for example while searching for file name, the node label must be either 'none' or 'file' to display the corresponding node. By default the node label is 'none'.
+
+If you do not know value of any of the above mentioned fields, then you can search on the basis of labels (process,socket,file,zeek) and all the nodes within a certain limit specified will be displayed. This can help give an analyst a good reference node that can be then specifically searched.
+
+When searching solely on the basis of labels, ensure that the key value input field is empty
 
 ### Node and edge information+exploration
+When a node is clicked, its parent and child nodes are displayed, opening new paths for exploration.
 
+The label of each node is displayed when the cursor is hovered over the node. Upon clicking the node, all the relevant information regarding that node is displayed on the right side. Two nodes are connected with an edge with a label that defines the action of the parent node that led to the creation of child node e.g a syscall or the label can be a general relationship between the nodes.
+
+The graph is mostly explored in such a way that the parent node is displayed on the left side of the clicked node, and the child node is displayed on the right side of the clicked node. This helps to see the chain of events in time from left to right
 
 
 ### Limit the number of nodes
+Since provenance graphs of system logs have the potential to generate millions of new nodes, it can overwhelm an analyst if displayed on an interface. Therefore, you can limit the number of entries that are displayed.
 
+Moreover, in the 'GraphConf.js' file you can also change the number of nodes that you want to retrieve from elastic search and number of nodes you want to display.
 ### Layering
+The graph is based on the concept of layering. This concept allows the latest active node to be brightest, but the nodes that are not clicked and are not neighbours of the clicked node, vanish little by little. If the nodes completely vanish in the process, they can no longer be clicked, however upon clicking a node that is vanishing, it and its neighbours become active and therefore bright again. A vanished node can come back to life again in the same position it was vanished at if any of its neighbour is clicked
 
+The visualization is based on a concept of layers of visualization. The idea is to progress in the graph as in a jungle. The clicked node immediately shows its neighbors, opening new paths for the exploration. If not clicked, a node vanishes little by little as we progress in the exploration. Coming back during the exploration is allowed. Before it completely disappears, a node can be clicked and will become active again.
+This visualization concept is aimed at providing a precise, local view rather than a global one.
 ### Merging
 
 ### Pin nodes and Clicked Node
