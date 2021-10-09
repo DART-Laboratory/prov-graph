@@ -1,3 +1,59 @@
+# Zeek-Agent Visualizer
+Zeek-Agent Visualizer is a web-based graph visualization tool that allows secrity analysts to construct, explore and manipulate provenance graphs
+interactively for better threat alert investigation. This tool is designed to construct provenance graphs from kernel-level audit logs in a way that does not only assist in observing the behaviour of an attack, but also trace the attack from one endpoint e.g a compromised file to the other endpoint e.g the first process that was created due to the attack.
+User friendly manipulation techniques of such a graph can also allow analysts to observe other compromises that they might not be aware of.
+
+
+## attach picture of graph
+
+## Configuration
+
+The displayed nodes and links are derived from the audit logs from Zeek-Agent (attach github link) which contains process, socket, file, network, and attribution of socket with network events. Each of these events are stored in a seperate json log file.
+
+To use Zeek-Agent Visualizer you need to be connected to elasticsearch that is configured for Cross-Origin Resource Sharing (CORS).
+
+Each index in elasticsearch should have only one log file entry, each document in the table corresponds to a seperate log from a log file (e.g process.log containing process events).
+
+For example the url: 'http://localhost:9200/file_index/_doc' will have 'file_index' as an index storing file event logs
+
+**Note: You must not manipulate any log entries in an index such as adding an id or timestamp.**
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 # Graphexp: graph explorer with D3.jslol
 
 Graphexp is a lightweight web interface to explore and display a graph stored in a Gremlin graph database, via the Gremlin server (version 3.2.x, 3.3.x or 3.4.x).
