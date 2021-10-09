@@ -1,4 +1,4 @@
-# Graphexp: graph explorer with D3.js
+# Graphexp: graph explorer with D3.jslol
 
 Graphexp is a lightweight web interface to explore and display a graph stored in a Gremlin graph database, via the Gremlin server (version 3.2.x, 3.3.x or 3.4.x).
 
