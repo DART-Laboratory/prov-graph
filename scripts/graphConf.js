@@ -5,12 +5,12 @@
 
 
 
-const es_file_index_url = 'http://localhost:9200/file_index_attack_two_new/_doc/_search';
-const es_process_index_url  ='http://localhost:9200/process_index_attack_two_new/_doc/_search';
-const es_socket_index_url='http://localhost:9200/socket_index_attack_two_new/_doc/_search';
-const es_zeek_index_url='http://localhost:9200/zeek_index_attack_two_new/_doc/_search';
-const es_dhcp_index_url='http://localhost:9200/dhcp_index_attack_two_new/_doc/_search';
-const es_dns_index_url='http://localhost:9200/dns_index_attack_two_new/_doc/_search';
+const es_file_index_url = 'http://localhost:9200/file_index_attack_one_new_vtwo/_doc/_search';
+const es_process_index_url  ='http://localhost:9200/process_index_attack_one_new_vtwo/_doc/_search';
+const es_socket_index_url='http://localhost:9200/socket_index_attack_one_new_vtwo/_doc/_search';
+const es_zeek_index_url='http://localhost:9200/zeek_index_attack_one_new_vtwo/_doc/_search';
+const es_dhcp_index_url='http://localhost:9200/dhcp_index_attack_one_new_vtwo/_doc/_search';
+const es_dns_index_url='http://localhost:9200/dns_index_attack_one_new_vtwo/_doc/_search';
 //const es_zeek_index_url='http://localhost:9200/conn_index_attack_two_new_dummy_delete/_doc/_search';
 
 
@@ -39,7 +39,7 @@ const REST_TIMEOUT = 2000;
 const limit_graphinfo_request = 10000;
 
 // Graph configuration
-const default_nb_of_layers = 30;
+const default_nb_of_layers = 20;
 const node_limit_per_request = 30;//how much nodes are coming from es per request
 const nodes_x_position_distance = 250;
 const node_visible_per_request_limit=100;//how many nodes are visible per request

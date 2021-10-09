@@ -706,6 +706,8 @@ $('#outputArea').html('ZEEK-AGENT Visualizer');
 $('#messageArea').html('ZEEK-AGENT Visualizer');
 let input_id = $('#search_value').val();
 console.log("inputi",input_id)
+let label_field = $('#label_field').val();
+console.log("labelf",label_field)
 if (input_id=="")
 {
     console.log("inputnoid")
@@ -755,7 +757,7 @@ var data = {
   ,
   "size":node_limit_per_request
 }
-
+if (label_field=='none' || label_field=='process'){
 $.ajax({
             //url: 'http://localhost:9200/conn_indexxxx/_doc/_search',
             // url: 'http://localhost:9200/file_index/_doc/_search',
@@ -791,7 +793,8 @@ $.ajax({
 													//     console.log(key + ":" + value)
 													// }
             }})
-
+}
+if (label_field=='none' || label_field=='file'){
 $.ajax({
             //url: 'http://localhost:9200/conn_indexxxx/_doc/_search',
             // url: 'http://localhost:9200/file_index/_doc/_search',
@@ -828,7 +831,8 @@ $.ajax({
                                                     // }
             }})
 
-
+}
+if (label_field=='none' || label_field=='socket'){
 $.ajax({
             //url: 'http://localhost:9200/conn_indexxxx/_doc/_search',
             // url: 'http://localhost:9200/file_index/_doc/_search',
@@ -864,7 +868,8 @@ $.ajax({
                                                     //     console.log(key + ":" + value)
                                                     // }
             }})
-
+}
+if (label_field=='none' || label_field=='zeek'){
 $.ajax({
             //url: 'http://localhost:9200/conn_indexxxx/_doc/_search',
             // url: 'http://localhost:9200/file_index/_doc/_search',
@@ -900,10 +905,11 @@ $.ajax({
                                                     //     console.log(key + ":" + value)
                                                     // }
             }})
+}
 
 }
 
-if (input_field=="PID"){
+if (input_field=="PID" && (label_field=='none' || label_field=='process')){
 
 input_id=parseInt(input_id)
 var data = {
@@ -992,7 +998,7 @@ $.ajax({
 
 
 
-    if (input_field=="FILE NAME"){
+    if (input_field=="FILE NAME" && (label_field=='none' || label_field=='file')) {
 
 //input_id=parseInt(input_id)
 var data = {
@@ -1078,9 +1084,9 @@ $.ajax({
 
     }
 
-let label_field = $('#label_field').val();
 
-    if (input_id=="" && label_field!="")
+
+    if (input_id=="" && label_field!="none")
     {
         var label_url=""
         var label_node=""

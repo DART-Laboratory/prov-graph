@@ -47,7 +47,13 @@
 				<div class="nav inputs_container_top">
 					<div class="nav input_unit_container">
 						<label for="search_field">Node Key:</label>
-						<input name="search_field" id="search_field" value="ID" />
+						<!-- <input name="search_field" id="search_field" value="ID" /> -->
+						<select name="search_field" id="search_field">
+						  <option value="ID">ID</option>
+						  <option value="PID">Process PID</option>
+						  <option value="FILE NAME">FILE NAME</option>
+						  <!-- <option value="audi">Audi</option> -->
+						</select>
 						<label class="nav input_label" for="search_value">Node Value:</label>
 						<input name="search_value" id="search_value" value="" />
 					</div>
@@ -66,7 +72,15 @@
 					<div class="nav input_unit_container">
 						<label for="label_field">Node
 							Label Filter:</label>
-						<input name="label_field" id="label_field" value="" />
+						<!-- <input name="label_field" id="label_field" value="" /> -->
+						<select name="label_field" id="label_field">
+							<option value="none">None</option>
+						  <option value="process">Process</option>
+						  <option value="file">File</option>
+						  <option value="socket">Socket</option>
+						  <option value="zeek">Zeek</option>
+						</select>
+
 					</div>
 					<div class="nav input_unit_container">
 						<label for="limit_field">Results limit:</label>
@@ -78,7 +92,7 @@
 					</div> -->
 					<div class="nav input_unit_container">
 						<label class="nav input_label" for="nbLayers">Nb of layers</label>
-						<input type="number" id="nbLayers" min="1" max="128" onclick="set_nb_layers()">
+						<input type="number" id="nbLayers" min="1" max="128" onclick="set_nb_layers()" oninput="set_nb_layers()">
 					</div>
 					<div class="nav input_unit_container">
 						<input type="checkbox" name="Freeze" id="freeze-in" />
