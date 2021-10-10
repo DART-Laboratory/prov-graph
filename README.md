@@ -43,7 +43,8 @@ When searching solely on the basis of labels, ensure that the key value input fi
 ### Node and edge information+exploration
 Clicking on a node forms a circle around the node, and its parent and child nodes are displayed, opening new paths for exploration.
 
-The label of each node is displayed when the cursor is hovered over the node. Upon clicking the node, all the relevant information regarding that node is displayed on the right side. Two nodes are connected with an edge with a label that defines the action of the parent node that led to the creation of child node e.g a syscall or the label can be a general relationship between the nodes.
+The label of each node is displayed when the cursor is hovered over the node. Upon clicking the node, all the relevant information regarding that node is displayed on the right side. Two nodes are connected with an edge with a label that defines the action of the parent node that led to the creation of child node e.g a syscall or the label can be a general relationship between the nodes.![zeek_exploration](https://user-images.githubusercontent.com/74818361/136701050-fe5b5d85-2ce9-4f23-8aa2-dcc842f6a819.gif)
+
 
 The graph is mostly explored in such a way that the parent node is displayed on the left side of the clicked node, and the child node is displayed on the right side of the clicked node. This helps to see the chain of events in time from left to right.
 
