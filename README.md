@@ -9,13 +9,25 @@ User friendly manipulation techniques of such a graph can also allow analysts to
 
 ## Configuration
 
-The displayed nodes and links are derived from the audit logs from Zeek-Agent (attach github link) which contains process, socket, file, network, and attribution of socket with network events. Each of these events are stored in a seperate json log file.
+The displayed nodes and links are derived from the audit logs from Zeek-Agent (attach github link) which contains process, socket, file, network, and attribution of socket with network (zeek) events. Each of these events are stored in a seperate json log file, which can be easily linked/uploaded to elasticsearch.
 
 To use Zeek-Agent Visualizer you need to be connected to elasticsearch running with ajax API that is configured for Cross-Origin Resource Sharing (CORS) and a recent web browser to display the visualization. 
 
 Each index in elasticsearch should have only one log file entry, each document in the table corresponds to a seperate log from a log file (e.g process.log containing process events).
 
 For example the url: 'http://localhost:9200/file_index/_doc' will have 'file_index' as an index storing file event logs
+
+You need to change the links to each index in the 'GraphConf.js' file
+```
+const es_file_index_url = 'http://localhost:9200/file_index_attack_one_new_vtwo/_doc/_search';
+const es_process_index_url  ='http://localhost:9200/process_index_attack_one_new_vtwo/_doc/_search';
+const es_socket_index_url='http://localhost:9200/socket_index_attack_one_new_vtwo/_doc/_search';
+const es_zeek_index_url='http://localhost:9200/zeek_index_attack_one_new_vtwo/_doc/_search';
+const es_dhcp_index_url='http://localhost:9200/dhcp_index_attack_one_new_vtwo/_doc/_search';
+const es_dns_index_url='http://localhost:9200/dns_index_attack_one_new_vtwo/_doc/_search';
+
+```
+Change the index in the following links with the name of you elastic search index for a particular event type. For example, if your index containing file event logs is named 'file_zeekagent', then it should be replaced with 'file_index_attack_one_new_vtwo' to form 'http://localhost:9200/file_zeekagent/_doc/_search'
 
 **Note: You must not manipulate any log entries in an index such as adding an id or timestamp.**
 
