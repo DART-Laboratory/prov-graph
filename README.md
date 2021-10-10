@@ -32,7 +32,7 @@ There are multiple ways to search and display nodes.
 
 2)You can search on file name
 
-3) You can search on process PID
+3)You can search on process PID
 
 When searching on any of the above node key, make sure the label filter is 'none' or corresponds to the label being searched. for example while searching for file name, the node label must be either 'none' or 'file' to display the corresponding node. By default the node label is 'none'.
 
@@ -45,23 +45,44 @@ When a node is clicked, its parent and child nodes are displayed, opening new pa
 
 The label of each node is displayed when the cursor is hovered over the node. Upon clicking the node, all the relevant information regarding that node is displayed on the right side. Two nodes are connected with an edge with a label that defines the action of the parent node that led to the creation of child node e.g a syscall or the label can be a general relationship between the nodes.
 
-The graph is mostly explored in such a way that the parent node is displayed on the left side of the clicked node, and the child node is displayed on the right side of the clicked node. This helps to see the chain of events in time from left to right
+The graph is mostly explored in such a way that the parent node is displayed on the left side of the clicked node, and the child node is displayed on the right side of the clicked node. This helps to see the chain of events in time from left to right.
 
 
 ### Limit the number of nodes
-Since provenance graphs of system logs have the potential to generate millions of new nodes, it can overwhelm an analyst if displayed on an interface. Therefore, you can limit the number of entries that are displayed.
+Since provenance graphs of system logs have the potential to generate millions of new nodes, it can overwhelm an analyst if displayed on an interface. Therefore, you can limit the number of entries that are displayed for each label from Result limit which is set on 30 by default. The default number can be changed from 'graphexp.html'.
 
-Moreover, in the 'GraphConf.js' file you can also change the number of nodes that you want to retrieve from elastic search and number of nodes you want to display.
+Moreover, in the 'GraphConf.js' file you can also change the number of nodes that you want to retrieve from elastic search aswell as number of nodes you want to display for each label.
+
 ### Layering
-The graph is based on the concept of layering. This concept allows the latest active node to be brightest, but the nodes that are not clicked and are not neighbours of the clicked node, vanish little by little. If the nodes completely vanish in the process, they can no longer be clicked, however upon clicking a node that is vanishing, it and its neighbours become active and therefore bright again. A vanished node can come back to life again in the same position it was vanished at if any of its neighbour is clicked
+ 
 
-The visualization is based on a concept of layers of visualization. The idea is to progress in the graph as in a jungle. The clicked node immediately shows its neighbors, opening new paths for the exploration. If not clicked, a node vanishes little by little as we progress in the exploration. Coming back during the exploration is allowed. Before it completely disappears, a node can be clicked and will become active again.
-This visualization concept is aimed at providing a precise, local view rather than a global one.
+Our visualization tool uses the concept of layers of visualization, which aims to put a spotlight on certain subgraphs rather than displaying the
+whole graph during exploration. In this idea, if a user clicks a vertex, the visualizer will show
+its neighbors, expanding new layers (paths) for further exploration. While if a vertex is not
+clicked, then that vertex and its corresponding edges will slowly vanish as we progress in the exploration.
+
+If the nodes completely vanish in the process, they can no longer be clicked, however, upon clicking a node that is vanishing, it and its neighbours become active and therefore bright again. A vanished node can come back to life again in the same position it was vanished at, if any of its neighbour is clicked. Layering can therefore help provide a precise, local view rather than a global one.
+
+Zeek-Agent Visualizer also allows the user to control how many new layers can be explored before vanishing old layers.
+
+.
 ### Merging
+
+Zeek-Agent Visualizer uses the concept of merging similar nodes into a single node. This significantly
+reduces the size of the graph without affecting the correctness of causal analysis.
 
 ### Pin nodes and Clicked Node
 
+Some nodes are more important than others and the user would not want them to vanish in the layering process, or would want to mark them for reference. You can do this by clicking on the small circle on the upper right side of the node. By pinning it, the node will never vanish unless you unpin it.
+
+Clicking on a node forms a circle around the node.
 ### Dynamic Positioning of nodes using d3.js
+
+Zeek-Agent Visualizer relies on D3.js library for positioning of nodes. D3’s force layout uses a physics based simulator for positioning the visual elements of the graph. It simulates forces which allow you to control the position of nodes in relation to each other and the simulation. D3 forces can allow nodes to attract to repel and attract one another, nodes can be configured to attract to center of gravity. Moreover, a collision detection mechanism can prevent nodes to overlap one another. These are just some of the many options D3 offers to visualize a data set.
+
+Since the simulation is aimed at visualizing the new nodes that were not previously part of the graph. In order to prevent overlapping of these new nodes with the old ones, Zeek-Agent Visualizer finds a the closest positions for new nodes that have not been taken by any older node(s) along the x-axis.
+
+
 
 ### Freeze exploration
 
