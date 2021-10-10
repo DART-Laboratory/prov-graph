@@ -95,6 +95,11 @@ Zeek-Agent Visualizer relies on D3.js library for positioning of nodes. D3’s f
 
 Since the simulation is aimed at visualizing the new nodes that were not previously part of the graph. In order to prevent overlapping of these new nodes with the old ones, Zeek-Agent Visualizer finds a the closest positions for new nodes that have not been taken by any older node(s) along the x-axis.
 
+When a node first appears it can be dragged and dropped to a new position where it can be fixed. This only works for only the new displayed nodes (most recent layer with the node being displayed for the first time)
+![zeek_positioning](https://user-images.githubusercontent.com/74818361/136704279-d92b01e9-35df-4a66-ae41-dd2914d45726.gif)
+
+
+
 
 
 ### Freeze exploration
