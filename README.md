@@ -41,7 +41,7 @@ If you do not know value of any of the above mentioned fields, then you can sear
 When searching solely on the basis of labels, ensure that the key value input field is empty
 
 ### Node and edge information+exploration
-When a node is clicked, its parent and child nodes are displayed, opening new paths for exploration.
+Clicking on a node forms a circle around the node, and its parent and child nodes are displayed, opening new paths for exploration.
 
 The label of each node is displayed when the cursor is hovered over the node. Upon clicking the node, all the relevant information regarding that node is displayed on the right side. Two nodes are connected with an edge with a label that defines the action of the parent node that led to the creation of child node e.g a syscall or the label can be a general relationship between the nodes.
 
@@ -71,11 +71,11 @@ Zeek-Agent Visualizer also allows the user to control how many new layers can be
 Zeek-Agent Visualizer uses the concept of merging similar nodes into a single node. This significantly
 reduces the size of the graph without affecting the correctness of causal analysis.
 
-### Pin nodes and Clicked Node
+### Pinning a node
 
 Some nodes are more important than others and the user would not want them to vanish in the layering process, or would want to mark them for reference. You can do this by clicking on the small circle on the upper right side of the node. By pinning it, the node will never vanish unless you unpin it.
 
-Clicking on a node forms a circle around the node.
+
 ### Dynamic Positioning of nodes using d3.js
 
 Zeek-Agent Visualizer relies on D3.js library for positioning of nodes. D3’s force layout uses a physics based simulator for positioning the visual elements of the graph. It simulates forces which allow you to control the position of nodes in relation to each other and the simulation. D3 forces can allow nodes to attract to repel and attract one another, nodes can be configured to attract to center of gravity. Moreover, a collision detection mechanism can prevent nodes to overlap one another. These are just some of the many options D3 offers to visualize a data set.
