@@ -4,8 +4,10 @@ interactively for better threat alert investigation. This tool is designed to co
 
 User friendly manipulation techniques of such a graph can also allow analysts to observe other compromises that they might not be aware of.
 
+![Screenshot from 2021-10-11 02-23-49](https://user-images.githubusercontent.com/74818361/136713413-8bb80f50-b16b-44e1-b905-3c63986081e9.png)
 
-## attach picture of graph
+
+
 
 ## Configuration
 
