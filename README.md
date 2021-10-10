@@ -86,10 +86,12 @@ Since the simulation is aimed at visualizing the new nodes that were not previou
 
 ### Freeze exploration
 
+Zeek-Agent Visualizer allows users to 'freeze' the graph at any time. This allows the users to click on the nodes and see its description without making it explore and display its neighbouring nodes.
+
 ### Hide nodes
 
 
-
+The tool allows users to hide particular type of nodes so that they can focus on the more relevant type of nodes as per their requirement. For example, a user can hide all file nodes if it is not of interest to them. The graph will continue to explore the hidden node type(s) but will only display them if they choose to unhide them.
 
 
 
