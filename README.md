@@ -170,7 +170,9 @@ const default_node_color = "#80E810";
 const active_node_margin = 6;
 const active_node_margin_opacity = 0.3;
 //initial position
-var search_fx=210; 
+var search_fx=210;//position of the very first node(s)
+var dist_x=150;// initial distance between active node and its new neighbours
+var next_free_position=50; //incremented value to find the next free position for nodes to prevent overlap
 
 // Edges
 const default_edge_stroke_width = 3;
