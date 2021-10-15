@@ -37,8 +37,8 @@ var graph_viz = (function () {
 		_svg_width = +d3.select(label).node().getBoundingClientRect().width;
 		_svg_height = +d3.select(label).node().getBoundingClientRect().height;
 		_svg.attr("width", _svg_width).attr("height", _svg_height);
-		console.log([_svg_width,_svg_height])
-		console.log(label)
+		//console.log([_svg_width,_svg_height])
+		//console.log(label)
 
 	}
 
@@ -108,7 +108,7 @@ var graph_viz = (function () {
 	///////////////////////////////////////
 	// Remove force layout and data
 	function clear() {
-		console.log(_simulation)
+		//console.log(_simulation)
 		if (Object.keys(_simulation).length != 0) {
 			_simulation.stop();
 			_simulation.nodes([]);
@@ -322,8 +322,8 @@ var graph_viz = (function () {
 					list_old_elements.each(function (d) {
 						if (d.id == ID) {
 							d3.select(this).remove();
-							console.log(ID)
-							console.log('removed')
+							//console.log(ID)
+							//console.log('removed')
 						}
 					})
 				}
@@ -353,7 +353,7 @@ var graph_viz = (function () {
 		_svg_width = _svg_width + 500;/////////////////////////////////////////////////////////////////////////////////////////////////////
 		//_svg_height = +d3.select("body").node().getBoundingClientRect().height;
 		//_svg.attr("width", _svg_width).attr("height", _svg_height);
-		console.log(["letsee",_svg_width,_svg_height])
+		//console.log(["letsee",_svg_width,_svg_height])
 		//console.log(label)
 		if (center_f == 1) {
 			_simulation.force("center", d3.forceCenter(_svg_width+1000, _svg_height/2));/////////svg_hight +10,000 ////////////////////////////////////////////////////
@@ -361,7 +361,7 @@ var graph_viz = (function () {
 	//console.log(_svg_width, _svg_height)
 		}//else{///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 			d3.selectAll(".active_node").each(function(d){
-				console.log("herezafir2")
+				//console.log("herezafir2")
 				if(d.id==with_active_node){
 					//console.log(d);
 					//console.log(d.x,d.y)
@@ -385,9 +385,9 @@ var graph_viz = (function () {
 	//////////////////////////////////////
 	function refresh_data(d, center_f, with_active_node) {
 		// Main visualization function
-		console.log("refresher",d)
-		console.log("refresher1",center_f)
-		console.log("refresher2",with_active_node)
+		//console.log("refresher",d)
+		//console.log("refresher1",center_f)
+		//console.log("refresher2",with_active_node)
 		var svg_graph = svg_handle();
 		layers.push_layers();
 		layers.update_data(d,with_active_node);
@@ -607,7 +607,7 @@ var graph_viz = (function () {
 		function dragged(d) {
 			var connected_edges = get_node_edges(d.id);
 			var f_connected_edges = connected_edges.filter("*:not(.active_edge)")
-			console.log(f_connected_edges)
+			//console.log(f_connected_edges)
 			if (f_connected_edges._groups[0].length == 0) {
 				d.fx = d3.event.x;
 				d.fy = d3.event.y;
@@ -632,7 +632,7 @@ var graph_viz = (function () {
 
 		function clicked(d) {
 			d3.select(".focus_node").remove();
-			console.log('event!!',d)
+			//console.log('event!!',d)
 			var input = document.getElementById("freeze-in");
 			var isChecked = input.checked;
 			if (isChecked) infobox.display_info(d);
@@ -683,13 +683,13 @@ var graph_viz = (function () {
 			if (pinned_node.classed("active_node")) {
 				if (!pinned_node.classed("pinned")) {
 					pinned_node.classed("pinned", true);
-					console.log('Pinned!');
+					//console.log('Pinned!');
 					node_pin.attr("fill", "#000");
 					pinned_node.moveToFront();
 				}
 				else {
 					pinned_node.classed("pinned", false);
-					console.log('Unpinned!');
+					//console.log('Unpinned!');
 					node_pin.attr("fill", graphShapes.node_color);
 				}
 			}

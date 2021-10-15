@@ -13,7 +13,7 @@
 <script src="http://code.jquery.com/jquery-3.2.1.min.js"></script>
 <!--<script src="jquery-3.2.1.min.js"></script>-->
 
-<script src="scripts/utils.js"></script>
+<!-- <script src="scripts/utils.js"></script> -->
 <script src="http://d3js.org/d3.v4.min.js"></script>
 <!--<script src="d3/d3.min.js"></script>-->
 <script src="scripts/graphConf.js"></script>
@@ -21,7 +21,7 @@
 <script src="scripts/infobox.js"></script>
 <script src="scripts/graph_viz.js"></script>
 <script src="scripts/graphioGremlin.js"></script>
-<script src="scripts/editGraph.js"></script>
+<!-- <script src="scripts/editGraph.js"></script> -->
 <!-- <script src="http://crypto-js.googlecode.com/svn/tags/3.1.2/build/rollups/md5.js"></script> -->
 <!-- <script src="js/md5.min.js"></script> -->
 <script src="https://cdnjs.cloudflare.com/ajax/libs/crypto-js/4.0.0/core.min.js"></script>
@@ -166,9 +166,9 @@
 		</div>
 		<!-- INITIALIZATION -->
 		<script type="text/javascript">
-			if(host){
-				$('#server_address').val(host);
-			}
+			// if(host){
+			// 	$('#server_address').val(host);
+			// }
 			init_property_bar();
 			// Create the graph canvas in the chosen div element
 			graph_viz.init("#main");
@@ -245,7 +245,7 @@
 			function set_nb_layers(){
 				var nb_layers = parseInt(document.getElementById('nbLayers').value);
 				//var nb_layers = parseInt(layer_input.getAttribute("value"));
-				console.log(nb_layers)
+				//console.log(nb_layers)
 				graph_viz.layers.set_nb_layers(nb_layers);
 
 			}

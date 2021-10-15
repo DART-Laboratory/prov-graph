@@ -302,7 +302,7 @@ var graphShapes = (function(){
 			.attr("ID",function(d) { return d.id;})
 			.attr('font-size', 10)
 			.attr('fill', edge_label_color);
-			console.log("herelabel")
+			//console.log("herelabel")
 
 		return [edgepaths_deco,edgelabels_deco];
  
@@ -432,7 +432,7 @@ var graphShapes = (function(){
 		   	node_id_list.push(id)
 		   }
 		})
-		console.log("heree",node_id_list)
+		//console.log("heree",node_id_list)
 		d3.selectAll(".edge").each(function(d){
 			if (node_id_list.includes(d3.select(this).attr("source_ID")) || node_id_list.includes(d3.select(this).attr("target_ID")) )
 			{
@@ -730,7 +730,7 @@ function hide_registry_only(run_else)
 		   	node_id_list.push(id)
 		   }
 		})
-		console.log("heree",node_id_list)
+		//console.log("heree",node_id_list)
 		d3.selectAll(".edge").each(function(d){
 			if (node_id_list.includes(d3.select(this).attr("source_ID")) || node_id_list.includes(d3.select(this).attr("target_ID")) )
 			{
@@ -853,7 +853,7 @@ function hide_FILE_only(run_else)
 		   	node_id_list.push(id)
 		   }
 		})
-		console.log("heree",node_id_list)
+		//console.log("heree",node_id_list)
 		d3.selectAll(".edge").each(function(d){
 			if (node_id_list.includes(d3.select(this).attr("source_ID")) || node_id_list.includes(d3.select(this).attr("target_ID")) )
 			{

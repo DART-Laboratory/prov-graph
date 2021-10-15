@@ -31,7 +31,7 @@ var infobox = (function(){
 	function create(label_graph,label_graphElem){
         var graph_bar = d3.select(label_graph);
         graph_bar.append("h2").text("Graph Info");
-        graph_bar.append("h4").text("Limited to the first " + limit_graphinfo_request + " nodes and edges");
+        graph_bar.append("h4").text("Limited to the first " + node_limit_per_request + " nodes and edges");
 		_table_Graphinfo = graph_bar.append("table").attr("id","tableGraph");
 		init_table(_table_Graphinfo,["Type","Count"]);
 
@@ -136,14 +136,14 @@ var infobox = (function(){
 	}
 
 	function _display_vertex_properties(key,value,info_table) {
-        if (typeof value === "string" && $('#communication_method').val() =="GraphSON3_4"){
-			var new_info_row = info_table.append("tr");
- 			new_info_row.append("td").text(key).style("font-size",_font_size);
- 			new_info_row.append("td").text(value).style("font-size",_font_size);
- 			new_info_row.append("td").text('').style("font-size",_font_size);
-        }
-        else
-        {
+   //      if (typeof value === "string" && $('#communication_method').val() =="GraphSON3_4"){
+			// var new_info_row = info_table.append("tr");
+ 		// 	new_info_row.append("td").text(key).style("font-size",_font_size);
+ 		// 	new_info_row.append("td").text(value).style("font-size",_font_size);
+ 		// 	new_info_row.append("td").text('').style("font-size",_font_size);
+   //      }
+   //      else
+   //      {
 	 		for (var subkey in value){
 				// Ignore the summary field, which is set in graphioGremlin.extract_infov3()
 				if (subkey === "summary") {
@@ -163,7 +163,7 @@ var infobox = (function(){
 	 				new_info_row.append("td").text('').style("font-size",_font_size);
 	 			}
 			}
-		}
+		//}
 	}
 
 
