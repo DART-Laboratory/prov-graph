@@ -111,6 +111,7 @@ Zeek-Agent Visualizer allows users to 'freeze' the graph at any time. This allow
 
 
 The tool allows users to hide particular type of nodes so that they can focus on the more relevant type of nodes as per their requirement. For example, a user can hide all file nodes if it is not of interest to them. The graph will continue to explore the hidden node type(s) but will only display them if they choose to unhide them.
+
 ![zeek_hide_new](https://user-images.githubusercontent.com/74818361/136712610-2586977b-a47d-4565-90dc-f0fa06404266.gif)
 
 
