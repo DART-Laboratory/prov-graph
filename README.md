@@ -1,5 +1,5 @@
 # Zeek-Agent Visualizer
-Zeek-Agent Visualizer is a web-based graph visualization tool that allows secrity analysts to construct, explore and manipulate provenance graphs
+Zeek-Agent Visualizer is a web-based graph visualization tool that allows security analysts to construct, explore and manipulate provenance graphs
 interactively for better threat alert investigation. This tool is designed to construct provenance graphs from kernel-level audit logs in a way that does not only assist in observing the behaviour of an attack, but also trace the attack from one endpoint e.g a compromised file to the other endpoint e.g the first process that was created due to the attack.
 
 User friendly manipulation techniques of such a graph can also allow analysts to observe other compromises that they might not be aware of.
@@ -19,17 +19,16 @@ Each index in elasticsearch should have only one log file entry, each document i
 
 For example the url: 'http://localhost:9200/file_index/_doc' will have 'file_index' as an index storing file event logs
 
-You need to change the links to each index in the 'GraphConf.js' file
+You just need to change the name of the following indices corresponding to a label with your indices in the 'GraphConf.js' file
 ```
-const es_file_index_url = 'http://localhost:9200/file_index_attack_one_new_vtwo/_doc/_search';
-const es_process_index_url  ='http://localhost:9200/process_index_attack_one_new_vtwo/_doc/_search';
-const es_socket_index_url='http://localhost:9200/socket_index_attack_one_new_vtwo/_doc/_search';
-const es_zeek_index_url='http://localhost:9200/zeek_index_attack_one_new_vtwo/_doc/_search';
-const es_dhcp_index_url='http://localhost:9200/dhcp_index_attack_one_new_vtwo/_doc/_search';
-const es_dns_index_url='http://localhost:9200/dns_index_attack_one_new_vtwo/_doc/_search';
+const file_index='file_index_attack_one_new_vtwo';
+const process_index='process_index_attack_one_new_vtwo';
+const socket_index='socket_index_attack_one_new_vtwo';
+const zeek_index='zeek_index_attack_one_new_vtwo';
+const dhcp_index='dhcp_index_attack_one_new_vtwo';
+const dns_index='dns_index_attack_one_new_vtwo';
 
 ```
-Change the index in the following links with the name of you elastic search index for a particular event type. For example, if your index containing file event logs is named 'file_zeekagent', then it should be replaced with 'file_index_attack_one_new_vtwo' to form 'http://localhost:9200/file_zeekagent/_doc/_search'
 
 **Note: You must not manipulate any log entries in an index such as adding an id or timestamp.**
 
@@ -95,9 +94,9 @@ Some nodes are more important than others and the user would not want them to va
 
 Zeek-Agent Visualizer relies on D3.js library for positioning of nodes. D3’s force layout uses a physics based simulator for positioning the visual elements of the graph. It simulates forces which allow you to control the position of nodes in relation to each other and the simulation. D3 forces can allow nodes to attract to repel and attract one another, nodes can be configured to attract to center of gravity. Moreover, a collision detection mechanism can prevent nodes to overlap one another. These are just some of the many options D3 offers to visualize a data set.
 
-Since the simulation is aimed at visualizing the new nodes that were not previously part of the graph. In order to prevent overlapping of these new nodes with the old ones, Zeek-Agent Visualizer finds a the closest positions for new nodes that have not been taken by any older node(s) along the x-axis.
+Since the simulation is aimed at visualizing the new nodes that were not previously part of the graph. In order to prevent overlapping of these new nodes with the old ones, Zeek-Agent Visualizer finds the closest positions for new nodes that have not been taken by any older node(s) along the x-axis.
 
-When a node first appears it can be dragged and dropped to a new position where it can be fixed. This only works for only the new displayed nodes (most recent layer with the node being displayed for the first time)
+When a node first appears it can be dragged and dropped to a new position where it can be fixed. This only works for the new displayed nodes (most recent layer with the node being displayed for the first time)
 ![zeek_positioning](https://user-images.githubusercontent.com/74818361/136704279-d92b01e9-35df-4a66-ae41-dd2914d45726.gif)
 
 
