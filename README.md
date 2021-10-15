@@ -79,7 +79,6 @@ If the nodes completely vanish in the process, they can no longer be clicked, ho
 
 Zeek-Agent Visualizer also allows the user to control how many new layers can be explored before vanishing old layers.
 
-.
 ### Merging
 
 Zeek-Agent Visualizer uses the concept of merging similar nodes into a single node. This significantly
