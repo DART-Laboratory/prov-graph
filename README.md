@@ -1,3 +1,5 @@
+[![DeepScan grade](https://deepscan.io/api/teams/15726/projects/18954/branches/477350/badge/grade.svg?token=a1fa0980263b30233c0ddf1e9c3ed778290db2ee)](https://deepscan.io/dashboard#view=project&tid=15726&pid=18954&bid=477350)
+
 # Graphexp: graph explorer with D3.js
 
 Graphexp is a lightweight web interface to explore and display a graph stored in a Gremlin graph database, via the Gremlin server (version 3.2.x, 3.3.x or 3.4.x).
