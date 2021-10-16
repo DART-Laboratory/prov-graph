@@ -70,6 +70,8 @@ Moreover, in the 'GraphConf.js' file you can also change the number of nodes tha
 ### Layering
  
 
+
+
 Our visualization tool uses the concept of layers of visualization, which aims to put a spotlight on certain subgraphs rather than displaying the
 whole graph during exploration. In this idea, if a user clicks a vertex, the visualizer will show
 its neighbors, expanding new layers (paths) for further exploration. While if a vertex is not
@@ -93,18 +95,22 @@ Some nodes are more important than others and the user would not want them to va
 
 Zeek-Agent Visualizer relies on D3.js library for positioning of nodes. D3’s force layout uses a physics based simulator for positioning the visual elements of the graph. It simulates forces which allow you to control the position of nodes in relation to each other and the simulation. D3 forces can allow nodes to attract to repel and attract one another, nodes can be configured to attract to center of gravity. Moreover, a collision detection mechanism can prevent nodes to overlap one another. These are just some of the many options D3 offers to visualize a data set.
 
+
+
+
+
+
 Since the simulation is aimed at visualizing the new nodes that were not previously part of the graph. In order to prevent overlapping of these new nodes with the old ones, Zeek-Agent Visualizer finds the closest positions for new nodes that have not been taken by any older node(s) along the x-axis.
+
 
 When a node first appears it can be dragged and dropped to a new position where it can be fixed. This only works for the new displayed nodes (most recent layer with the node being displayed for the first time)
 ![zeek_positioning](https://user-images.githubusercontent.com/74818361/136704279-d92b01e9-35df-4a66-ae41-dd2914d45726.gif)
 
-
-
-
-
 ### Freeze exploration
 
+
 Zeek-Agent Visualizer allows users to 'freeze' the graph at any time. This allows the users to click on the nodes and see its description without making it explore and display its neighbouring nodes.
+
 
 ### Hide nodes
 
