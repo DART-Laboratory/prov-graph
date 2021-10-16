@@ -1,5 +1,5 @@
 
-// configuration for the file
+// configuration
 
 //elastic search index corresponding to a particular label
 const file_index='file_index_attack_one_new_vtwo';
@@ -37,7 +37,8 @@ const node_visible_per_request_limit=100;//how many nodes are visible per reques
 // Simulation
 const force_strength = -900;//electrostatic charge between nodes (repulsion if begative)
 const link_strength = 0.4;//pushes linked nodes further or apart
-const force_x_strength = 0.05; //0.05
+//positioning force towards the axis
+const force_x_strength = 0.05; 
 const force_y_strength = 0.05;
 
 // Nodes
@@ -47,12 +48,12 @@ const default_node_color = "#80E810";
 const active_node_margin = 6;
 const active_node_margin_opacity = 0.3;
 //initial position
-var search_fx=210; 
+var search_fx=210;//position of the very first node(s)
+var dist_x=150;// initial distance between active node and its new neighbours
+var next_free_position=50; //incremented value to find the next free position for nodes to prevent overlap
 
 // Edges
 const default_edge_stroke_width = 3;
 const default_edge_color = "#959595";
 const edge_label_color = "#111";
-// Choose between curved (true) and straight edges (false).
-// If set to false, multiple edges between 2 nodes will all be straight and overlap.
 const use_curved_edges = false;

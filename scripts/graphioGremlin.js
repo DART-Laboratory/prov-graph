@@ -1156,7 +1156,7 @@ function find_node_position(position,direction,id)
 			}
 			else
 			{
-				position=position+25;
+				position=position+next_free_position;
 				found_free=true;
 			}
 		}
@@ -1175,7 +1175,7 @@ function find_node_position(position,direction,id)
 			}
 			else
 			{
-				position=position-25;
+				position=position-next_free_position;
 				found_free=true;
 			}
 		}
@@ -1201,7 +1201,7 @@ if (d.label=="PROCESS")
 
 var ppid_process=d.properties.ppid[0].value
 
-var node_pos=d.fx-100
+var node_pos=d.fx-dist_x
 var node_pos=find_node_position(node_pos,"backward",d.id)
 //find parent process
 
@@ -1254,7 +1254,7 @@ node_position_list.push(node_pos)
 //////find  child pid process
 var pid_process=d.properties.pid[0].value
 
-var node_pos=d.fx+100
+var node_pos=d.fx+dist_x
 
 var node_pos=find_node_position(node_pos,"forward",d.id)
 
@@ -1429,7 +1429,7 @@ if (d.label=="SOCKET")
 
 var seuid=d.properties.seuid[0].value
 
-var node_pos=d.fx+100
+var node_pos=d.fx+dist_x
 var node_pos=find_node_position(node_pos,"forward",d.id)
 
 
@@ -1523,7 +1523,7 @@ node_position_list.push(node_pos)
 
 var pid=d.properties.pid[0].value
 //console.log("ppid_process",ppid_process)
-var node_pos=d.fx-100
+var node_pos=d.fx-dist_x
 var node_pos=find_node_position(node_pos,"backward",d.id)
 
 
@@ -1593,7 +1593,7 @@ if (d.label=="FILE")
 ///////////////find process related to the file
 var pid=d.properties.pid[0].value
 
-var node_pos=d.fx-100
+var node_pos=d.fx-dist_x
 var node_pos=find_node_position(node_pos,"backward",d.id)
 
 
@@ -1663,7 +1663,7 @@ graph_viz.refresh_data(test_dic,1,d.id)
 
 if (d.label=="ZEEK")
 {
-var node_pos=d.fx-100
+var node_pos=d.fx-dist_x
 var node_pos=find_node_position(node_pos,"backward",d.id)
 
 ///////////////find socket attributed to zeek based on orig_seuid
@@ -1792,7 +1792,7 @@ catch (err){
 
 // find network nodes related to the zeek log,both dns and dhcp, any new network logs may be added here
 
-var node_pos=d.fx+100
+var node_pos=d.fx+dist_x
 var node_pos=find_node_position(node_pos,"forward",d.id)
 
 
