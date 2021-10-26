@@ -34,30 +34,27 @@ var graphShapes = (function(){
 	}
 
 	function node_color(d){
-		//if ('color' in d.properties)
-		 //{	console.log("here1",d.label)
+		
 			if(d.label=="PROCESS")
 				{return "#23D9B7"}
 			if(d.label=="FILE")
 				{return "#F2E205"
-			//return "red"
+			
 		}
 		if(d.label=="SOCKET")
-				{return "#F25D27"}//same as registry
+				{return "#F25D27"}
 
 			if(d.label=="REG_KEY")
 				{return "#F25D27"}
 			if(d.label=="NETWORK")
 				{return "#ce31bf"}
-			// if(d.label=="SOCKET")
-			// 	{return "#6B98F2"}
+			
 			if(d.label=="ZEEK")
 				{return "#6B98F2"}
 			if(d.label=="ZEEKSUB")
 				{return "#0FF02B"}
 
-		 	//return d.properties.color[0].value;}
-		//else {return default_node_color;}
+		 	
 		return default_node_color;
 	}
 
@@ -82,13 +79,13 @@ var graphShapes = (function(){
 		else {return default_edge_color;}
 	}
 
-	/////////////////////////////////////////////////////////////
+	
 	// decorate the node
 	function decorate_node(node,with_active_node){
 	// the node layout is defined here
 	// node: the selection of nodes with their data
 	// with_active_node: the Id of the active node if any
-		//console.log(with_active_node)
+		
 		var node_deco = node.append("g")
 			.attr("class", "active_node").attr("ID",function(d) { return d.id;})
 			.classed("node",true);
@@ -105,90 +102,12 @@ var graphShapes = (function(){
 			.style("stroke","black")
 			.attr("fill", node_color);
 		node_base_circle.append("title").text(node_title);
-		//////////////////////////////////////////////////////////////////////if you want to hide next only/////////////////////////////
-		// var input = document.getElementById ("hideNETWORKupcoming");
-		// var isChecked = input.checked;
-		// console.log("ischecked",isChecked)
-		// if (isChecked)
-		// {
-		// 	node_base_circle.each(function(d) {
-		// 	var color=d3.select(this).attr("fill")
-		// 	//console.log("whatcol",color)
-		// 	if (color=="#ce31bf")
-		// 	{
-		// 	d3.select(this).style("visibility", "hidden");
-		// 	}
-		// })
-		// }
-		// else
-		// {
-		// 	// var color=node_base_circle.attr("fill")
-		// 	// if (color=="#ce31bf")
-		// 	// {
-		// 	// node_base_circle.style("visibility", "visible");
-		// 	// }
-		// 	node_base_circle.each(function(d) {
-		// 	var color=d3.select(this).attr("fill")
-		// 	//console.log("whatcol",color)
-		// 	if (color=="#ce31bf")
-		// 	{
-		// 	d3.select(this).style("visibility", "visible");
-		// 	}
-		// })
-
-			
-		// }
-		/////////////////////////////////////////////////////////////////////////////////////////////////////
-
-
-		// Add the text to the nodes////////////////////////////////////////////////////changed first line////////////////////////
-		//node_deco.append("text").classed("text_details",true)
+		
 		var node_content=node_deco.append("text").classed("text_details",true)
 		  .attr("x",function(d){return node_size(d)+2;})
 		  .text(node_text)
 		  .style("visibility", "visible");
-		  //.style("fill","black");
-		  //node_text.style("visibility", "visible");
-		/////////////////////////////////////////////////////////////////////////////////////if you want to hide next too////////////////////////
-		// if (isChecked)
-		// {
-		// 	node_deco.each(function(d) {
-		// 	var color=d3.select(this).select(".base_circle").attr("fill")
-		// 	console.log("whatcol",color)
-		// 	if (color=="#ce31bf")
-		// 	{
-		// 	d3.select(this).select(".text_details").style("visibility", "hidden");
-		// 	}
-		// })
-		// }
-		// else
-		// {
-		// 	// var color=node_base_circle.attr("fill")
-		// 	// if (color=="#ce31bf")
-		// 	// {
-		// 	// node_base_circle.style("visibility", "visible");
-		// 	// }
-		// // 	node_content.each(function(d) {
-		// // 	var color=d3.select(this).attr("fill")
-		// // 	//console.log("whatcol",color)
-		// // 	if (color=="#ce31bf")
-		// // 	{
-		// // 	d3.select(this).style("visibility", "visible");
-		// // 	}
-		// // })
-		// node_deco.each(function(d) {
-		// 	var color=d3.select(this).select(".base_circle").attr("fill")
-		// 	console.log("whatcol",color)
-		// 	if (color=="#ce31bf")
-		// 	{
-		// 	d3.select(this).select(".text_details").style("visibility", "visible");
-		// 	}
-		// })
-
-
-			
-		// }
-///////////////////////////////////////////////////////////////////////////
+		  
 
 		// Add the node pin
 		var node_pin = node_deco.append("circle").classed("Pin",true)
@@ -212,18 +131,8 @@ var graphShapes = (function(){
 						.attr("opacity",active_node_margin_opacity)
 						.moveToBack();
 				}
-				// else
-				// {
-				// 	var n_radius = Number(d3.select(this).select(".base_circle").attr("r"))+active_node_margin;
-				// 	d3.select(this)
-				// 		.append("circle").classed("focus_node",true)
-				// 		.attr("r", n_radius)
-				// 		.attr("fill", 'red')
-				// 		.attr("opacity",active_node_margin_opacity)
-				// 		.moveToBack();
-				// }
-			});
-		}
+				
+		})}
 
 		return node_deco;
 	}
@@ -238,7 +147,7 @@ var graphShapes = (function(){
 	  	node.on("click", graph_viz.graph_events.clicked)
 			.on("mouseover", function(){
 				d3.select(this).select(".Pin").style("visibility", "visible");
-				//d3.select(this).selectAll(".text_details").style("visibility", "visible");
+				
 		  	})
 			.on("mouseout", function(){
 				var chosen_node = d3.select(this);
@@ -254,7 +163,7 @@ var graphShapes = (function(){
 			.attr("source_ID",function(d) { return d.source;})
 			.attr("target_ID",function(d) { return d.target;})
 			.attr("ID",function(d) { return d.id;})
-			// .style('fill', 'green');
+			
 	 
 
 		graph_viz.create_arrows(edges_deco);
@@ -276,9 +185,7 @@ var graphShapes = (function(){
 			.attr("startOffset", "50%")
 			.text(function (d) {return d.label});
 
-		// Attach the edge actions
-		//attach_edge_actions(edges_deco)
-		//console.log([edges_deco,edgepaths_deco,edgelabels_deco])
+		
 
 		return [edges_deco,edgepaths_deco,edgelabels_deco]
 	}
@@ -302,33 +209,19 @@ var graphShapes = (function(){
 			.attr("ID",function(d) { return d.id;})
 			.attr('font-size', 10)
 			.attr('fill', edge_label_color);
-			//console.log("herelabel")
+			
 
 		return [edgepaths_deco,edgelabels_deco];
  
 
 	}
 
-	// function attach_edge_actions(edge){
-	// 	edge.on("mouseover", function(){
-	// 		console.log('mouse over!!');
-	// 		d3.select(this).selectAll(".text_details").style("visibility", "visible");
-	// 	  })
-	// 	  .on("mouseout", function(){
-	// 		d3.select(this).selectAll(".text_details").style("visibility", "hidden");
-	// 	  })
-	// 	  .on("click", function(d){console.log('edge clicked!');infobox.display_info(d);});
-	//
-	// }
-
+	
 
 
 	function decorate_old_elements(nb_layers){
 		// Decrease the opacity of nodes and edges when they get old
-		// console.log("nodehiss",graphioGremlin.get_node_history())
-		// var x = graphioGremlin.get_node_history();
-		// x[2533]=270;
-		// console.log("nodehiss",graphioGremlin.get_node_history())
+		
 		for (var k=0;k<nb_layers;k++) {
 			d3.selectAll(".old_edge"+k)
 			 	.style("opacity",function(){return 0.8*(1-k/nb_layers)});
@@ -340,7 +233,7 @@ var graphShapes = (function(){
 		};
 	}
 
-	///////////////////////////////////////
+	
 	// https://github.com/wbkd/d3-extended
 	d3.selection.prototype.moveToFront = function() {
 	// move the selection to the front  
@@ -348,7 +241,7 @@ var graphShapes = (function(){
 	  this.parentNode.appendChild(this);
 	});
 	};
-	////////////////////////////////////
+	
 	d3.selection.prototype.moveToBack = function() {
 	// move the selection to the back  
 	return this.each(function() { 
@@ -358,7 +251,7 @@ var graphShapes = (function(){
 	  } 
 	});
 	};
-	//////////////////////////////////////////////
+	
 	function show_names(){
 		var text_to_show = d3.selectAll(".text_details");
 		var input = document.getElementById ("showName");
@@ -369,38 +262,34 @@ var graphShapes = (function(){
 		text_to_show.each(function(d) {
 		   if ((d3.select(this).style("fill"))!="red")
 		   {
-		   	//console.log(d3.select(this).select(".base_circle").getElementById("title"))
-		   	//d3.select(this).select(".base_circle").style("visibility", "hidden");
+		   	
 		   	d3.select(this).style("visibility", "visible");
 		   }
 		})
 	}
 
-				//text_to_show.style("visibility", "visible");}
+				
 		else {text_to_show.style("visibility", "hidden");}
 	}
 	function show_names_edges(){
-		//var text_to_show = d3.selectAll(".active_edgelabel");
+		
 		var text_to_show_old = d3.selectAll(".edgelabel");
 		var input = document.getElementById ("showEdge");
 		var isChecked = input.checked;
 		if (isChecked) {
-			//text_to_show.style("visibility", "visible");
-			//text_to_show_old.style("visibility", "visible");
+			
 			text_to_show_old.each(function(d) {
 		   if ((d3.select(this).style("fill"))!="red")
 		   {
-		   	//console.log(d3.select(this).select(".base_circle").getElementById("title"))
-		   	//d3.select(this).select(".base_circle").style("visibility", "hidden");
+		   	
 		   	d3.select(this).style("visibility", "visible");
 		   }
 		})
-		//d3.select(this).select(".base_circle").style("visibility", "hidden")
-		//text_to_show_old.style("visibility", "visible");
+		
 
 		}
 		else {
-			//text_to_show.style("visibility", "hidden");
+			
 			text_to_show_old.style("visibility", "hidden");
 		}
 	}
@@ -412,33 +301,28 @@ var graphShapes = (function(){
 		var name_check=names.checked;
 		var edge_name=document.getElementById ("showEdge");
 		var edge_name_check=edge_name.checked;
-		// var nodes=d3.selectAll(".base_circle");
-		// //var color=nodes.getAttribute("fill");
-		// if (isChecked) nodes.style("visibility", "hidden");
-		// else {nodes.style("visibility", "visible");}
-		//console.log(color,"colorsss")
+		
 		var node_id_list=[];
 		var edge_id_list=[];
 		if (isChecked){
 		d3.selectAll(".node").each(function(d) {
 		   if ((d3.select(this).select(".base_circle").attr("fill"))=="#23D9B7")
 		   {
-		   	//console.log(d3.select(this).select(".base_circle").getElementById("title"))
+		   	
 		   	d3.select(this).select(".base_circle").style("visibility", "hidden");
 		   	d3.select(this).select(".text_details").style("visibility", "hidden").style("fill","red");
 		   	var id=d3.select(this).attr("ID");
-		   	//console.log("hehe",id)
-		   	//console.log(d3.select(this).select(".text_details").style("visibility"))
+		   	
 		   	node_id_list.push(id)
 		   }
 		})
-		//console.log("heree",node_id_list)
+		
 		d3.selectAll(".edge").each(function(d){
 			if (node_id_list.includes(d3.select(this).attr("source_ID")) || node_id_list.includes(d3.select(this).attr("target_ID")) )
 			{
 				d3.select(this).style("visibility", "hidden");
 				var id=d3.select(this).attr("ID");
-			   	//console.log("hehe",id)
+			   	
 			   	edge_id_list.push(id)
 			}
 
@@ -449,11 +333,9 @@ var graphShapes = (function(){
 
 			if (edge_id_list.includes(d3.select(this).attr("ID")) )
 			{
-				//console.log(d3.select(this).attr("ID"))
+				
 				d3.select(this).style("visibility", "hidden").style("fill","red");
-				//var id=d3.select(this).attr("ID");
-			   	//console.log("hehe",id)
-			   	//edge_id_list.push(id)
+				
 
 			}
 
@@ -464,12 +346,12 @@ var graphShapes = (function(){
 
 	else
 	{
-		//console.log("zafor",run_else)
+		
 		if (run_else){
-			//console.log(run_else)
+			
 		d3.selectAll(".node").each(function(d) {
 		   if ((d3.select(this).select(".base_circle").attr("fill"))=="#23D9B7")
-		   {//console.log(d3.select(this).select(".base_circle").getElementById("title"))
+		   {
 		   	d3.select(this).select(".base_circle").style("visibility", "visible");
 		   	if (name_check){
 		   	d3.select(this).select(".text_details").style("visibility", "visible").style("fill","black");
@@ -479,17 +361,17 @@ var graphShapes = (function(){
 		   	d3.select(this).select(".text_details").style("fill","black");
 		   }
 		   	var id=d3.select(this).attr("ID");
-		   	//console.log("hehe",id)
+		   	
 		   	node_id_list.push(id)
 		   }
 		})
-		//console.log("heree",node_id_list)
+		
 		d3.selectAll(".edge").each(function(d){
 			if (node_id_list.includes(d3.select(this).attr("source_ID")) || node_id_list.includes(d3.select(this).attr("target_ID")) )
 			{
 				d3.select(this).style("visibility", "visible");
 				var id=d3.select(this).attr("ID");
-			   	//console.log("hehe",id)
+			   	
 			   	edge_id_list.push(id)
 
 			}
@@ -499,7 +381,7 @@ var graphShapes = (function(){
 		d3.selectAll(".edgelabel").each(function(d){
 			if (edge_id_list.includes(d3.select(this).attr("ID")) )
 			{
-				//console.log(d3.select(this).attr("ID"))
+				
 				if (edge_name_check){
 				d3.select(this).style("visibility", "visible").style("fill","black");
 			}
@@ -507,9 +389,7 @@ var graphShapes = (function(){
 			{
 				d3.select(this).style("fill","black");
 			}
-				//var id=d3.select(this).attr("ID");
-			   	//console.log("hehe",id)
-			   	//edge_id_list.push(id)
+				
 
 			}
 
@@ -536,32 +416,28 @@ function hide_zeek_only(run_else)
 		var name_check=names.checked;
 		var edge_name=document.getElementById ("showEdge");
 		var edge_name_check=edge_name.checked;
-		// var nodes=d3.selectAll(".base_circle");
-		// //var color=nodes.getAttribute("fill");
-		// if (isChecked) nodes.style("visibility", "hidden");
-		// else {nodes.style("visibility", "visible");}
-		//console.log(color,"colorsss")
+		
 		var node_id_list=[];
 		var edge_id_list=[];
 		if (isChecked){
 		d3.selectAll(".node").each(function(d) {
 		   if ((d3.select(this).select(".base_circle").attr("fill"))=="#6B98F2")
 		   {
-		   	//console.log(d3.select(this).select(".base_circle").getElementById("title"))
+		   	
 		   	d3.select(this).select(".base_circle").style("visibility", "hidden");
 		   	d3.select(this).select(".text_details").style("visibility", "hidden").style("fill","red");
 		   	var id=d3.select(this).attr("ID");
-		   	//console.log("hehe",id)
+		   	
 		   	node_id_list.push(id)
 		   }
 		})
-		//console.log("heree",node_id_list)
+		
 		d3.selectAll(".edge").each(function(d){
 			if (node_id_list.includes(d3.select(this).attr("source_ID")) || node_id_list.includes(d3.select(this).attr("target_ID")) )
 			{
 				d3.select(this).style("visibility", "hidden");
 				var id=d3.select(this).attr("ID");
-			   	//console.log("hehe",id)
+			   	
 			   	edge_id_list.push(id)
 			}
 
@@ -573,12 +449,9 @@ function hide_zeek_only(run_else)
 
 			if (edge_id_list.includes(d3.select(this).attr("ID")) )
 			{
-				//console.log(d3.select(this).attr("ID"))
+				
 				d3.select(this).style("visibility", "hidden").style("fill","red");
-				//var id=d3.select(this).attr("ID");
-			   	//console.log("hehe",id)
-			   	//edge_id_list.push(id)
-
+				
 			}
 
 
@@ -592,7 +465,7 @@ function hide_zeek_only(run_else)
 		if (run_else){
 		d3.selectAll(".node").each(function(d) {
 		   if ((d3.select(this).select(".base_circle").attr("fill"))=="#6B98F2")
-		   {//console.log(d3.select(this).select(".base_circle").getElementById("title"))
+		   {
 		   	d3.select(this).select(".base_circle").style("visibility", "visible");
 		   	if (name_check){
 		   	d3.select(this).select(".text_details").style("visibility", "visible").style("fill","black");
@@ -603,17 +476,17 @@ function hide_zeek_only(run_else)
 		   }
 
 		   	var id=d3.select(this).attr("ID");
-		   	//console.log("hehe",id)
+		   	
 		   	node_id_list.push(id)
 		   }
 		})
-		//console.log("heree",node_id_list)
+		
 		d3.selectAll(".edge").each(function(d){
 			if (node_id_list.includes(d3.select(this).attr("source_ID")) || node_id_list.includes(d3.select(this).attr("target_ID")) )
 			{
 				d3.select(this).style("visibility", "visible");
 				var id=d3.select(this).attr("ID");
-			   	//console.log("hehe",id)
+			   	
 			   	edge_id_list.push(id)
 			}
 
@@ -623,7 +496,7 @@ function hide_zeek_only(run_else)
 		d3.selectAll(".edgelabel").each(function(d){
 			if (edge_id_list.includes(d3.select(this).attr("ID")) )
 			{
-				//console.log(d3.select(this).attr("ID"))
+				
 				if (edge_name_check){
 				d3.select(this).style("visibility", "visible").style("fill","black");
 			}
@@ -631,9 +504,7 @@ function hide_zeek_only(run_else)
 			{
 				d3.select(this).style("fill","black");
 			}
-				//var id=d3.select(this).attr("ID");
-			   	//console.log("hehe",id)
-			   	//edge_id_list.push(id)
+				
 
 			}
 
@@ -659,32 +530,28 @@ function hide_registry_only(run_else)
 		var name_check=names.checked;
 		var edge_name=document.getElementById ("showEdge");
 		var edge_name_check=edge_name.checked;
-		// var nodes=d3.selectAll(".base_circle");
-		// //var color=nodes.getAttribute("fill");
-		// if (isChecked) nodes.style("visibility", "hidden");
-		// else {nodes.style("visibility", "visible");}
-		//console.log(color,"colorsss")
+		
 		var node_id_list=[];
 		var edge_id_list=[];
 		if (isChecked){
 		d3.selectAll(".node").each(function(d) {
 		   if ((d3.select(this).select(".base_circle").attr("fill"))=="#F25D27")
 		   {
-		   	//console.log(d3.select(this).select(".base_circle").getElementById("title"))
+		   	
 		   	d3.select(this).select(".base_circle").style("visibility", "hidden");
 		   	d3.select(this).select(".text_details").style("visibility", "hidden").style("fill","red");
 		   	var id=d3.select(this).attr("ID");
-		   	//console.log("hehe",id)
+		   	
 		   	node_id_list.push(id)
 		   }
 		})
-		//console.log("heree",node_id_list)
+		
 		d3.selectAll(".edge").each(function(d){
 			if (node_id_list.includes(d3.select(this).attr("source_ID")) || node_id_list.includes(d3.select(this).attr("target_ID")) )
 			{
 				d3.select(this).style("visibility", "hidden");
 				var id=d3.select(this).attr("ID");
-			   	//console.log("hehe",id)
+			   	
 			   	edge_id_list.push(id)
 			}
 
@@ -696,11 +563,9 @@ function hide_registry_only(run_else)
 
 			if (edge_id_list.includes(d3.select(this).attr("ID")) )
 			{
-				//console.log(d3.select(this).attr("ID"))
+				
 				d3.select(this).style("visibility", "hidden").style("fill","red");
-				//var id=d3.select(this).attr("ID");
-			   	//console.log("hehe",id)
-			   	//edge_id_list.push(id)
+				
 
 			}
 
@@ -715,7 +580,7 @@ function hide_registry_only(run_else)
 		if (run_else){
 		d3.selectAll(".node").each(function(d) {
 		   if ((d3.select(this).select(".base_circle").attr("fill"))=="#F25D27")
-		   {//console.log(d3.select(this).select(".base_circle").getElementById("title"))
+		   {
 		   	d3.select(this).select(".base_circle").style("visibility", "visible");
 		   	if (name_check){
 		   	d3.select(this).select(".text_details").style("visibility", "visible").style("fill","black");
@@ -726,17 +591,17 @@ function hide_registry_only(run_else)
 		   }
 
 		   	var id=d3.select(this).attr("ID");
-		   	//console.log("hehe",id)
+		   	
 		   	node_id_list.push(id)
 		   }
 		})
-		//console.log("heree",node_id_list)
+		
 		d3.selectAll(".edge").each(function(d){
 			if (node_id_list.includes(d3.select(this).attr("source_ID")) || node_id_list.includes(d3.select(this).attr("target_ID")) )
 			{
 				d3.select(this).style("visibility", "visible");
 				var id=d3.select(this).attr("ID");
-			   	//console.log("hehe",id)
+			   	
 			   	edge_id_list.push(id)
 			}
 
@@ -746,7 +611,7 @@ function hide_registry_only(run_else)
 		d3.selectAll(".edgelabel").each(function(d){
 			if (edge_id_list.includes(d3.select(this).attr("ID")) )
 			{
-				//console.log(d3.select(this).attr("ID"))
+				
 				if (edge_name_check){
 				d3.select(this).style("visibility", "visible").style("fill","black");
 			}
@@ -754,9 +619,7 @@ function hide_registry_only(run_else)
 			{
 				d3.select(this).style("fill","black");
 			}
-				//var id=d3.select(this).attr("ID");
-			   	//console.log("hehe",id)
-			   	//edge_id_list.push(id)
+				
 
 			}
 
@@ -782,32 +645,28 @@ function hide_FILE_only(run_else)
 		var name_check=names.checked;
 		var edge_name=document.getElementById ("showEdge");
 		var edge_name_check=edge_name.checked;
-		// var nodes=d3.selectAll(".base_circle");
-		// //var color=nodes.getAttribute("fill");
-		// if (isChecked) nodes.style("visibility", "hidden");
-		// else {nodes.style("visibility", "visible");}
-		//console.log(color,"colorsss")
+		
 		var node_id_list=[];
 		var edge_id_list=[];
 		if (isChecked){
 		d3.selectAll(".node").each(function(d) {
 		   if ((d3.select(this).select(".base_circle").attr("fill"))=="#F2E205")
 		   {
-		   	//console.log(d3.select(this).select(".base_circle").getElementById("title"))
+		   	
 		   	d3.select(this).select(".base_circle").style("visibility", "hidden");
 		   	d3.select(this).select(".text_details").style("visibility", "hidden").style("fill","red");
 		   	var id=d3.select(this).attr("ID");
-		   	//console.log("hehe",id)
+		   	
 		   	node_id_list.push(id)
 		   }
 		})
-		//console.log("heree",node_id_list)
+		
 		d3.selectAll(".edge").each(function(d){
 			if (node_id_list.includes(d3.select(this).attr("source_ID")) || node_id_list.includes(d3.select(this).attr("target_ID")) )
 			{
 				d3.select(this).style("visibility", "hidden");
 				var id=d3.select(this).attr("ID");
-			   	//console.log("hehe",id)
+			   	
 			   	edge_id_list.push(id)
 			}
 
@@ -820,11 +679,9 @@ function hide_FILE_only(run_else)
 
 			if (edge_id_list.includes(d3.select(this).attr("ID")) )
 			{
-				//console.log(d3.select(this).attr("ID"))
+				
 				d3.select(this).style("visibility", "hidden").style("fill","red");
-				//var id=d3.select(this).attr("ID");
-			   	//console.log("hehe",id)
-			   	//edge_id_list.push(id)
+				
 
 			}
 
@@ -838,7 +695,7 @@ function hide_FILE_only(run_else)
 	{	if (run_else){
 		d3.selectAll(".node").each(function(d) {
 		   if ((d3.select(this).select(".base_circle").attr("fill"))=="#F2E205")
-		   {//console.log(d3.select(this).select(".base_circle").getElementById("title"))
+		   {
 		   	d3.select(this).select(".base_circle").style("visibility", "visible");
 		   	if (name_check){
 		   	d3.select(this).select(".text_details").style("visibility", "visible").style("fill","black");
@@ -849,17 +706,17 @@ function hide_FILE_only(run_else)
 		   }
 
 		   	var id=d3.select(this).attr("ID");
-		   	//console.log("hehe",id)
+		   	
 		   	node_id_list.push(id)
 		   }
 		})
-		//console.log("heree",node_id_list)
+		
 		d3.selectAll(".edge").each(function(d){
 			if (node_id_list.includes(d3.select(this).attr("source_ID")) || node_id_list.includes(d3.select(this).attr("target_ID")) )
 			{
 				d3.select(this).style("visibility", "visible");
 				var id=d3.select(this).attr("ID");
-			   	//console.log("hehe",id)
+			   	
 			   	edge_id_list.push(id)
 
 			}
@@ -870,7 +727,7 @@ function hide_FILE_only(run_else)
 		d3.selectAll(".edgelabel").each(function(d){
 			if (edge_id_list.includes(d3.select(this).attr("ID")) )
 			{
-				//console.log(d3.select(this).attr("ID"))
+				
 				if (edge_name_check){
 				d3.select(this).style("visibility", "visible").style("fill","black");
 			}
@@ -878,9 +735,7 @@ function hide_FILE_only(run_else)
 			{
 				d3.select(this).style("fill","black");
 			}
-				//var id=d3.select(this).attr("ID");
-			   	//console.log("hehe",id)
-			   	//edge_id_list.push(id)
+				
 
 			}
 
@@ -899,39 +754,35 @@ function hide_FILE_only(run_else)
 }
 
 function hide_network_only(run_else)
-	{	//console.log(run_else)
+	{	
 		var input = document.getElementById ("hideNETWORK");
 		var isChecked = input.checked;
 		var names=document.getElementById ("showName");
 		var name_check=names.checked;
 		var edge_name=document.getElementById ("showEdge");
 		var edge_name_check=edge_name.checked;
-		// var nodes=d3.selectAll(".base_circle");
-		// //var color=nodes.getAttribute("fill");
-		// if (isChecked) nodes.style("visibility", "hidden");
-		// else {nodes.style("visibility", "visible");}
-		//console.log(color,"colorsss")
+		
 		var node_id_list=[];
 		var edge_id_list=[];
 		if (isChecked){
 		d3.selectAll(".node").each(function(d) {
 		   if ((d3.select(this).select(".base_circle").attr("fill"))=="#ce31bf")
 		   {
-		   	//console.log(d3.select(this).select(".base_circle").getElementById("title"))
+		   	
 		   	d3.select(this).select(".base_circle").style("visibility", "hidden");
 		   	d3.select(this).select(".text_details").style("visibility", "hidden").style("fill","red");
 		   	var id=d3.select(this).attr("ID");
-		   	//console.log("hehe",id)
+		   	
 		   	node_id_list.push(id)
 		   }
 		})
-		//console.log("heree",node_id_list)
+		
 		d3.selectAll(".edge").each(function(d){
 			if (node_id_list.includes(d3.select(this).attr("source_ID")) || node_id_list.includes(d3.select(this).attr("target_ID")) )
 			{
 				d3.select(this).style("visibility", "hidden");
 				var id=d3.select(this).attr("ID");
-			   	//console.log("hehe",id)
+			   	
 			   	edge_id_list.push(id)
 			}
 
@@ -944,11 +795,9 @@ function hide_network_only(run_else)
 
 			if (edge_id_list.includes(d3.select(this).attr("ID")) )
 			{
-				//console.log(d3.select(this).attr("ID"))
+				
 				d3.select(this).style("visibility", "hidden").style("fill","red");
-				//var id=d3.select(this).attr("ID");
-			   	//console.log("hehe",id)
-			   	//edge_id_list.push(id)
+				
 
 			}
 
@@ -962,7 +811,7 @@ function hide_network_only(run_else)
 	{	if (run_else){
 		d3.selectAll(".node").each(function(d) {
 		   if ((d3.select(this).select(".base_circle").attr("fill"))=="#ce31bf")
-		   {//console.log(d3.select(this).select(".base_circle").getElementById("title"))
+		   {
 		   	d3.select(this).select(".base_circle").style("visibility", "visible");
 		   	if (name_check){
 		   	d3.select(this).select(".text_details").style("visibility", "visible").style("fill","black");
@@ -972,17 +821,17 @@ function hide_network_only(run_else)
 		   	d3.select(this).select(".text_details").style("fill","black");
 		   }
 		   	var id=d3.select(this).attr("ID");
-		   	//console.log("hehe",id)
+		   	
 		   	node_id_list.push(id)
 		   }
 		})
-		//console.log("heree",node_id_list)
+		
 		d3.selectAll(".edge").each(function(d){
 			if (node_id_list.includes(d3.select(this).attr("source_ID")) || node_id_list.includes(d3.select(this).attr("target_ID")) )
 			{
 				d3.select(this).style("visibility", "visible");
 				var id=d3.select(this).attr("ID");
-			   	//console.log("hehe",id)
+			   	
 			   	edge_id_list.push(id)
 			}
 
@@ -992,7 +841,7 @@ function hide_network_only(run_else)
 		d3.selectAll(".edgelabel").each(function(d){
 			if (edge_id_list.includes(d3.select(this).attr("ID")) )
 			{
-				//console.log(d3.select(this).attr("ID"))
+				
 				if (edge_name_check){
 				d3.select(this).style("visibility", "visible").style("fill","black");
 			}
@@ -1000,9 +849,7 @@ function hide_network_only(run_else)
 			{
 				d3.select(this).style("fill","black");
 			}
-				//var id=d3.select(this).attr("ID");
-			   	//console.log("hehe",id)
-			   	//edge_id_list.push(id)
+				
 
 			}
 

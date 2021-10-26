@@ -9,7 +9,7 @@ User friendly manipulation techniques of such a graph can also allow analysts to
 
 
 
-## Configuration
+## Getting Started
 
 The displayed nodes and links are derived from the audit logs from Zeek-Agent (attach github link) which contains process, socket, file, network, and attribution of socket with network (zeek) events. Each of these events are stored in a seperate json log file, which can be easily linked/uploaded to elasticsearch.
 
@@ -34,9 +34,22 @@ const dns_index='dns_index_attack_one_new_vtwo';
 
 Lastly, on your browser, just access the 'graphexp.html' file
 
+For more details see the [configuration file](https://github.com/Wajihulhassan/prov-graphexp/wiki/Configuration-Details)
+
 ## Features
 
 Zeek-Agent Visualizer offers many features that were designed while keeping in mind the needs of an analyst tracing an attack or observing a potential attack behaviour through this Visualizer.
+The features include:
+1) Search-based on specific values or labels in general
+2) Node and edge information+exploration-all the relevant information of a node is displayed to the user
+3) Limit the number of nodes-limit to how many nodes you want to display and fetch from elastic search
+4) Layering-subgraphs to focus on latest events explored by dimming the non active nodes when new nodes are explored
+5) Merging-similar nodes are merged into one node which significantly reduces the size while maintaining causality
+6) Pinning a node-keep a track of important nodes which never vanish in the layering process
+7) Dynamic Positioning of nodes using d3.js- forces of physics come into action to display an ideal graph
+8) Freeze exploration- prevent exploration of nodes while analyzing node properties
+9) Hide nodes- only display the nodes that are more relevant to the analyst
+10) Forward and backward tracking options- an option that allows to explore graph in one direction in time
 
 ### Search
 There are multiple ways to search and display nodes.
@@ -103,7 +116,9 @@ Zeek-Agent Visualizer relies on D3.js library for positioning of nodes. D3’s f
 Since the simulation is aimed at visualizing the new nodes that were not previously part of the graph. In order to prevent overlapping of these new nodes with the old ones, Zeek-Agent Visualizer finds the closest positions for new nodes that have not been taken by any older node(s) along the x-axis.
 
 
-When a node first appears it can be dragged and dropped to a new position where it can be fixed. This only works for the new displayed nodes (most recent layer with the node being displayed for the first time)
+When a node first appears it can be dragged and dropped to a new position where it can be fixed. This only works for the new displayed nodes (most recent layer with the node being displayed for the first time).
+
+You can learn more about different forces and how to use them in a simulation from [here](https://github.com/d3/d3-force).
 ![zeek_positioning](https://user-images.githubusercontent.com/74818361/136704279-d92b01e9-35df-4a66-ae41-dd2914d45726.gif)
 
 ### Freeze exploration
@@ -120,72 +135,25 @@ The tool allows users to hide particular type of nodes so that they can focus on
 ![zeek_hide_new](https://user-images.githubusercontent.com/74818361/136712610-2586977b-a47d-4565-90dc-f0fa06404266.gif)
 
 
+### Forward and backward tracking option
 
-## Configuration Details
+The user has the option to either only forward track, backward track or both when exploring.
 
-You can see all the configurations needed for the visulaizer. The visualizer has already been configured for best results.
+In forward tracking only the children nodes will be explored and the graph will only move forward in time.
 
-```
+In backward tracking only the parent nodes will be explored and the graph will only move backward in time, this is particularly useful when the user does not want exploration of children nodes and is only interested to go back in time, for example, to view the initial infection point (IIP). Since there may be many children nodes as compared to probably a single parent node, this will help prevent the visualizer to display the many children nodes when clicking on a node.
 
-// configuration
+At any point in time you can enable forward tracking and click on the node to observe its children nodes and vice versa.
 
-//elastic search index corresponding to a particular label
-const file_index='file_index_attack_one_new_vtwo';
-const process_index='process_index_attack_one_new_vtwo';
-const socket_index='socket_index_attack_one_new_vtwo';
-const zeek_index='zeek_index_attack_one_new_vtwo';
-const dhcp_index='dhcp_index_attack_one_new_vtwo';
-const dns_index='dns_index_attack_one_new_vtwo';
-// link to elastic search on port 9200
-const es_file_index_url = 'http://localhost:9200/'.concat(file_index.concat('/_doc/_search'));
-const es_process_index_url  = 'http://localhost:9200/'.concat(process_index.concat('/_doc/_search'));
-const es_socket_index_url= 'http://localhost:9200/'.concat(socket_index.concat('/_doc/_search'));
-const es_zeek_index_url= 'http://localhost:9200/'.concat(zeek_index.concat('/_doc/_search'));
-const es_dhcp_index_url= 'http://localhost:9200/'.concat(dhcp_index.concat('/_doc/_search'));
-const es_dns_index_url= 'http://localhost:9200/'.concat(dns_index.concat('/_doc/_search'));
-
-// above links after concatination
-//const es_file_index_url = 'http://localhost:9200/file_index_attack_one_new_vtwo/_doc/_search';
-// const es_process_index_url  ='http://localhost:9200/process_index_attack_one_new_vtwo/_doc/_search';
-// const es_socket_index_url='http://localhost:9200/socket_index_attack_one_new_vtwo/_doc/_search';
-// const es_zeek_index_url='http://localhost:9200/zeek_index_attack_one_new_vtwo/_doc/_search';
-// const es_dhcp_index_url='http://localhost:9200/dhcp_index_attack_one_new_vtwo/_doc/_search';
-// const es_dns_index_url='http://localhost:9200/dns_index_attack_one_new_vtwo/_doc/_search';
+By default both forward tracking and backward tracking have been enabled.
 
 
 
+## Tutorial - Attack case
 
+You can use the [attack case tutorial](https://github.com/Wajihulhassan/prov-graphexp/wiki/Tutorial-Attack-case) to explore the visualizer.
 
+##### Credits
 
-// Graph configuration
-const default_nb_of_layers = 20;// the number of layers after which the first layer vanishes
-const node_limit_per_request = 30;//how much nodes are coming from es per request
-const node_visible_per_request_limit=100;//how many nodes are visible per request
-
-// Simulation
-const force_strength = -900;//electrostatic charge between nodes (repulsion if begative)
-const link_strength = 0.4;//pushes linked nodes further or apart
-//positioning force towards the axis
-const force_x_strength = 0.05; 
-const force_y_strength = 0.05;
-
-// Nodes
-const default_node_size = 10;
-const default_stroke_width = 1;
-const default_node_color = "#80E810";
-const active_node_margin = 6;
-const active_node_margin_opacity = 0.3;
-//initial position
-var search_fx=210;//position of the very first node(s)
-var dist_x=150;// initial distance between active node and its new neighbours
-var next_free_position=50; //incremented value to find the next free position for nodes to prevent overlap
-
-// Edges
-const default_edge_stroke_width = 3;
-const default_edge_color = "#959595";
-const edge_label_color = "#111";
-const use_curved_edges = false;
-```
-
-
+The front-end of this project has taken its inspiration from [graphexpx](https://github.com/bricaud/graphexp)
 
