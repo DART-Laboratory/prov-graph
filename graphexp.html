@@ -9,35 +9,27 @@
 	<head>
 		<link rel="stylesheet" href="css/graphStyle.css">
 		<link rel="stylesheet" href="css/styles.css">
-		<!--<link rel="stylesheet" href="//maxcdn.bootstrapcdn.com/font-awesome/4.3.0/css/font-awesome.min.css">
-<link rel="stylesheet" href="font-awesome-4.7.0/css/font-awesome.min.css">-->
+		
 
 		<script src="http://code.jquery.com/jquery-3.2.1.min.js"></script>
-		<!--<script src="jquery-3.2.1.min.js"></script>-->
-
-		<!-- <script src="scripts/utils.js"></script> -->
+		
 		<script src="http://d3js.org/d3.v4.min.js"></script>
-		<!--<script src="d3/d3.min.js"></script>-->
+		
 		<script src="scripts/graphConf.js"></script>
 		<script src="scripts/graphShapes.js"></script>
 		<script src="scripts/infobox.js"></script>
 		<script src="scripts/graph_viz.js"></script>
 		<script src="scripts/graphio.js"></script>
 		<script src="scripts/utils.js"></script>
-		<!-- <script src="scripts/editGraph.js"></script> -->
-		<!-- <script src="http://crypto-js.googlecode.com/svn/tags/3.1.2/build/rollups/md5.js"></script> -->
-		<!-- <script src="js/md5.min.js"></script> -->
+		
 		<script src="https://cdnjs.cloudflare.com/ajax/libs/crypto-js/4.0.0/core.min.js"></script>
 		<script src="https://cdnjs.cloudflare.com/ajax/libs/crypto-js/3.1.9-1/md5.js"></script>
-		<!-- <script type="text/javascript">
-   var hash = CryptoJS.MD5("Message");
-   alert(hash);
-</script> -->
+		
 
 		<script type="text/javascript">
 			///////////////////////////////////////////////
 			function search_query() {
-				//if (typeof graph_viz.simulation!=='undefined') {graph_viz.simulation.stop(); console.log('Simulation stopped!');}
+				
 				graphio.search_query();
 			}
 		</script>
@@ -89,10 +81,7 @@
 					<label for="limit_field">Results limit:</label>
 					<input name="limit_field" id="limit_field" value="30" min="1" max="100" type="number" />
 				</div>
-				<!-- <div class="nav input_unit_container">
-						<label class="nav input_label" for="edge_filter">Filter By Edge Label:</label>
-						<input name="edge_filter" id="edge_filter" value="" />
-					</div> -->
+				
 				<div class="nav input_unit_container">
 					<label class="nav input_label" for="nbLayers">Nb of layers</label>
 					<input type="number" id="nbLayers" min="1" max="128" onclick="set_nb_layers()"
@@ -138,10 +127,7 @@
 						onclick="graphShapes.hide_network_only(true)" />
 					<label class="nav input_label" for="hideNETWORK"> Hide Network</label>
 				</div>
-				<!-- <div class="nav input_unit_container">
-						<input type="checkbox" name="showupcomingNETWORK_box" id="hideNETWORKupcoming" />
-						<label class="nav input_label" for="hideNETWORKupcoming"> Hide Network upcoming</label>
-					</div> -->
+				
 				<div class="nav input_unit_container">
 					<input type="checkbox" name="forward_tracking" id="forward_tracking"
 						onclick="graphShapes.hide_network_only(true)" checked />
@@ -168,11 +154,7 @@
 			<div id="nodeInfo" style="background-color:transparent;overflow:scroll; height:700px;">
 			</div>
 		</div>
-		<!--
-            <div  class="aside" id="ImageInfo" style="background-color:transparent;">
-                <center><svg width="100" height="100"></svg></center>
-            </div>
-            -->
+		
 	</div>
 
 	<div class="footer">

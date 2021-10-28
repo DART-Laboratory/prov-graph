@@ -640,11 +640,11 @@ var graphio = (function () {
               var data = response.hits.hits;
 
               if (data.length != 0) {
-                var pid_process = data_manipulation(data, node_pos, "process")
+                var process_node = data_manipulation(data, node_pos, "process")
 
-                combined_nodes = combined_nodes.concat(pid_process)
+                combined_nodes = combined_nodes.concat(process_node)
 
-                var edges = edge_manipulation_process_process(pid_process, d, "inbound", "process", "process")
+                var edges = edge_manipulation_process_process(process_node, d, "inbound", "process", "process")
                 combined_edges = combined_edges.concat(edges)
               }
 
@@ -701,11 +701,11 @@ var graphio = (function () {
               var data = response.hits.hits;
               //console.log("data",data)
               if (data.length != 0) {
-                var pid_process = data_manipulation(data, node_pos, "process")
+                var process_node = data_manipulation(data, node_pos, "process")
 
-                combined_nodes = combined_nodes.concat(pid_process)
+                combined_nodes = combined_nodes.concat(process_node)
 
-                var edges = edge_manipulation_process_process(pid_process, d, "outbound", "process", "process")
+                var edges = edge_manipulation_process_process(process_node, d, "outbound", "process", "process")
                 combined_edges = combined_edges.concat(edges)
               }
 
@@ -758,11 +758,11 @@ var graphio = (function () {
               var data = response.hits.hits;
               //console.log("data",data)
               if (data.length != 0) {
-                var pid_process = data_manipulation(data, node_pos, "file")
+                var file_node = data_manipulation(data, node_pos, "file")
                 //console.log("pid data",pid_process)
-                combined_nodes = combined_nodes.concat(pid_process)
+                combined_nodes = combined_nodes.concat(file_node)
                 //console.log("combined_nodes",combined_nodes)
-                var edges = edge_manipulation_process_process(pid_process, d, "outbound", "process", "file")
+                var edges = edge_manipulation_process_process(file_node, d, "outbound", "process", "file")
                 combined_edges = combined_edges.concat(edges)
               }
 
@@ -819,11 +819,11 @@ var graphio = (function () {
               var data = response.hits.hits;
 
               if (data.length != 0) {
-                var pid_process = data_manipulation(data, node_pos, "socket")
+                var socket_node = data_manipulation(data, node_pos, "socket")
 
-                combined_nodes = combined_nodes.concat(pid_process)
+                combined_nodes = combined_nodes.concat(socket_node)
 
-                var edges = edge_manipulation_process_process(pid_process, d, "outbound", "process", "socket")
+                var edges = edge_manipulation_process_process(socket_node, d, "outbound", "process", "socket")
                 combined_edges = combined_edges.concat(edges)
               }
 
@@ -887,11 +887,11 @@ var graphio = (function () {
               var data = response.hits.hits;
 
               if (data.length != 0) {
-                var pid_process = data_manipulation(data, node_pos, "conn")
+                var zeek_node = data_manipulation(data, node_pos, "conn")
 
-                combined_nodes = combined_nodes.concat(pid_process)
+                combined_nodes = combined_nodes.concat(zeek_node)
 
-                var edges = edge_manipulation_process_process(pid_process, d, "outbound", "socket", "conn")
+                var edges = edge_manipulation_process_process(zeek_node, d, "outbound", "socket", "conn")
                 combined_edges = combined_edges.concat(edges)
               }
 
@@ -930,11 +930,11 @@ var graphio = (function () {
               var data = response.hits.hits;
 
               if (data.length != 0) {
-                var pid_process = data_manipulation(data, node_pos, "conn")
+                var zeek_node = data_manipulation(data, node_pos, "conn")
 
-                combined_nodes = combined_nodes.concat(pid_process)
+                combined_nodes = combined_nodes.concat(zeek_node)
 
-                var edges = edge_manipulation_process_process(pid_process, d, "outbound", "socket", "conn")
+                var edges = edge_manipulation_process_process(zeek_node, d, "outbound", "socket", "conn")
                 combined_edges = combined_edges.concat(edges)
               }
 
@@ -999,11 +999,11 @@ var graphio = (function () {
               var data = response.hits.hits;
 
               if (data.length != 0) {
-                var pid_process = data_manipulation(data, node_pos, "process")
+                var process_node = data_manipulation(data, node_pos, "process")
 
-                combined_nodes = combined_nodes.concat(pid_process)
+                combined_nodes = combined_nodes.concat(process_node)
 
-                var edges = edge_manipulation_process_process(pid_process, d, "inbound", "socket", "process")
+                var edges = edge_manipulation_process_process(process_node, d, "inbound", "socket", "process")
                 combined_edges = combined_edges.concat(edges)
               }
 
@@ -1075,11 +1075,11 @@ var graphio = (function () {
             var data = response.hits.hits;
 
             if (data.length != 0) {
-              var pid_process = data_manipulation(data, node_pos, "process")
+              var process_node = data_manipulation(data, node_pos, "process")
 
-              combined_nodes = combined_nodes.concat(pid_process)
+              combined_nodes = combined_nodes.concat(process_node)
 
-              var edges = edge_manipulation_process_process(pid_process, d, "inbound", "file", "process")
+              var edges = edge_manipulation_process_process(process_node, d, "inbound", "file", "process")
               combined_edges = combined_edges.concat(edges)
             }
 
@@ -1152,11 +1152,11 @@ var graphio = (function () {
                   var data = response.hits.hits;
 
                   if (data.length != 0) {
-                    var pid_process = data_manipulation(data, node_pos, "socket")
+                    var socket_node = data_manipulation(data, node_pos, "socket")
 
-                    combined_nodes = combined_nodes.concat(pid_process)
+                    combined_nodes = combined_nodes.concat(socket_node)
 
-                    var edges = edge_manipulation_process_process(pid_process, d, "inbound", "conn", "socket")
+                    var edges = edge_manipulation_process_process(socket_node, d, "inbound", "conn", "socket")
                     combined_edges = combined_edges.concat(edges)
                   }
 
@@ -1211,11 +1211,11 @@ var graphio = (function () {
                   var data = response.hits.hits;
 
                   if (data.length != 0) {
-                    var pid_process = data_manipulation(data, node_pos, "socket")
+                    var socket_node = data_manipulation(data, node_pos, "socket")
 
-                    combined_nodes = combined_nodes.concat(pid_process)
+                    combined_nodes = combined_nodes.concat(socket_node)
 
-                    var edges = edge_manipulation_process_process(pid_process, d, "inbound", "conn", "socket")
+                    var edges = edge_manipulation_process_process(socket_node, d, "inbound", "conn", "socket")
                     combined_edges = combined_edges.concat(edges)
                   }
 
@@ -1275,11 +1275,11 @@ var graphio = (function () {
               var data = response.hits.hits;
 
               if (data.length != 0) {
-                var pid_process = data_manipulation(data, node_pos, "dns")
+                var network_node = data_manipulation(data, node_pos, "dns")
 
-                combined_nodes = combined_nodes.concat(pid_process)
+                combined_nodes = combined_nodes.concat(network_node)
 
-                var edges = edge_manipulation_process_process(pid_process, d, "outbound", "conn", "dns")
+                var edges = edge_manipulation_process_process(network_node, d, "outbound", "conn", "dns")
                 combined_edges = combined_edges.concat(edges)
               }
 
@@ -1312,11 +1312,11 @@ var graphio = (function () {
               var data = response.hits.hits;
 
               if (data.length != 0) {
-                var pid_process = data_manipulation(data, node_pos, "dhcp")
+                var network_node = data_manipulation(data, node_pos, "dhcp")
 
-                combined_nodes = combined_nodes.concat(pid_process)
+                combined_nodes = combined_nodes.concat(network_node)
 
-                var edges = edge_manipulation_process_process(pid_process, d, "outbound", "conn", "dhcp")
+                var edges = edge_manipulation_process_process(network_node, d, "outbound", "conn", "dhcp")
                 combined_edges = combined_edges.concat(edges)
               }
 
