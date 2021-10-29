@@ -343,7 +343,7 @@ var graphio = (function () {
           if (data.length != 0) {
             var data_list = data_manipulation(data, search_fx, label_node)
             var test_dic = { 'nodes': data_list, 'links': [] }
-            console.log(data_list.length)
+            //console.log(data_list.length)
             graph_viz.refresh_data(test_dic, 1, null)
             node_position_list.push(search_fx)
             search_fx = search_fx + 25
