@@ -413,6 +413,10 @@ var graphio = (function () {
       if (data_dict['label'] != "ZEEK" && data_dict['label'] != "NETWORK") {
         delete dict_for_hash['host_ts']
       }
+      if (data_dict['label'] == "SOCKET")
+      {
+        delete dict_for_hash['seuid']//merging of similar sockets
+      }
 
       delete dict_for_hash['ts']
 
