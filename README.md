@@ -149,11 +149,11 @@ By default both forward tracking and backward tracking have been enabled.
 
 
 
-## Tutorial - Attack case
+### Tutorial - Attack case
 
 You can use the [attack case tutorial](https://github.com/Wajihulhassan/prov-graphexp/wiki/Tutorial-Attack-case) to explore the visualizer.
 
-##### Credits
+### Credits
 
 The front-end of this project has taken its inspiration from [graphexpx](https://github.com/bricaud/graphexp)
 
