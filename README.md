@@ -13,7 +13,13 @@ User friendly manipulation techniques of such a graph can also allow analysts to
 
 The displayed nodes and links are derived from the audit logs from Zeek-Agent (attach github link) which contains process, socket, file, network, and attribution of socket with network (zeek) events. Each of these events are stored in a seperate json log file, which can be easily linked/uploaded to elasticsearch.
 
-To use Zeek-Agent Visualizer you need to be connected to elasticsearch running with ajax API that is configured for Cross-Origin Resource Sharing (CORS) and a recent web browser to display the visualization. 
+To use Zeek-Agent Visualizer you need to be connected to elasticsearch running with ajax API that is configured for Cross-Origin Resource Sharing (CORS) and a recent web browser to display the visualization. Incase CORS is not enabled, you can change the elasticsearch CORS setting from the config/elasticsearch.yml file
+
+```
+http.cors.allow-origin: "/.*/"
+http.cors.enabled: true
+#you might want to use the regex for your local host instead of "/.*/" as a safer option
+```
 
 Each index in elasticsearch should have only one log file entry, each document in the table corresponds to a seperate log from a log file (e.g process.log containing process events).
 
