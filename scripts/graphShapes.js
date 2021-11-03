@@ -19,8 +19,8 @@ limitations under the License.
 var graphShapes = (function(){
 	"use strict";
 
-	var color_palette = d3.scaleOrdinal(d3.schemeCategory20);
-	var colored_prop = "none";
+	d3.scaleOrdinal(d3.schemeCategory20);  //removed var color_palette = and commented the next line
+	//var colored_prop = "none";
 	var node_code_color = [];
 
 	function node_size(d){

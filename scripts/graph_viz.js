@@ -255,7 +255,7 @@ var graph_viz = (function () {
 				for (var i = 0; i < active_nodes.length; i++) {
 					for (var j = 0; j < active_nodes.length; j++) {
 						if (active_nodes[i].id == row.source.id && active_nodes[j].id == row.target.id) {
-							var L_data = { source: row.source.id, target: row.target.id, type: row.type, value: row.value, id: row.id };
+							//var L_data = { source: row.source.id, target: row.target.id, type: row.type, value: row.value, id: row.id };
 							var L_data = row;
 							L_data['source'] = row.source.id;
 							L_data['target'] = row.target.id;
@@ -264,7 +264,7 @@ var graph_viz = (function () {
 
 						}
 						else if (active_nodes[i].id == row.source && active_nodes[j].id == row.target) {
-							var L_data = row;
+							let L_data = row;
 							active_links = active_links.concat(L_data);
 							
 						}

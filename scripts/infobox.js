@@ -52,7 +52,7 @@ var infobox = (function () {
 			row.append("th").text(entries[key]);
 		}
 		var table_body = table_handle.append("tbody");
-		var row = table_body.append("tr");
+		row = table_body.append("tr");
 		for (var key in entries) {
 			row.append("td").text("");
 		}
@@ -79,7 +79,7 @@ var infobox = (function () {
 		for (var key in data) {
 			var info_row = table_body.append("tr");
 			var key_text = info_row.append("td").text(key).style("font-size", _font_size);
-			var value_text = info_row.append("td").text(data[key]).style("font-size", _font_size);
+			info_row.append("td").text(data[key]).style("font-size", _font_size);
 			if (type == "bold") {
 				key_text.style('font-weight', 'bolder');
 			}
@@ -152,13 +152,13 @@ var infobox = (function () {
 			}
 			if (((typeof value[subkey] === "object") && (value[subkey] !== null)) && ('properties' in value[subkey])) {
 				for (var subsubkey in value[subkey].properties) {
-					var new_info_row = info_table.append("tr");
+					let new_info_row = info_table.append("tr");
 					new_info_row.append("td").text(key).style("font-size", _font_size);
 					new_info_row.append("td").text(value[subkey].value).style("font-size", _font_size);
 					new_info_row.append("td").text(subsubkey + ' : ' + value[subkey].properties[subsubkey]).style("font-size", _font_size);
 				}
 			} else {
-				var new_info_row = info_table.append("tr");
+				let new_info_row = info_table.append("tr");													
 				new_info_row.append("td").text(key).style("font-size", _font_size);
 				new_info_row.append("td").text(value[subkey].value).style("font-size", _font_size);
 				new_info_row.append("td").text('').style("font-size", _font_size);

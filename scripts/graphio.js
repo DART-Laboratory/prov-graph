@@ -413,10 +413,15 @@ var graphio = (function () {
       if (data_dict['label'] != "ZEEK" && data_dict['label'] != "NETWORK") {
         delete dict_for_hash['host_ts']
       }
+      var merge_socket = document.getElementById("merge_socket");
+
+      var isChecked_merge_socket = merge_socket.checked;
+      if (isChecked_merge_socket){
       if (data_dict['label'] == "SOCKET")
       {
         delete dict_for_hash['seuid']//merging of similar sockets
       }
+    }
 
       delete dict_for_hash['ts']
 
@@ -452,7 +457,10 @@ var graphio = (function () {
     else if (limit_field < 0 || limit_field > node_visible_per_request_limit) {
       limit_field = node_visible_per_request_limit;
     }
+    // removed_list=data_list.splice(limit_field)
+    // console.log(removed_list)
     data_list = data_list.splice(0, limit_field)
+
 
     return data_list;
 
