@@ -1,6 +1,8 @@
-# Zeek-Agent Visualizer
-Zeek-Agent Visualizer is a web-based graph visualization tool that allows security analysts to construct, explore and manipulate provenance graphs
-interactively for better threat alert investigation. This tool is designed to construct provenance graphs from kernel-level audit logs in a way that does not only assist in observing the behaviour of an attack, but also trace the attack from one endpoint e.g a compromised file to the other endpoint e.g the first process that was created due to the attack.
+
+[![DeepScan grade](https://deepscan.io/api/teams/15726/projects/18954/branches/477350/badge/grade.svg?token=a1fa0980263b30233c0ddf1e9c3ed778290db2ee)](https://deepscan.io/dashboard#view=project&tid=15726&pid=18954&bid=477350)
+
+# Graphexp: graph explorer with D3.js
+
 
 User friendly manipulation techniques of such a graph can also allow analysts to observe other compromises that they might not be aware of.
 
