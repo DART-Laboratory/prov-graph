@@ -693,7 +693,7 @@ var graphio = (function () {
         if (isChecked_forward) {
           var pid_process = d.properties.pid[0].value
           let host = d.properties.host[0].value
-          var node_pos = d.fx + dist_x
+          let node_pos = d.fx + dist_x
 
           node_pos = find_node_position(node_pos, "forward", d.id)
 
@@ -891,7 +891,7 @@ var graphio = (function () {
         if (isChecked_forward) {
           var seuid = d.properties.seuid[0].value
 
-          var node_pos = d.fx + dist_x
+          let node_pos = d.fx + dist_x
           node_pos = find_node_position(node_pos, "forward", d.id)
 
 
@@ -987,7 +987,7 @@ var graphio = (function () {
           let host = d.properties.host[0].value
           let uid = d.properties.uid[0].value
           //console.log("ppid_process",ppid_process)
-          var node_pos = d.fx - dist_x
+          let node_pos = d.fx - dist_x
           node_pos = find_node_position(node_pos, "backward", d.id)
 
 
@@ -1144,7 +1144,7 @@ var graphio = (function () {
     if (d.label == "ZEEK") {
       if (isChecked_backward || isChecked_forward) {
         if (isChecked_backward) {
-          var node_pos = d.fx - dist_x
+          let node_pos = d.fx - dist_x
           node_pos = find_node_position(node_pos, "backward", d.id)
 
           ///////////////find socket attributed to zeek based on orig_seuid
@@ -1273,7 +1273,7 @@ var graphio = (function () {
         // find network nodes related to the zeek log,both dns and dhcp, any new network logs may be added here
         if (isChecked_forward) {
           let uid = d.properties.uid[0].value
-          var node_pos = d.fx + dist_x
+          let node_pos = d.fx + dist_x
           node_pos = find_node_position(node_pos, "forward", d.id)
 
 
