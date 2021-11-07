@@ -192,7 +192,7 @@ var graphio = (function () {
     if (input_field == "PID" && (label_field == 'none' || label_field == 'process')) {//fetch process node with a certain pid
 
       input_id = parseInt(input_id)
-      var data = {
+      let data = {
         "query": {
           "bool": {
             "must": [
@@ -588,8 +588,8 @@ var graphio = (function () {
       }
     }
     if (direction == "backward") {
-      var found_free = true;
-      while (found_free) {
+      let found_free = true;
+      while (true) {
         if (node_position_list.includes(position)) {
           found_free = false;
         }
@@ -691,13 +691,13 @@ var graphio = (function () {
         //////find  child pid process
         if (isChecked_forward) {
           var pid_process = d.properties.pid[0].value
-          var host = d.properties.host[0].value
+          let host = d.properties.host[0].value
           var node_pos = d.fx + dist_x
 
           node_pos = find_node_position(node_pos, "forward", d.id)
 
 
-          var data = {
+          let data = {
             "query": {
               "bool": {
                 "must": [
@@ -896,7 +896,7 @@ var graphio = (function () {
 
           //////find zeek nodes attributed with the socket based on orig_seuid
 
-          var data = {
+          let data = {
             "query": {
               "match": {
                 "orig_seuids": seuid
@@ -990,7 +990,7 @@ var graphio = (function () {
           node_pos = find_node_position(node_pos, "backward", d.id)
 
 
-          var data = {
+          let data = {
             "query": {
               "bool": {
                 "must": [
@@ -1071,7 +1071,7 @@ var graphio = (function () {
         node_pos = find_node_position(node_pos, "backward", d.id)
 
 
-        var data = {
+        let data = {
           "query": {
             "bool": {
               "must": [
@@ -1363,7 +1363,7 @@ var graphio = (function () {
 
         combined_nodes.push(d)
         //console.log("combined_edges",combined_edges)
-        var test_dic = { 'nodes': combined_nodes, 'links': combined_edges }
+        let test_dic = { 'nodes': combined_nodes, 'links': combined_edges }
         //console.log("graphnew",test_dic)
         graph_viz.refresh_data(test_dic, 1, d.id)
 
