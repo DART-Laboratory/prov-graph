@@ -8,6 +8,21 @@ const socket_index = 'socket_index_attack_one_new_vtwo';
 const zeek_index = 'zeek_index_attack_one_new_vtwo';
 const dhcp_index = 'dhcp_index_attack_one_new_vtwo';
 const dns_index = 'dns_index_attack_one_new_vtwo';
+//attack motivation_first_remove
+// const file_index = 'motivational_attack_file';
+// const process_index = 'motivational_attack_process';
+// const socket_index = 'motivational_attack_socket';
+// const zeek_index = 'motivational_attack_zeek';
+// const dhcp_index = 'motivational_attack_dhcp';
+// const dns_index = 'motivational_attack_dns';
+
+
+// const file_index = 'motivation_attack_file';
+// const process_index = 'motivation_attack_process';
+// const socket_index = 'motivation_attack_socket';
+// const zeek_index = 'motivation_attack_zeek';
+// const dhcp_index = 'motivation_attack_dhcp';
+// const dns_index = 'motivation_attack_dns';
 // link to elastic search on port 9200
 const es_file_index_url = 'http://localhost:9200/'.concat(file_index.concat('/_doc/_search'));
 const es_process_index_url = 'http://localhost:9200/'.concat(process_index.concat('/_doc/_search'));

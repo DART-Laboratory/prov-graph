@@ -279,7 +279,7 @@ var graphio = (function () {
           var data = response.hits.hits;
 
           if (data.length != 0) {
-            var data_list = data_manipulation(data, search_fx, "file")
+            var data_list = data_manipulation(data, search_fx, "file",input_id,"search")
             var test_dic = { 'nodes': data_list, 'links': [] }
             //console.log("graphnew",test_dic)
             graph_viz.refresh_data(test_dic, 1, null)
@@ -361,10 +361,10 @@ var graphio = (function () {
   }
 
   ///////////////////////////////////////////////////////data manipulation of nodes, specified structure for front end////////////////////////////////////////////////
-  function data_manipulation(data, val, type) {
+  function data_manipulation(data, val, type,filename,search_or_click_for_file) {
 
     var data_list = []
-
+    //console.log(filename)
     for (var key in data) {
 
 
@@ -388,6 +388,25 @@ var graphio = (function () {
       if (type == "file") {
         data_dict["properties"]['name'] = data_dict["properties"]['path']
         data_dict['label'] = "FILE"
+        var exe_path=data_dict["properties"]['name']
+        //console.log(exe_path)
+        if (exe_path.includes("/"))
+        {
+          var path_token=exe_path.split("/")
+          var file_name=path_token[path_token.length-1]
+          if(file_name!=filename && search_or_click_for_file=='search')
+          {
+            continue
+          }
+        }
+        else
+        {
+          //console.log('absent')
+          if (exe_path!=filename && search_or_click_for_file=='search')
+          {
+            continue
+          }
+        }
       }
       if (type == "socket") {
         data_dict["properties"]['name'] = data_dict["properties"]['exe']
@@ -434,7 +453,7 @@ var graphio = (function () {
           data_list.push(merge_node_dict[hash])
         }
 
-        var x = 2
+        //var x = 2
       }
       else {
         merge_node_history.push(hash)
@@ -1030,7 +1049,7 @@ var graphio = (function () {
 
         combined_nodes.push(d)
 
-        var test_dic = { 'nodes': combined_nodes, 'links': combined_edges }
+        let test_dic = { 'nodes': combined_nodes, 'links': combined_edges }
 
         graph_viz.refresh_data(test_dic, 1, d.id)
 
@@ -1044,8 +1063,8 @@ var graphio = (function () {
 
       if (isChecked_backward) {
         ///////////////find process related to the file
-        var pid = d.properties.pid[0].value
-        var host = d.properties.host[0].value
+        let pid = d.properties.pid[0].value
+        let host = d.properties.host[0].value
 
         var node_pos = d.fx - dist_x
         var node_pos = find_node_position(node_pos, "backward", d.id)
