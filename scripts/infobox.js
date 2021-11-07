@@ -53,7 +53,7 @@ var infobox = (function () {
 		}
 		var table_body = table_handle.append("tbody");
 		row = table_body.append("tr");
-		for (var key in entries) {
+		for (let key in entries) {
 			row.append("td").text("");
 		}
 	}
@@ -67,7 +67,7 @@ var infobox = (function () {
 		data_to_display = data[1][0];
 		append_keysvalues(info_table, { "Nodes properties": "" }, "bold");
 		append_keysvalues(info_table, data_to_display, "normal");
-		var data_to_display = data[2][0];
+		data_to_display = data[2][0];
 		append_keysvalues(info_table, { "Edge labels": "" }, "bold");
 		append_keysvalues(info_table, data_to_display, "normal");
 		data_to_display = data[3][0];
@@ -127,7 +127,7 @@ var infobox = (function () {
 			}
 		}
 		else {
-			for (var key in d.properties) {
+			for (let key in d.properties) {
 				var new_info_row = info_table.append("tr");
 				new_info_row.append("td").text(key);
 				new_info_row.append("td").text(d.properties[key]);

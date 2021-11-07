@@ -193,7 +193,7 @@ var graph_viz = (function () {
 			
 			// retrieve the links between nodes and pinned nodes
 			_Links = d.links.concat(previous_links_data); // first gather the links
-			_Links = find_active_links(_Links, _Nodes,active_node); // then find the ones that are between active nodes
+			_Links = find_active_links(_Links, _Nodes); // then find the ones that are between active nodes
 			//console.log(_Links)
 			
 			// Sort links by source, then target, then label
@@ -247,7 +247,7 @@ var graph_viz = (function () {
 			return array1.concat(arraytmp);
 		}
 
-		function find_active_links(list_of_links, active_nodes,active_node) {
+		function find_active_links(list_of_links, active_nodes) {
 			// find the links in the list_of_links that are between the active nodes and discard the others
 			
 			var active_links = [];

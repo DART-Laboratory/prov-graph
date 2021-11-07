@@ -103,7 +103,7 @@ var graphShapes = (function(){
 			.attr("fill", node_color);
 		node_base_circle.append("title").text(node_title);
 		
-		var node_content=node_deco.append("text").classed("text_details",true)
+		node_deco.append("text").classed("text_details",true)
 		  .attr("x",function(d){return node_size(d)+2;})
 		  .text(node_text)
 		  .style("visibility", "visible");

@@ -290,7 +290,7 @@ var MD5 = function (string) {
 
 
 
-    var x = Array();
+    //var x = Array();
 
 
     var k, AA, BB, CC, DD, a, b, c, d;
@@ -315,7 +315,7 @@ var MD5 = function (string) {
 
 
 
-    x = ConvertToWordArray(string);
+    var x = ConvertToWordArray(string);
 
 
 

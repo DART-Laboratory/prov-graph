@@ -247,7 +247,7 @@ var graphio = (function () {
     if (input_field == "FILE NAME" && (label_field == 'none' || label_field == 'file')) {//fetch file node with a certain file name
 
 
-      var data = {
+      let data = {
         "query": {
           "bool": {
             "must": [
@@ -318,7 +318,7 @@ var graphio = (function () {
       }
 
 
-      var data = {
+      let data = {
         "query": {
           "match_all": {}
         }
@@ -426,8 +426,8 @@ var graphio = (function () {
       }
 
 
-      var ts = data_dict['properties']['ts']
-      var host_ts = data_dict['properties']['host_ts']
+      //var ts = data_dict['properties']['ts']
+      //var host_ts = data_dict['properties']['host_ts']
       var dict_for_hash = JSON.parse(JSON.stringify(data_dict['properties']));
       if (data_dict['label'] != "ZEEK" && data_dict['label'] != "NETWORK") {
         delete dict_for_hash['host_ts']
@@ -446,7 +446,7 @@ var graphio = (function () {
 
       var hash = MD5(JSON.stringify(dict_for_hash))//merging of similar nodes
       
-
+      //console.log(hash)
       if (merge_node_history.includes(hash)) {
 
         if (!data_list.includes(merge_node_dict[hash])) {
@@ -557,10 +557,10 @@ var graphio = (function () {
 
   ////////////////////finding right node position////////////
   function find_node_position(position, direction, id) {
-    var input_forward = document.getElementById("forward_tracking");
-    var isChecked_forward = input_forward.checked;
-    var input_backward = document.getElementById("backward_tracking");
-    var isChecked_backward = input_backward.checked;
+    // var input_forward = document.getElementById("forward_tracking");
+    // var isChecked_forward = input_forward.checked;
+    // var input_backward = document.getElementById("backward_tracking");
+    // var isChecked_backward = input_backward.checked;
 
 
     if (node_position_history_forward.includes(id) && direction == 'forward') {
@@ -574,7 +574,7 @@ var graphio = (function () {
 
     if (direction == "forward") {
       var found_free = true;
-      while (found_free) {
+      while (true) {
         if (node_position_list.includes(position)) {
           found_free = false;
         }
@@ -625,13 +625,14 @@ var graphio = (function () {
 
     if (d.label == "PROCESS") {
       if (isChecked_backward || isChecked_forward) {
+        
 
         if (isChecked_backward) {
           var ppid_process = d.properties.ppid[0].value
           var host = d.properties.host[0].value
 
           var node_pos = d.fx - dist_x
-          var node_pos = find_node_position(node_pos, "backward", d.id)
+          node_pos = find_node_position(node_pos, "backward", d.id)
           //find parent process
 
           var data = {
@@ -693,7 +694,7 @@ var graphio = (function () {
           var host = d.properties.host[0].value
           var node_pos = d.fx + dist_x
 
-          var node_pos = find_node_position(node_pos, "forward", d.id)
+          node_pos = find_node_position(node_pos, "forward", d.id)
 
 
           var data = {
@@ -749,10 +750,10 @@ var graphio = (function () {
 
 
           //////find files related to the process
-          var pid_process = d.properties.pid[0].value
+          //var pid_process = d.properties.pid[0].value
 
 
-          var data = {
+          data = {
             "query": {
               "bool": {
                 "must": [
@@ -804,12 +805,12 @@ var graphio = (function () {
 
 
           //////find sockets related to the process
-          var pid_process = d.properties.pid[0].value
+          //pid_process = d.properties.pid[0].value
           var uid =d.properties.uid[0].value
 
 
 
-          var data = {
+          data = {
             "query": {
               "bool": {
                 "must": [
@@ -890,7 +891,7 @@ var graphio = (function () {
           var seuid = d.properties.seuid[0].value
 
           var node_pos = d.fx + dist_x
-          var node_pos = find_node_position(node_pos, "forward", d.id)
+          node_pos = find_node_position(node_pos, "forward", d.id)
 
 
           //////find zeek nodes attributed with the socket based on orig_seuid
@@ -937,7 +938,7 @@ var graphio = (function () {
           //////find zeek nodes attributed with the socket based on resp_seuid
 
 
-          var data = {
+          data = {
             "query": {
               "match": {
                 "resp_seuids": seuid
@@ -982,11 +983,11 @@ var graphio = (function () {
 
         if (isChecked_backward) {
           var pid = d.properties.pid[0].value
-          var host = d.properties.host[0].value
-          var uid = d.properties.uid[0].value
+          let host = d.properties.host[0].value
+          let uid = d.properties.uid[0].value
           //console.log("ppid_process",ppid_process)
           var node_pos = d.fx - dist_x
-          var node_pos = find_node_position(node_pos, "backward", d.id)
+          node_pos = find_node_position(node_pos, "backward", d.id)
 
 
           var data = {
@@ -1067,7 +1068,7 @@ var graphio = (function () {
         let host = d.properties.host[0].value
 
         var node_pos = d.fx - dist_x
-        var node_pos = find_node_position(node_pos, "backward", d.id)
+        node_pos = find_node_position(node_pos, "backward", d.id)
 
 
         var data = {
@@ -1143,16 +1144,16 @@ var graphio = (function () {
       if (isChecked_backward || isChecked_forward) {
         if (isChecked_backward) {
           var node_pos = d.fx - dist_x
-          var node_pos = find_node_position(node_pos, "backward", d.id)
+          node_pos = find_node_position(node_pos, "backward", d.id)
 
           ///////////////find socket attributed to zeek based on orig_seuid
-          var uid = d.properties.uid[0].value
+          //var uid = d.properties.uid[0].value
           try {
             var orig_seuid = d.properties.orig_seuids[0].value
 
             for (var key in orig_seuid) {
 
-              var data = {
+              let data = {
                 "query": {
                   "bool": {
                     "must": [
@@ -1209,9 +1210,9 @@ var graphio = (function () {
           try {
             var resp_seuid = d.properties.resp_seuids[0].value
             ///////////////find socket attributed to zeek based on resp_seuid
-            for (var key in orig_seuid) {
+            for (let key in orig_seuid) {
 
-              var data = {
+              let data = {
                 "query": {
                   "bool": {
                     "must": [
@@ -1272,7 +1273,7 @@ var graphio = (function () {
         if (isChecked_forward) {
           var uid = d.properties.uid[0].value
           var node_pos = d.fx + dist_x
-          var node_pos = find_node_position(node_pos, "forward", d.id)
+          node_pos = find_node_position(node_pos, "forward", d.id)
 
 
           var data = {
@@ -1320,7 +1321,7 @@ var graphio = (function () {
 
 
 
-          var data = {
+          data = {
             "query": {
               "match": {
                 "uids": uid
