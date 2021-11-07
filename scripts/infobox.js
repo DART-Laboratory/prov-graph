@@ -48,12 +48,12 @@ var infobox = (function () {
 	function init_table(table_handle, entries) {
 		var table_head = table_handle.append("thead");
 		var row = table_head.append("tr");
-		for (var key in entries) {
-			row.append("th").text(entries[key]);
+		for (var key of entries) {
+			row.append("th").text(key);
 		}
 		var table_body = table_handle.append("tbody");
 		row = table_body.append("tr");
-		for (let key in entries) {
+		for (let i=0;i< entries.length;i++) {
 			row.append("td").text("");
 		}
 	}
@@ -109,8 +109,8 @@ var infobox = (function () {
 		// Keep only the entries in id_keys, to display
 		var id_keys = ["id", "label"];
 		var data_dic = {}
-		for (var key in id_keys) {
-			data_dic[id_keys[key]] = d[id_keys[key]]
+		for (var key of id_keys) {
+			data_dic[key] = d[key]
 		}
 		append_keysvalues(info_table, data_dic)
 	}

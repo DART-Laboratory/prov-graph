@@ -488,10 +488,11 @@ var graphio = (function () {
 
   function edge_manipulation_process_process(data, curr_node, inorout, from, to) {
     var edge_list = []
-    for (var key in data) {
+    for (var key of data) {
       var curr_edge_dict = {}
 
-      var curr_data = data[key]
+      //var curr_data = data[key] in
+      var curr_data = key
 
       curr_edge_dict.id = edge_id
       edge_id = edge_id + 1
