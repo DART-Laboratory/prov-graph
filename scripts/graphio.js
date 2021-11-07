@@ -1125,7 +1125,7 @@ var graphio = (function () {
 
         combined_nodes.push(d)
 
-        var test_dic = { 'nodes': combined_nodes, 'links': combined_edges }
+        let test_dic = { 'nodes': combined_nodes, 'links': combined_edges }
 
         graph_viz.refresh_data(test_dic, 1, d.id)
 
@@ -1271,12 +1271,12 @@ var graphio = (function () {
 
         // find network nodes related to the zeek log,both dns and dhcp, any new network logs may be added here
         if (isChecked_forward) {
-          var uid = d.properties.uid[0].value
+          let uid = d.properties.uid[0].value
           var node_pos = d.fx + dist_x
           node_pos = find_node_position(node_pos, "forward", d.id)
 
 
-          var data = {
+          let data = {
             "query": {
               "bool": {
                 "must": [
