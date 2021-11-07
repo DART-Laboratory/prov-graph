@@ -1068,7 +1068,7 @@ var graphio = (function () {
         let pid = d.properties.pid[0].value
         let host = d.properties.host[0].value
 
-        var node_pos = d.fx - dist_x
+        let node_pos = d.fx - dist_x
         node_pos = find_node_position(node_pos, "backward", d.id)
 
 
