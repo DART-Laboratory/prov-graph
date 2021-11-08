@@ -1,38 +1,58 @@
 
-// configuration for the graph database access
+// configuration
 
-// if host is set, will override default localhost server option
-//const host = "some_gremlin_server"
-const host = false;
+//elastic search index corresponding to a particular label
+const file_index = 'file_index_attack_one_new_vtwo';
+const process_index = 'process_index_attack_one_new_vtwo';
+const socket_index = 'socket_index_attack_one_new_vtwo';
+const zeek_index = 'zeek_index_attack_one_new_vtwo';
+const dhcp_index = 'dhcp_index_attack_one_new_vtwo';
+const dns_index = 'dns_index_attack_one_new_vtwo';
+//attack motivation_first_remove
+// const file_index = 'motivational_attack_file';
+// const process_index = 'motivational_attack_process';
+// const socket_index = 'motivational_attack_socket';
+// const zeek_index = 'motivational_attack_zeek';
+// const dhcp_index = 'motivational_attack_dhcp';
+// const dns_index = 'motivational_attack_dns';
 
-const SERVER_ADDRESS='localhost';
-const SERVER_PORT='8182';
-const SERVER_PROTOCOL='websocket';
-const SERVER_COMMUNICATION_METHOD='GraphSON3';
 
-// For implementations like Neptune where only single commands are allowed per request
-// set to true
-const SINGLE_COMMANDS_AND_NO_VARS = false;
-// For implementations like Neptune where communication only over https is allowed
-// set to true
-const REST_USE_HTTPS = false;
+// const file_index = 'motivation_attack_file';
+// const process_index = 'motivation_attack_process';
+// const socket_index = 'motivation_attack_socket';
+// const zeek_index = 'motivation_attack_zeek';
+// const dhcp_index = 'motivation_attack_dhcp';
+// const dns_index = 'motivation_attack_dns';
+// link to elastic search on port 9200
+const es_file_index_url = 'http://localhost:9200/'.concat(file_index.concat('/_doc/_search'));
+const es_process_index_url = 'http://localhost:9200/'.concat(process_index.concat('/_doc/_search'));
+const es_socket_index_url = 'http://localhost:9200/'.concat(socket_index.concat('/_doc/_search'));
+const es_zeek_index_url = 'http://localhost:9200/'.concat(zeek_index.concat('/_doc/_search'));
+const es_dhcp_index_url = 'http://localhost:9200/'.concat(dhcp_index.concat('/_doc/_search'));
+const es_dns_index_url = 'http://localhost:9200/'.concat(dns_index.concat('/_doc/_search'));
 
-// Time out for the REST protocol. Increase it if the graphDB is slow.
-const REST_TIMEOUT = 2000;
-// TODO: configuration for the secure server
+// above links after concatination
+//const es_file_index_url = 'http://localhost:9200/file_index_attack_one_new_vtwo/_doc/_search';
+// const es_process_index_url  ='http://localhost:9200/process_index_attack_one_new_vtwo/_doc/_search';
+// const es_socket_index_url='http://localhost:9200/socket_index_attack_one_new_vtwo/_doc/_search';
+// const es_zeek_index_url='http://localhost:9200/zeek_index_attack_one_new_vtwo/_doc/_search';
+// const es_dhcp_index_url='http://localhost:9200/dhcp_index_attack_one_new_vtwo/_doc/_search';
+// const es_dns_index_url='http://localhost:9200/dns_index_attack_one_new_vtwo/_doc/_search';
 
-// limit number of nodes and edges to query for graph info
-// (avoid overwhelming the server for large graphs)
-const limit_graphinfo_request = 10000;
+
+
+
+
 
 // Graph configuration
-const default_nb_of_layers = 30;
-const node_limit_per_request = 30;
-const nodes_x_position_distance = 250;
+const default_nb_of_layers = 20;// the number of layers after which the first layer vanishes
+const node_limit_per_request = 30;//how much nodes are coming from es per request
+const node_visible_per_request_limit = 100;//how many nodes are visible per request
 
 // Simulation
-const force_strength = -900;
-const link_strength = 0.4;
+const force_strength = -900;//electrostatic charge between nodes (repulsion if begative)
+const link_strength = 0.4;//pushes linked nodes further or apart
+//positioning force towards the axis
 const force_x_strength = 0.05;
 const force_y_strength = 0.05;
 
@@ -42,16 +62,13 @@ const default_stroke_width = 1;
 const default_node_color = "#80E810";
 const active_node_margin = 6;
 const active_node_margin_opacity = 0.3;
-
-// Node position info in the DB
-// Replace by the key storing the node position inside the DB if any
-const node_position_x = 'graphexpx';
-const node_position_y = 'none';
+//initial position
+var search_fx = 210;//position of the very first node(s)
+var dist_x = 150;// initial distance between active node and its new neighbours
+var next_free_position = 50; //incremented value to find the next free position for nodes to prevent overlap
 
 // Edges
 const default_edge_stroke_width = 3;
 const default_edge_color = "#959595";
 const edge_label_color = "#111";
-// Choose between curved (true) and straight edges (false).
-// If set to false, multiple edges between 2 nodes will all be straight and overlap.
 const use_curved_edges = false;
