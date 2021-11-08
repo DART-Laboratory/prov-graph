@@ -1,10 +1,12 @@
 
+
+# Provenance graph explorer
+
+
+This project allows security analysts to convert [Zeek Agent](https://github.com/Wajihulhassan/zeek-agent) endpoint logs and [Zeek](https://github.com/zeek/zeek) network logs into provenance graphs. 
+
+
 [![DeepScan grade](https://deepscan.io/api/teams/15726/projects/18954/branches/477350/badge/grade.svg?token=a1fa0980263b30233c0ddf1e9c3ed778290db2ee)](https://deepscan.io/dashboard#view=project&tid=15726&pid=18954&bid=477350)
-
-# Graphexp: graph explorer with D3.js
-
-
-User friendly manipulation techniques of such a graph can also allow analysts to observe other compromises that they might not be aware of.
 
 ![Screenshot from 2021-10-11 02-23-49](https://user-images.githubusercontent.com/74818361/136713413-8bb80f50-b16b-44e1-b905-3c63986081e9.png)
 
