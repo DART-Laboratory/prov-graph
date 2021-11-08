@@ -73,17 +73,14 @@ try:
     doc_type = "_doc"
     )
 
-    # print the response returned by Elasticsearch
-    # print ("helpers.bulk() RESPONSE:", resp)
-    # print ("helpers.bulk() RESPONSE:", json.dumps(resp, indent=4))
 
 except Exception as err:
 
-    # print any errors returned w
+    
     ## Prerequisiteshile making the helpers.bulk() API call
     print("Elasticsearch helpers.bulk() ERROR:", err)
     quit()
-
+# additional info:
 # get all of docs for the index
 # Result window is too large, from + size must be less than or equal to: [10000]
 # query_all = {
@@ -106,3 +103,4 @@ except Exception as err:
 
 # # print the number of docs in index
 # print ("Length of docs returned by search():", len(resp['hits']['hits']))
+#source:https://kb.objectrocket.com/elasticsearch/how-to-bulk-index-elasticsearch-documents-from-a-json-file-using-python-753

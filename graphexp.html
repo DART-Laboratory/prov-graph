@@ -174,9 +174,7 @@
 	</div>
 	<!-- INITIALIZATION -->
 	<script type="text/javascript">
-		// if(host){
-		// 	$('#server_address').val(host);
-		// }
+		
 		init_property_bar();
 		// Create the graph canvas in the chosen div element
 		graph_viz.init("#main");
@@ -187,10 +185,6 @@
 
 		// Create the info box for node details
 		infobox.create("#graphInfo", "#nodeInfo"); // from module in infobox.js
-
-		//console.log(graph_viz.graph_events.ev);
-		//graph_viz.graph_events.test();
-
 
 		function init_property_bar() {
 			document.getElementById('nbLayers').value = default_nb_of_layers;

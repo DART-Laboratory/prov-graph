@@ -29,9 +29,6 @@ var graph_viz = (function () {
 	var _Links = [];
 
 
-
-
-
 	function init(label) {
 		_svg = d3.select(label).select("svg");
 		_svg_width = +d3.select(label).node().getBoundingClientRect().width;

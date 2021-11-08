@@ -25,31 +25,17 @@ var merge_node_dict = {}
 var node_position_history_forward = []
 var node_position_history_backward = []
 
-
-
-
-
-
 var graphio = (function () {
-
-
 
   function search_query() {
     // Query sent to the server when clicking the search button
     //
     // Preprocess query
-
-
-
     let input_field = $('#search_field').val();
     // $('#outputArea').html('ZEEK-AGENT Visualizer');
     // $('#messageArea').html('ZEEK-AGENT Visualizer');
     let input_id = $('#search_value').val();
-
     let label_field = $('#label_field').val();
-
-
-
     if (input_field == "ID") {
       // form a query to find the id from elasticsearch database
       var data = {
@@ -164,7 +150,6 @@ var graphio = (function () {
 
           url: es_zeek_index_url,
           type: 'POST',
-
           contentType: "application/json;charset=UTF-8",
           dataType: 'json',
           data: JSON.stringify(data),
@@ -181,8 +166,6 @@ var graphio = (function () {
               node_position_list.push(search_fx)
               search_fx = search_fx + 25
             }
-
-
           }
         })
       }
@@ -232,12 +215,8 @@ var graphio = (function () {
             node_position_list.push(search_fx)
             search_fx = search_fx + 25
           }
-
-
         }
       })
-
-
     }
 
 
@@ -245,8 +224,6 @@ var graphio = (function () {
 
 
     if (input_field == "FILE NAME" && (label_field == 'none' || label_field == 'file')) {//fetch file node with a certain file name
-
-
       let data = {
         "query": {
           "bool": {
@@ -286,12 +263,8 @@ var graphio = (function () {
             node_position_list.push(search_fx)
             search_fx = search_fx + 25
           }
-
-
         }
       })
-
-
     }
 
 
@@ -316,7 +289,6 @@ var graphio = (function () {
         label_url = es_zeek_index_url
         label_node = "conn"
       }
-
 
       let data = {
         "query": {
@@ -352,12 +324,7 @@ var graphio = (function () {
 
         }
       })
-
-
     }
-
-
-
   }
 
   ///////////////////////////////////////////////////////data manipulation of nodes, specified structure for front end////////////////////////////////////////////////
@@ -366,13 +333,9 @@ var graphio = (function () {
     var data_list = []
     //console.log(filename)
     for (var key in data) {
-
-
       var data_dict = data[key];
-
       data_dict["id"] = data_dict['_id']
       data_dict["properties"] = data_dict["_source"]
-
       data_dict['type'] = 'vertex'
       delete data_dict['_index']
       delete data_dict['_type']
@@ -558,10 +521,6 @@ var graphio = (function () {
 
   ////////////////////finding right node position////////////
   function find_node_position(position, direction, id) {
-    // var input_forward = document.getElementById("forward_tracking");
-    // var isChecked_forward = input_forward.checked;
-    // var input_backward = document.getElementById("backward_tracking");
-    // var isChecked_backward = input_backward.checked;
 
 
     if (node_position_history_forward.includes(id) && direction == 'forward') {
@@ -603,12 +562,6 @@ var graphio = (function () {
         }
       }
     }
-
-
-
-
-
-
   }
 
 
@@ -746,14 +699,8 @@ var graphio = (function () {
             }
           })
 
-
-
-
-
           //////find files related to the process
           //var pid_process = d.properties.pid[0].value
-
-
           data = {
             "query": {
               "bool": {
@@ -802,8 +749,6 @@ var graphio = (function () {
 
             }
           })
-
-
 
           //////find sockets related to the process
           //pid_process = d.properties.pid[0].value
@@ -931,10 +876,6 @@ var graphio = (function () {
 
             }
           })
-
-
-
-
 
           //////find zeek nodes attributed with the socket based on resp_seuid
 
@@ -1129,16 +1070,8 @@ var graphio = (function () {
         let test_dic = { 'nodes': combined_nodes, 'links': combined_edges }
 
         graph_viz.refresh_data(test_dic, 1, d.id)
-
-
       }
-
-
     }
-
-
-
-
 
 
     if (d.label == "ZEEK") {
@@ -1192,15 +1125,8 @@ var graphio = (function () {
                     var edges = edge_manipulation_process_process(socket_node, d, "inbound", "conn", "socket")
                     combined_edges = combined_edges.concat(edges)
                   }
-
-
                 }
               })
-
-
-
-
-
             }
           }
           catch (err) {
@@ -1367,28 +1293,10 @@ var graphio = (function () {
         let test_dic = { 'nodes': combined_nodes, 'links': combined_edges }
         //console.log("graphnew",test_dic)
         graph_viz.refresh_data(test_dic, 1, d.id)
-
-
-
       }
 
     }
-
-
-
-
-
-
-
-
-
-
-
   }
-
-
-
-
   return {
 
     search_query: search_query,

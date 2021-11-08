@@ -137,16 +137,8 @@ var infobox = (function () {
 	}
 
 	function _display_vertex_properties(key, value, info_table) {
-		//      if (typeof value === "string" && $('#communication_method').val() =="GraphSON3_4"){
-		// var new_info_row = info_table.append("tr");
-		// 	new_info_row.append("td").text(key).style("font-size",_font_size);
-		// 	new_info_row.append("td").text(value).style("font-size",_font_size);
-		// 	new_info_row.append("td").text('').style("font-size",_font_size);
-		//      }
-		//      else
-		//      {
+		
 		for (var subkey in value) {
-			// Ignore the summary field, which is set in graphioGremlin.extract_infov3()
 			if (subkey === "summary") {
 				continue;
 			}
