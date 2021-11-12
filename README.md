@@ -72,6 +72,8 @@ There are multiple ways to search and display nodes.
 
 When searching on any of the above node key, make sure the label filter is 'none' or corresponds to the label being searched. for example while searching for file name, the node label must be either 'none' or 'file' to display the corresponding node. By default the node label is 'none'.
 
+When searching for a file, you can add "\*" at the end of the file name to show results with similar file or directory names if any
+
 If you do not know value of any of the above mentioned fields, then you can search on the basis of labels (process,socket,file,zeek) and all the nodes within a certain limit specified will be displayed. This can help give an analyst a good reference node that can be then specifically searched.
 
 When searching solely on the basis of labels, ensure that the key value input field is empty
