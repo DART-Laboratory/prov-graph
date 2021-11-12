@@ -36,7 +36,7 @@ var infobox = (function () {
 		init_table(_table_Graphinfo, ["Type", "Count"]);
 
 		var graphElem_bar = d3.select(label_graphElem);
-		graphElem_bar.append("h2").text("Node Info");
+		graphElem_bar.append("h2").text("Vertex Info");
 		_table_IDinfo = graphElem_bar.append("table").attr("id", "tableIdDetails");
 		init_table(_table_IDinfo, ["Key", "Value"]);
 		_table_DBinfo = graphElem_bar.append("table").attr("id", "tableDBDetails");
