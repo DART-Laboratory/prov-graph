@@ -35,22 +35,40 @@ var graphShapes = (function(){
 
 	function node_color(d){
 		
-			if(d.label=="PROCESS")
-				{return "#23D9B7"}
+		// 	if(d.label=="PROCESS")
+		// 		{return "#23D9B7"}
+		// 	if(d.label=="FILE")
+		// 		{return "#F2E205"
+			
+		// }
+		// if(d.label=="SOCKET")
+		// 		{return "#F25D27"}
+
+		// 	if(d.label=="REG_KEY")
+		// 		{return "#F25D27"}
+		// 	if(d.label=="NETWORK")
+		// 		{return "#ce31bf"}
+			
+		// 	if(d.label=="ZEEK")
+		// 		{return "#6B98F2"}
+		// 	if(d.label=="ZEEKSUB")
+		// 		{return "#0FF02B"}
+		if(d.label=="PROCESS")
+				{return "#41b6c4"}
 			if(d.label=="FILE")
-				{return "#F2E205"
+				{return "#253494"
 			
 		}
 		if(d.label=="SOCKET")
-				{return "#F25D27"}
+				{return "#ffffcc"}
 
 			if(d.label=="REG_KEY")
 				{return "#F25D27"}
 			if(d.label=="NETWORK")
-				{return "#ce31bf"}
+				{return "#2c7fb8"}
 			
 			if(d.label=="ZEEK")
-				{return "#6B98F2"}
+				{return "#a1dab4"}
 			if(d.label=="ZEEKSUB")
 				{return "#0FF02B"}
 
@@ -306,7 +324,7 @@ var graphShapes = (function(){
 		var edge_id_list=[];
 		if (isChecked){
 		d3.selectAll(".node").each(function(d) {
-		   if ((d3.select(this).select(".base_circle").attr("fill"))=="#23D9B7")
+		   if ((d3.select(this).select(".base_circle").attr("fill"))=="#41b6c4")
 		   {
 		   	
 		   	d3.select(this).select(".base_circle").style("visibility", "hidden");
@@ -350,7 +368,7 @@ var graphShapes = (function(){
 		if (run_else){
 			
 		d3.selectAll(".node").each(function(d) {
-		   if ((d3.select(this).select(".base_circle").attr("fill"))=="#23D9B7")
+		   if ((d3.select(this).select(".base_circle").attr("fill"))=="#41b6c4")
 		   {
 		   	d3.select(this).select(".base_circle").style("visibility", "visible");
 		   	if (name_check){
@@ -421,7 +439,7 @@ function hide_zeek_only(run_else)
 		var edge_id_list=[];
 		if (isChecked){
 		d3.selectAll(".node").each(function(d) {
-		   if ((d3.select(this).select(".base_circle").attr("fill"))=="#6B98F2")
+		   if ((d3.select(this).select(".base_circle").attr("fill"))=="#a1dab4")
 		   {
 		   	
 		   	d3.select(this).select(".base_circle").style("visibility", "hidden");
@@ -464,7 +482,7 @@ function hide_zeek_only(run_else)
 	{
 		if (run_else){
 		d3.selectAll(".node").each(function(d) {
-		   if ((d3.select(this).select(".base_circle").attr("fill"))=="#6B98F2")
+		   if ((d3.select(this).select(".base_circle").attr("fill"))=="#a1dab4")
 		   {
 		   	d3.select(this).select(".base_circle").style("visibility", "visible");
 		   	if (name_check){
@@ -521,7 +539,7 @@ function hide_zeek_only(run_else)
 
 }
 
-
+//hide socket
 function hide_registry_only(run_else)
 	{
 		var input = document.getElementById ("hideRegistry");
@@ -535,7 +553,7 @@ function hide_registry_only(run_else)
 		var edge_id_list=[];
 		if (isChecked){
 		d3.selectAll(".node").each(function(d) {
-		   if ((d3.select(this).select(".base_circle").attr("fill"))=="#F25D27")
+		   if ((d3.select(this).select(".base_circle").attr("fill"))=="#ffffcc")
 		   {
 		   	
 		   	d3.select(this).select(".base_circle").style("visibility", "hidden");
@@ -579,7 +597,7 @@ function hide_registry_only(run_else)
 	{
 		if (run_else){
 		d3.selectAll(".node").each(function(d) {
-		   if ((d3.select(this).select(".base_circle").attr("fill"))=="#F25D27")
+		   if ((d3.select(this).select(".base_circle").attr("fill"))=="#ffffcc")
 		   {
 		   	d3.select(this).select(".base_circle").style("visibility", "visible");
 		   	if (name_check){
@@ -650,7 +668,7 @@ function hide_FILE_only(run_else)
 		var edge_id_list=[];
 		if (isChecked){
 		d3.selectAll(".node").each(function(d) {
-		   if ((d3.select(this).select(".base_circle").attr("fill"))=="#F2E205")
+		   if ((d3.select(this).select(".base_circle").attr("fill"))=="#253494")
 		   {
 		   	
 		   	d3.select(this).select(".base_circle").style("visibility", "hidden");
@@ -694,7 +712,7 @@ function hide_FILE_only(run_else)
 	else
 	{	if (run_else){
 		d3.selectAll(".node").each(function(d) {
-		   if ((d3.select(this).select(".base_circle").attr("fill"))=="#F2E205")
+		   if ((d3.select(this).select(".base_circle").attr("fill"))=="#253494")
 		   {
 		   	d3.select(this).select(".base_circle").style("visibility", "visible");
 		   	if (name_check){
@@ -766,7 +784,7 @@ function hide_network_only(run_else)
 		var edge_id_list=[];
 		if (isChecked){
 		d3.selectAll(".node").each(function(d) {
-		   if ((d3.select(this).select(".base_circle").attr("fill"))=="#ce31bf")
+		   if ((d3.select(this).select(".base_circle").attr("fill"))=="#2c7fb8")
 		   {
 		   	
 		   	d3.select(this).select(".base_circle").style("visibility", "hidden");
@@ -810,7 +828,7 @@ function hide_network_only(run_else)
 	else
 	{	if (run_else){
 		d3.selectAll(".node").each(function(d) {
-		   if ((d3.select(this).select(".base_circle").attr("fill"))=="#ce31bf")
+		   if ((d3.select(this).select(".base_circle").attr("fill"))=="#2c7fb8")
 		   {
 		   	d3.select(this).select(".base_circle").style("visibility", "visible");
 		   	if (name_check){
