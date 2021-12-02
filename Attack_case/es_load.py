@@ -13,7 +13,14 @@ from elasticsearch import Elasticsearch, helpers
 # declare a client instance of the Python Elasticsearch library
 client = Elasticsearch("localhost:9200")
 
-
+"""
+JSON DATA IN FILE:
+{"str field": "some string", "int field": 12345, "bool field": True}
+{"str field": "another string", "int field": 42, "bool field": False}
+{"str field": "random string", "int field": 3856452, "bool field": True}
+{"str field": "string value", "int field": 11111, "bool field": False}
+{"str field": "last string", "int field": 54321, "bool field": True}
+"""
 
 # define a function that will load a text file
 def get_data_from_text_file(self):
@@ -21,7 +28,7 @@ def get_data_from_text_file(self):
     return [l.strip() for l in open(str(self), encoding="utf8", errors='ignore')]
 
 # call the function to get the string data containing docs
-docs = get_data_from_text_file("name_of_file.json") #add file name here
+docs = get_data_from_text_file("filename.json")
 
 # print the length of the documents in the string
 print ("String docs length:", len(docs))
@@ -39,19 +46,18 @@ for num, doc in enumerate(docs):
         # prevent JSONDecodeError resulting from Python uppercase boolean
         doc = doc.replace("True", "true")
         doc = doc.replace("False", "false")
+        doc = doc.replace("version","network_version")
 
-        
+        # convert the string to a dict object
         dict_doc = json.loads(doc)
-        
+        #print("\n\ndic_doc ",num,dict_doc)
         string_dict_doc=str(dict_doc)
         if string_dict_doc not in history_list:
             history_list.append(string_dict_doc)
         else:
-            #print("found")
+            
             continue
         
-
-        # append the dict object to the list []
         doc_list += [dict_doc]
         #print("doc_list",doc_list)
 
@@ -69,18 +75,21 @@ try:
     resp = helpers.bulk(
     client,
     doc_list,
-    index = "name_of_your_index",
+    index = "index_name",
     doc_type = "_doc"
     )
 
+    # print the response returned by Elasticsearch
+    # print ("helpers.bulk() RESPONSE:", resp)
+    # print ("helpers.bulk() RESPONSE:", json.dumps(resp, indent=4))
 
 except Exception as err:
 
-    
+    # print any errors returned w
     ## Prerequisiteshile making the helpers.bulk() API call
     print("Elasticsearch helpers.bulk() ERROR:", err)
     quit()
-# additional info:
+
 # get all of docs for the index
 # Result window is too large, from + size must be less than or equal to: [10000]
 # query_all = {
@@ -103,4 +112,3 @@ except Exception as err:
 
 # # print the number of docs in index
 # print ("Length of docs returned by search():", len(resp['hits']['hits']))
-#source:https://kb.objectrocket.com/elasticsearch/how-to-bulk-index-elasticsearch-documents-from-a-json-file-using-python-753

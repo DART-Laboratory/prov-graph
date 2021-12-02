@@ -356,8 +356,16 @@ var graphio = (function () {
         data_dict["properties"]['name'] = data_dict["properties"]['path']
         data_dict['label'] = "FILE"
         var exe_path=data_dict["properties"]['name']
-        //console.log(exe_path)
-        if (exe_path.includes("so") || exe_path.includes("lib") || exe_path.includes("null")|| exe_path.includes("Not Found"))
+        //remove sys files
+        sys_file_found =false
+        for (var sys_file of system_files)
+        {
+          if (exe_path.includes(sys_file))
+          {
+            sys_file_found = true
+          }
+        }
+        if (sys_file_found)
         {
           continue
         }
@@ -614,15 +622,14 @@ var graphio = (function () {
 
   function click_query(d) {
 
-//here
-// console.log(getComputedStyle(document.querySelector('.dotR')).'background-color')
+
     var combined_nodes = []
     var combined_edges = []
     var input_forward = document.getElementById("forward_tracking");
     var isChecked_forward = input_forward.checked;
     var input_backward = document.getElementById("backward_tracking");
     var isChecked_backward = input_backward.checked;
-    //console.log(isChecked_forward,isChecked_backward)
+    
 
 
     if (d.label == "PROCESS") {
