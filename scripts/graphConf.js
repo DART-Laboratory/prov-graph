@@ -3,15 +3,27 @@
 
 //elastic search index corresponding to a particular label
 
-const file_index = 'file_index_attack_one_new_vfour';
-const process_index = 'process_index_attack_one_new_vfour';
-const socket_index = 'socket_index_attack_one_new_vfour';
-const zeek_index = 'zeek_index_attack_one_new_vfour';
-const dhcp_index = 'dhcp_index_attack_one_new_vfour';
-const dns_index = 'dns_index_attack_one_new_vfour';
-const http_index = 'http_index_attack_one_new_vfour';
-const ssl_index = 'ssl_index_attack_one_new_vfour';
-const networkfile_index ='networkfile_index_attack_one_new_vfour';
+// const file_index = 'file_index_attack_one_new_vfour';
+// const process_index = 'process_index_attack_one_new_vfour';
+// const socket_index = 'socket_index_attack_one_new_vfour';
+// const zeek_index = 'zeek_index_attack_one_new_vfour';
+// const dhcp_index = 'dhcp_index_attack_one_new_vfour';
+// const dns_index = 'dns_index_attack_one_new_vfour';
+// const http_index = 'http_index_attack_one_new_vfour';
+// const ssl_index = 'ssl_index_attack_one_new_vfour';
+// const networkfile_index ='networkfile_index_attack_one_new_vfour';
+
+
+
+const file_index = 'test_case_file';
+const process_index = 'test_case_process';
+const socket_index = 'test_case_socket';
+const zeek_index = 'test_case_conn';
+const dhcp_index = 'test_case_dhcp';
+const dns_index = 'test_case_dns';
+const http_index = 'test_case_http';
+const ssl_index = 'test_case_ssl';
+const networkfile_index ='test_case_files';
 
 
 // link to elastic search on port 9200

@@ -28,7 +28,7 @@ def get_data_from_text_file(self):
     return [l.strip() for l in open(str(self), encoding="utf8", errors='ignore')]
 
 # call the function to get the string data containing docs
-docs = get_data_from_text_file("filename.json")
+docs = get_data_from_text_file("files_Log.json")
 
 # print the length of the documents in the string
 print ("String docs length:", len(docs))
@@ -55,9 +55,30 @@ for num, doc in enumerate(docs):
         if string_dict_doc not in history_list:
             history_list.append(string_dict_doc)
         else:
-            
+            #print("found")
             continue
-        
+        #print("\nhistorylist",history_list)
+        #print("\n\ndic_doc ",num,dict_doc)
+
+        # add a new field to the Elasticsearch doc
+        #dict_doc["timestamp"] = datetime.now()
+        #dict_doc_new={}
+        #dict_doc_new["properties"] = dict_doc
+        #dict_doc_new["id"]=num
+        # dict_doc_new["label"]="conn"
+        # dict_doc_new["type"]="vertex"
+        # dict_doc_new["proto"]=dict_doc['proto']
+        # dict_doc_new["id.resp_p"]=dict_doc['id.resp_p']
+        # dict_doc_new["missed_bytes"]=dict_doc['missed_bytes']
+        # print("\n\ndic_doc ",num,dict_doc_new)
+        # f = open("logcheck.txt", "a")
+        # f.write(str(dict_doc))
+        # f.close()
+
+        # add a dict key called "_id" if you'd like to specify an ID for the doc
+        #dict_doc["_id"] = num
+
+        # append the dict object to the list []
         doc_list += [dict_doc]
         #print("doc_list",doc_list)
 
@@ -75,7 +96,7 @@ try:
     resp = helpers.bulk(
     client,
     doc_list,
-    index = "index_name",
+    index = "networkfile_index_attack_one_new_vfour",
     doc_type = "_doc"
     )
 
