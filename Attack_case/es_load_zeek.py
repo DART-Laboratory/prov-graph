@@ -40,7 +40,7 @@ for filename in glob.iglob(f'{directory}/*'):
 		    return [l.strip() for l in open(str(self), encoding="utf8", errors='ignore')]
 
 		# call the function to get the string data containing docs
-		docs = get_data_from_text_file(directory+file_name)
+		docs = get_data_from_text_file(directory+'/'+file_name)
 
 		# print the length of the documents in the string
 		print ("String docs length:", len(docs))
