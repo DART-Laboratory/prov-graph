@@ -32,12 +32,15 @@ For example the url: 'http://localhost:9200/file_index/_doc' will have 'file_ind
 
 You just need to change the name of the following indices corresponding to a label with your indices in the 'GraphConf.js' file
 ```
-const file_index='file_index_attack_one_new_vtwo';
-const process_index='process_index_attack_one_new_vtwo';
-const socket_index='socket_index_attack_one_new_vtwo';
-const zeek_index='zeek_index_attack_one_new_vtwo';
-const dhcp_index='dhcp_index_attack_one_new_vtwo';
-const dns_index='dns_index_attack_one_new_vtwo';
+const file_index = 'file_index_attack';
+const process_index = 'process_index';
+const socket_index = 'socket_index_attack';
+const zeek_index = 'zeek_index_attack';
+const dhcp_index = 'dhcp_index_attack';
+const dns_index = 'dns_index_attack';
+const http_index = 'http_index_attack';
+const ssl_index = 'ssl_index_attack';
+const networkfile_index ='networkfile_index_attack';
 
 ```
 
