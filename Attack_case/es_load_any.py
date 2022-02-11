@@ -1,5 +1,6 @@
 # import Python's JSON library for its loads() method
 import json
+import sys
 
 # import time for its sleep method
 from time import sleep
@@ -12,6 +13,9 @@ from elasticsearch import Elasticsearch, helpers
 
 # declare a client instance of the Python Elasticsearch library
 client = Elasticsearch("localhost:9200")
+file_name=str(sys.argv[1])
+index_name=str(sys.argv[2])
+
 
 """
 JSON DATA IN FILE:
@@ -28,7 +32,7 @@ def get_data_from_text_file(self):
     return [l.strip() for l in open(str(self), encoding="utf8", errors='ignore')]
 
 # call the function to get the string data containing docs
-docs = get_data_from_text_file("files_Log.json")
+docs = get_data_from_text_file(file_name)
 
 # print the length of the documents in the string
 print ("String docs length:", len(docs))
@@ -96,7 +100,7 @@ try:
     resp = helpers.bulk(
     client,
     doc_list,
-    index = "networkfile_index_attack_one_new_vfour",
+    index = index_name,
     doc_type = "_doc"
     )
 
@@ -133,3 +137,4 @@ except Exception as err:
 
 # # print the number of docs in index
 # print ("Length of docs returned by search():", len(resp['hits']['hits']))
+
