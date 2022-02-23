@@ -237,6 +237,10 @@ var graphio = (function () {
               }
             ]
           }
+          // "wildcard" : {
+          //     "path.keyword" : input_id
+          //     }
+          
         }
         ,
         "size": node_limit_per_request
@@ -254,7 +258,7 @@ var graphio = (function () {
         async: false,
         success: function (response) {
           var data = response.hits.hits;
-
+          //console.log(data)
           if (data.length != 0) {
             var data_list = data_manipulation(data, search_fx, "file",input_id,"search")
             var test_dic = { 'nodes': data_list, 'links': [] }
@@ -352,7 +356,21 @@ var graphio = (function () {
         data_dict["properties"]['name'] = data_dict["properties"]['path']
         data_dict['label'] = "FILE"
         var exe_path=data_dict["properties"]['name']
-        //console.log(exe_path)
+        //remove sys files
+        sys_file_found =false
+        for (var sys_file of system_files)
+        {
+          if (exe_path.includes(sys_file))
+          {
+            sys_file_found = true
+          }
+        }
+        if (sys_file_found)
+        {
+          continue
+        }
+        if ( search_or_click_for_file=='search' && filename[filename.length-1] != "*" )
+        {
         if (exe_path.includes("/"))
         {
           var path_token=exe_path.split("/")
@@ -371,8 +389,17 @@ var graphio = (function () {
           }
         }
       }
+      }
       if (type == "socket") {
-        data_dict["properties"]['name'] = data_dict["properties"]['exe']
+        if (data_dict["properties"]['syscall']=='connect')
+        {
+          data_dict["properties"]['name'] = String(data_dict["properties"]['remote_address']) + ":" + String(data_dict["properties"]['remote_port'])
+        }
+        if (data_dict["properties"]['syscall']=='bind')
+        {
+          data_dict["properties"]['name'] = String(data_dict["properties"]['local_address']) + ":" + String(data_dict["properties"]['local_port'])
+        }
+        //data_dict["properties"]['name'] = data_dict["properties"]['exe']
         data_dict['label'] = "SOCKET"
       }
       if (type == "conn") {
@@ -380,11 +407,23 @@ var graphio = (function () {
         data_dict['label'] = "ZEEK"
       }
       if (type == "dns") {
-        data_dict["properties"]['name'] = "dns"
+        data_dict["properties"]['name'] = "dns" + "," + String(data_dict["properties"]['query'])
         data_dict['label'] = "NETWORK"
       }
       if (type == "dhcp") {
         data_dict["properties"]['name'] = "dhcp"
+        data_dict['label'] = "NETWORK"
+      }
+      if (type == "http") {
+        data_dict["properties"]['name'] = "http" + "," + String(data_dict["properties"]['method']) + "," + String(data_dict["properties"]['uri'])
+        data_dict['label'] = "NETWORK"
+      }
+      if (type == "ssl") {
+        data_dict["properties"]['name'] = "ssl"
+        data_dict['label'] = "NETWORK"
+      }
+      if (type == "file.log") {
+        data_dict["properties"]['name'] = "file.log"
         data_dict['label'] = "NETWORK"
       }
 
@@ -477,11 +516,11 @@ var graphio = (function () {
       }
       if (from == "socket" && to == "conn") {
 
-        curr_edge_dict.label = 'CORRELATION'
+        curr_edge_dict.label = 'correlation'
       }
       if (from == "conn" && to == "socket") {
 
-        curr_edge_dict.label = 'CORRELATION'
+        curr_edge_dict.label = 'correlation'
       }
       if (from == "conn" && to == "dns") {
 
@@ -490,6 +529,22 @@ var graphio = (function () {
       if (from == "conn" && to == "dhcp") {
 
         curr_edge_dict.label = 'network'
+      }
+      if (from == "conn" && to == "http") {
+
+        curr_edge_dict.label = 'network'
+      }
+      if (from == "conn" && to == "ssl") {
+
+        curr_edge_dict.label = 'network'
+      }
+      if (from == "http" && to == "orig_file.log") {
+
+        curr_edge_dict.label = 'orig_network_file'
+      }
+      if (from == "http" && to == "resp_file.log") {
+
+        curr_edge_dict.label = 'resp_network_file'
       }
       if (from == "file" && to == "process") {
         curr_edge_dict.label = curr_node.properties.syscall[0].value
@@ -567,14 +622,14 @@ var graphio = (function () {
 
   function click_query(d) {
 
-//here
+
     var combined_nodes = []
     var combined_edges = []
     var input_forward = document.getElementById("forward_tracking");
     var isChecked_forward = input_forward.checked;
     var input_backward = document.getElementById("backward_tracking");
     var isChecked_backward = input_backward.checked;
-    //console.log(isChecked_forward,isChecked_backward)
+    
 
 
     if (d.label == "PROCESS") {
@@ -1245,6 +1300,56 @@ var graphio = (function () {
 
             }
           })
+          $.ajax({
+
+            url: es_http_index_url,
+            type: 'POST',
+
+            contentType: "application/json;charset=UTF-8",
+            dataType: 'json',
+            data: JSON.stringify(data),
+            processData: false,
+            async: false,
+            success: function (response) {
+              var data = response.hits.hits;
+
+              if (data.length != 0) {
+                var network_node = data_manipulation(data, node_pos, "http")
+
+                combined_nodes = combined_nodes.concat(network_node)
+
+                var edges = edge_manipulation_process_process(network_node, d, "outbound", "conn", "http")
+                combined_edges = combined_edges.concat(edges)
+              }
+
+
+            }
+          })
+          $.ajax({
+
+            url: es_ssl_index_url,
+            type: 'POST',
+
+            contentType: "application/json;charset=UTF-8",
+            dataType: 'json',
+            data: JSON.stringify(data),
+            processData: false,
+            async: false,
+            success: function (response) {
+              var data = response.hits.hits;
+
+              if (data.length != 0) {
+                var network_node = data_manipulation(data, node_pos, "ssl")
+
+                combined_nodes = combined_nodes.concat(network_node)
+
+                var edges = edge_manipulation_process_process(network_node, d, "outbound", "conn", "ssl")
+                combined_edges = combined_edges.concat(edges)
+              }
+
+
+            }
+          })
 
 
 
@@ -1296,6 +1401,137 @@ var graphio = (function () {
       }
 
     }
+
+
+
+    if (d.label == "NETWORK")
+    {
+      //if (d.name == 'http')
+      if(d.properties.name[0].value.includes('http') )
+      {
+        if (isChecked_forward) {
+          let node_pos = d.fx + dist_x
+          node_pos = find_node_position(node_pos, "forward", d.id)
+
+          ///////////////find socket attributed to zeek based on orig_seuid
+          //var uid = d.properties.uid[0].value
+          try {
+            var orig_fuid = d.properties.orig_fuids[0].value
+
+            for (var key in orig_fuid) {
+
+              let data = {
+                "query": {
+                  "bool": {
+                    "must": [
+                      {
+                        "match": {
+
+                          "fuid": orig_fuid[key]
+                        }
+                      }
+                    ]
+                  }
+                }
+                ,
+                "size": node_limit_per_request
+              }
+
+              $.ajax({
+
+                url: es_networkfile_index_url,
+                type: 'POST',
+
+                contentType: "application/json;charset=UTF-8",
+                dataType: 'json',
+                data: JSON.stringify(data),
+                processData: false,
+                async: false,
+                success: function (response) {
+                  var data = response.hits.hits;
+
+                  if (data.length != 0) {
+                    var socket_node = data_manipulation(data, node_pos, "file.log")
+
+                    combined_nodes = combined_nodes.concat(socket_node)
+
+                    var edges = edge_manipulation_process_process(socket_node, d, "outbound", "http", "orig_file.log")
+                    combined_edges = combined_edges.concat(edges)
+                  }
+                }
+              })
+            }
+          }
+          catch (err) {
+            // console.log("resp",err) 
+          }
+          try {
+            var resp_fuid = d.properties.resp_fuids[0].value
+
+            for (var key in resp_fuid) {
+             
+
+              let data = {
+                "query": {
+                  "bool": {
+                    "must": [
+                      {
+                        "match": {
+
+                          "fuid": resp_fuid[key]
+                        }
+                      }
+                    ]
+                  }
+                }
+                ,
+                "size": node_limit_per_request
+              }
+
+              $.ajax({
+
+                url: es_networkfile_index_url,
+                type: 'POST',
+
+                contentType: "application/json;charset=UTF-8",
+                dataType: 'json',
+                data: JSON.stringify(data),
+                processData: false,
+                async: false,
+                success: function (response) {
+                  var data = response.hits.hits;
+
+                  if (data.length != 0) {
+                    var socket_node = data_manipulation(data, node_pos, "file.log")
+
+                    combined_nodes = combined_nodes.concat(socket_node)
+
+                    var edges = edge_manipulation_process_process(socket_node, d, "outbound", "http", "resp_file.log")
+                    combined_edges = combined_edges.concat(edges)
+                  }
+                }
+              })
+            }
+          }
+          catch (err) {
+            // console.log("resp",err) 
+          }
+
+
+          
+
+          node_position_list.push(node_pos)
+          node_position_history_backward.push(d.id)
+        }
+        combined_nodes.push(d)
+        //console.log("combined_edges",combined_edges)
+        let test_dic = { 'nodes': combined_nodes, 'links': combined_edges }
+        //console.log("graphnew",test_dic)
+        graph_viz.refresh_data(test_dic, 1, d.id)
+      }
+    }
+
+
   }
   return {
 

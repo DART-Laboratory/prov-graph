@@ -8,7 +8,10 @@ This project allows security analysts to convert [Zeek Agent](https://github.com
 
 [![DeepScan grade](https://deepscan.io/api/teams/15726/projects/18954/branches/477350/badge/grade.svg?token=a1fa0980263b30233c0ddf1e9c3ed778290db2ee)](https://deepscan.io/dashboard#view=project&tid=15726&pid=18954&bid=477350)
 
-![Screenshot from 2021-10-11 02-23-49](https://user-images.githubusercontent.com/74818361/136713413-8bb80f50-b16b-44e1-b905-3c63986081e9.png)
+<!-- ![Screenshot from 2021-10-11 02-23-49](https://user-images.githubusercontent.com/74818361/136713413-8bb80f50-b16b-44e1-b905-3c63986081e9.png) -->
+
+<!-- ![Screenshot from 2021-11-13 00-44-53](https://user-images.githubusercontent.com/74818361/141526104-2fd6bc91-750a-44f8-915d-5c85bf790fea.png) -->
+![Screenshot from 2021-11-27 07-35-49](https://user-images.githubusercontent.com/74818361/143812737-6de12f5f-2279-4cde-85d9-39cca7c87b56.png)
 
 
 
@@ -31,12 +34,15 @@ For example the url: 'http://localhost:9200/file_index/_doc' will have 'file_ind
 
 You just need to change the name of the following indices corresponding to a label with your indices in the 'GraphConf.js' file
 ```
-const file_index='file_index_attack_one_new_vtwo';
-const process_index='process_index_attack_one_new_vtwo';
-const socket_index='socket_index_attack_one_new_vtwo';
-const zeek_index='zeek_index_attack_one_new_vtwo';
-const dhcp_index='dhcp_index_attack_one_new_vtwo';
-const dns_index='dns_index_attack_one_new_vtwo';
+const file_index = 'file_index_attack';
+const process_index = 'process_index';
+const socket_index = 'socket_index_attack';
+const zeek_index = 'zeek_index_attack';
+const dhcp_index = 'dhcp_index_attack';
+const dns_index = 'dns_index_attack';
+const http_index = 'http_index_attack';
+const ssl_index = 'ssl_index_attack';
+const networkfile_index ='networkfile_index_attack';
 
 ```
 
@@ -72,6 +78,8 @@ There are multiple ways to search and display nodes.
 
 When searching on any of the above node key, make sure the label filter is 'none' or corresponds to the label being searched. for example while searching for file name, the node label must be either 'none' or 'file' to display the corresponding node. By default the node label is 'none'.
 
+When searching for a file, you can add "\*" at the end of the file name to show results with similar file or directory names if any
+
 If you do not know value of any of the above mentioned fields, then you can search on the basis of labels (process,socket,file,zeek) and all the nodes within a certain limit specified will be displayed. This can help give an analyst a good reference node that can be then specifically searched.
 
 When searching solely on the basis of labels, ensure that the key value input field is empty
@@ -79,7 +87,10 @@ When searching solely on the basis of labels, ensure that the key value input fi
 ### Node and edge information+exploration
 Clicking on a node forms a circle around the node, and its parent and child nodes are displayed, opening new paths for exploration.
 
-The label of each node is displayed when the cursor is hovered over the node. Upon clicking the node, all the relevant information regarding that node is displayed on the right side. Two nodes are connected with an edge with a label that defines the action of the parent node that led to the creation of child node e.g a syscall or the label can be a general relationship between the nodes.![zeek_exploration](https://user-images.githubusercontent.com/74818361/136701050-fe5b5d85-2ce9-4f23-8aa2-dcc842f6a819.gif)
+The label of each node is displayed when the cursor is hovered over the node. Upon clicking the node, all the relevant information regarding that node is displayed on the right side. Two nodes are connected with an edge with a label that defines the action of the parent node that led to the creation of child node e.g a syscall or the label can be a general relationship between the nodes.
+<!-- ![zeek_exploration](https://user-images.githubusercontent.com/74818361/136701050-fe5b5d85-2ce9-4f23-8aa2-dcc842f6a819.gif) -->
+<!-- ![zeek exploration](https://github.com/Wajihulhassan/prov-graph/blob/newchanges/Graph_gifs/zeek_exploration_new.gif) -->
+![zeek-exploration](https://user-images.githubusercontent.com/74818361/143811964-3a492800-e37e-45f6-876f-0d55d44d60bb.gif)
 
 
 The graph is mostly explored in such a way that the parent node is displayed on the left side of the clicked node, and the child node is displayed on the right side of the clicked node. This helps to see the chain of events in time from left to right.
@@ -103,6 +114,8 @@ clicked, then that vertex and its corresponding edges will slowly vanish as we p
 If the nodes completely vanish in the process, they can no longer be clicked, however, upon clicking a node that is vanishing, it and its neighbours become active and therefore bright again. A vanished node can come back to life again in the same position it was vanished at, if any of its neighbour is clicked. Layering can therefore help provide a precise, local view rather than a global one.
 
 Zeek-Agent Visualizer also allows the user to control how many new layers can be explored before vanishing old layers.
+<!-- ![zeek layering](https://github.com/Wajihulhassan/prov-graph/blob/newchanges/Graph_gifs/zeek_layering_new.gif) -->
+![zeek-layering](https://user-images.githubusercontent.com/74818361/143811995-c3886a41-a50a-4178-9f18-6ca29530322c.gif)
 
 ### Merging
 
@@ -129,7 +142,9 @@ Since the simulation is aimed at visualizing the new nodes that were not previou
 When a node first appears it can be dragged and dropped to a new position where it can be fixed. This only works for the new displayed nodes (most recent layer with the node being displayed for the first time).
 
 You can learn more about different forces and how to use them in a simulation from [here](https://github.com/d3/d3-force).
-![zeek_positioning](https://user-images.githubusercontent.com/74818361/136704279-d92b01e9-35df-4a66-ae41-dd2914d45726.gif)
+<!-- ![zeek_positioning](https://user-images.githubusercontent.com/74818361/136704279-d92b01e9-35df-4a66-ae41-dd2914d45726.gif) -->
+<!-- ![zeek positioning](https://github.com/Wajihulhassan/prov-graph/blob/newchanges/Graph_gifs/zeek_positioning_new.gif) -->
+![zeek-positioning](https://user-images.githubusercontent.com/74818361/143812031-3571ad30-127d-4424-b740-ee48029eeaf6.gif)
 
 ### Freeze exploration
 
@@ -142,7 +157,9 @@ Zeek-Agent Visualizer allows users to 'freeze' the graph at any time. This allow
 
 The tool allows users to hide particular type of nodes so that they can focus on the more relevant type of nodes as per their requirement. For example, a user can hide all file nodes if it is not of interest to them. The graph will continue to explore the hidden node type(s) but will only display them if they choose to unhide them.
 
-![zeek_hide_new](https://user-images.githubusercontent.com/74818361/136712610-2586977b-a47d-4565-90dc-f0fa06404266.gif)
+<!-- ![zeek_hide_new](https://user-images.githubusercontent.com/74818361/136712610-2586977b-a47d-4565-90dc-f0fa06404266.gif) -->
+<!-- ![zeek hide](https://github.com/Wajihulhassan/prov-graph/blob/newchanges/Graph_gifs/zeek_hide_neww.gif) -->
+![zeek-hide](https://user-images.githubusercontent.com/74818361/143812047-f66eab10-7fed-4d0c-8d24-1b54ee2de234.gif)
 
 
 ### Forward and backward tracking option
@@ -156,6 +173,7 @@ In backward tracking only the parent nodes will be explored and the graph will o
 At any point in time you can enable forward tracking and click on the node to observe its children nodes and vice versa.
 
 By default both forward tracking and backward tracking have been enabled.
+![zeek-forward-backward](https://user-images.githubusercontent.com/74818361/143812090-b385abec-7787-4bf5-9dcf-b023bdafb6d6.gif)
 
 
 
