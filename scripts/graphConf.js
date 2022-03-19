@@ -11,7 +11,7 @@ const dhcp_index = 'dhcp_*';
 const dns_index = 'dns_*';
 const http_index = 'http_*';
 const ssl_index = 'ssl_*';
-const networkfile_index ='files_*;
+const networkfile_index ='files_*';
 
 // link to elastic search on port 9200
 //for attack
