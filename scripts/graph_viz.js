@@ -34,7 +34,7 @@ var graph_viz = (function () {
 		_svg_width = +d3.select(label).node().getBoundingClientRect().width;
 		_svg_height = +d3.select(label).node().getBoundingClientRect().height;
 		_svg.attr("width", _svg_width).attr("height", _svg_height);
-		
+
 
 	}
 
@@ -57,7 +57,7 @@ var graph_viz = (function () {
 	function node_data(id) {
 		// return data associated to the node with id 'id'
 		for (var node in _Nodes) {
-			
+
 			if (_Nodes[node].id == id) {
 				var match = _Nodes[node];
 				break;
@@ -101,10 +101,10 @@ var graph_viz = (function () {
 			.style('fill', function (d) { return graphShapes.edge_color(d) });
 	}
 
-	
+
 	// Remove force layout and data
 	function clear() {
-		
+
 		if (Object.keys(_simulation).length != 0) {
 			_simulation.stop();
 			_simulation.nodes([]);
@@ -113,10 +113,10 @@ var graph_viz = (function () {
 		_svg.selectAll("*").remove();
 		_Nodes = [], _Links = [];
 		layers.clear_old();
-        _simulation = {};
+		_simulation = {};
 
-        // clear DB table
-        $('#tableDBDetails tbody').empty()
+		// clear DB table
+		$('#tableDBDetails tbody').empty()
 	}
 
 
@@ -159,7 +159,7 @@ var graph_viz = (function () {
 				_svg.selectAll(".old_node" + kp).classed("old_node" + k, true);
 				_svg.selectAll(".old_edgepath" + kp).classed("old_edgepath" + k, true);
 				_svg.selectAll(".old_edgelabel" + kp).classed("old_edgelabel" + k, true);
-				
+
 			};
 		}
 
@@ -168,11 +168,11 @@ var graph_viz = (function () {
 			old_Links = [];
 		}
 
-		function update_data(d,active_node) {
+		function update_data(d, active_node) {
 			// Save the data
 			var previous_nodes = _svg.selectAll("g").filter(".active_node");
 			var previous_nodes_data = previous_nodes.data();
-			
+
 			old_Nodes = updateAdd(old_Nodes, previous_nodes_data);
 			var previous_links = _svg.selectAll(".active_edge");
 			var previous_links_data = previous_links.data();
@@ -181,18 +181,18 @@ var graph_viz = (function () {
 			// handle the pinned nodes
 			var pinned_Nodes = _svg.selectAll("g").filter(".pinned");
 			var pinned_nodes_data = pinned_Nodes.data();
-			
+
 			// get the node data and merge it with the pinned nodes
 			_Nodes = d.nodes;
 			_Nodes = updateAdd(_Nodes, pinned_nodes_data);
 			// add coordinates to the new active nodes that already existed in the previous step
 			_Nodes = transfer_coordinates(_Nodes, old_Nodes);
-			
+
 			// retrieve the links between nodes and pinned nodes
 			_Links = d.links.concat(previous_links_data); // first gather the links
 			_Links = find_active_links(_Links, _Nodes); // then find the ones that are between active nodes
 			//console.log(_Links)
-			
+
 			// Sort links by source, then target, then label
 			// This is used to set linknum
 			_Links.sort(function (a, b) {
@@ -246,7 +246,7 @@ var graph_viz = (function () {
 
 		function find_active_links(list_of_links, active_nodes) {
 			// find the links in the list_of_links that are between the active nodes and discard the others
-			
+
 			var active_links = [];
 			list_of_links.forEach(function (row) {
 				for (var i = 0; i < active_nodes.length; i++) {
@@ -257,13 +257,13 @@ var graph_viz = (function () {
 							L_data['source'] = row.source.id;
 							L_data['target'] = row.target.id;
 							active_links = active_links.concat(L_data);
-							
+
 
 						}
 						else if (active_nodes[i].id == row.source && active_nodes[j].id == row.target) {
 							let L_data = row;
 							active_links = active_links.concat(L_data);
-							
+
 						}
 					}
 				}
@@ -305,11 +305,11 @@ var graph_viz = (function () {
 				var ID = d.id;
 				for (var n = 0; n < nb_layers; n++) {
 					var list_old_elements = d3.selectAll(elem_class_old + n);
-					
+
 					list_old_elements.each(function (d) {
 						if (d.id == ID) {
 							d3.select(this).remove();
-													}
+						}
 					})
 				}
 			});
@@ -336,19 +336,19 @@ var graph_viz = (function () {
 		var force_y = force_x_strength;
 		var force_x = force_y_strength;
 		_svg_width = _svg_width + 500;
-		
+
 		if (center_f == 1) {
-			_simulation.force("center", d3.forceCenter(_svg_width+1000, _svg_height/2));
-			
+			_simulation.force("center", d3.forceCenter(_svg_width + 1000, _svg_height / 2));
+
 		}
-			d3.selectAll(".active_node").each(function(d){
-				
-				if(d.id==with_active_node){
-					
-					_simulation.force("center", d3.forceCenter(_svg_width+1000, d.y));
-				}
-			});
-		
+		d3.selectAll(".active_node").each(function (d) {
+
+			if (d.id == with_active_node) {
+
+				_simulation.force("center", d3.forceCenter(_svg_width + 1000, d.y));
+			}
+		});
+
 		_simulation.force("y", d3.forceY().strength(function (d) {
 			return force_y;
 		}))
@@ -362,12 +362,12 @@ var graph_viz = (function () {
 
 	//////////////////////////////////////
 	function refresh_data(d, center_f, with_active_node) {
-		
+
 		var svg_graph = svg_handle();
 		layers.push_layers();
-		layers.update_data(d,with_active_node);
+		layers.update_data(d, with_active_node);
 
-		
+
 		// link handling
 
 		//attach the data
@@ -377,7 +377,7 @@ var graph_viz = (function () {
 			.data(_Links, function (d) { return d.id; });
 		var all_edgelabels = svg_graph.selectAll(".active_edgelabel")
 			.data(_Links, function (d) { return d.id; });
-			//console.log(all_links)
+		//console.log(all_links)
 
 		// links not active anymore are classified old_links
 		all_links.exit().classed("old_edge0", true).classed("active_edge", false);
@@ -391,13 +391,13 @@ var graph_viz = (function () {
 		var all_nodes = svg_graph.selectAll("g").filter(".active_node")
 			.data(_Nodes, function (d) { return d.id; });
 
-		
+
 		// old nodes not active any more are tagged
 		all_nodes.exit().classed("old_node0", true).classed("active_node", false);//;attr("class","old_node0");
 
 
 		// nodes associated to the data are constructed
-		
+
 		_nodes = all_nodes.enter();
 
 		// add node decoration
@@ -407,9 +407,9 @@ var graph_viz = (function () {
 
 
 		var focus_node_data = d3.select(".focus_node").data();
-		if (focus_node_data.length > 0){
+		if (focus_node_data.length > 0) {
 			infobox.display_info(focus_node_data[0]);
-			
+
 
 		}
 
@@ -420,7 +420,7 @@ var graph_viz = (function () {
 		var edgepaths_e = all_edgepaths.enter(),
 			edgelabels_e = all_edgelabels.enter(),
 			link_e = all_links.enter();
-		var decor_out = graphShapes.decorate_link(link_e, edgepaths_e, edgelabels_e,node_deco);
+		var decor_out = graphShapes.decorate_link(link_e, edgepaths_e, edgelabels_e, node_deco);
 		_links = decor_out[0];
 
 		var edgepaths = decor_out[1],
@@ -431,7 +431,7 @@ var graph_viz = (function () {
 		_links = _links.merge(all_links);
 		edgepaths = edgepaths.merge(all_edgepaths);
 		edgelabels = edgelabels.merge(all_edgelabels);
-		
+
 		graphShapes.hide_process_only(true)
 		graphShapes.hide_zeek_only(true)
 		graphShapes.hide_registry_only(true)
@@ -439,9 +439,9 @@ var graph_viz = (function () {
 		graphShapes.hide_network_only(true)
 		graphShapes.show_names()
 		graphShapes.show_names_edges()
-		
 
-		
+
+
 		// Additional clean up
 		graphShapes.decorate_old_elements(layers.depth());
 		svg_graph.selectAll("g").filter(".pinned").moveToFront();
@@ -469,15 +469,15 @@ var graph_viz = (function () {
 		// move the nodes and links at each simulation step, following this rule:
 		function ticked() {
 			_links.attr('d', function (d) {
-				
-					return positionLink(d);
+
+				return positionLink(d);
 			});
 			_nodes
 				.attr("transform", function (d) { return "translate(" + d.x + ", " + d.y + ")"; });
 
 			edgepaths.attr('d', function (d) {
-					
-					return positionLink(d);
+
+				return positionLink(d);
 			});
 
 			edgelabels.attr('transform', function (d) {
@@ -500,9 +500,9 @@ var graph_viz = (function () {
 		var offset_above = 30;
 		var offset_below = -30;
 		var offset;
-		if (d.target.y > _svg_height / 2){
+		if (d.target.y > _svg_height / 2) {
 			offset = offset_below
-		}else{
+		} else {
 			offset = offset_above
 		}
 
@@ -515,11 +515,11 @@ var graph_viz = (function () {
 
 		var normalise = Math.sqrt((dx * dx) + (dy * dy));
 
-		var offSetX = midpoint_x + offset*(dy/normalise);
-		var offSetY = midpoint_y - offset*(dx/normalise);
+		var offSetX = midpoint_x + offset * (dy / normalise);
+		var offSetY = midpoint_y - offset * (dx / normalise);
 
-		var target_x_pos = d.target.x - (default_node_size/2);
-		var target_y_pos = d.target.y - (default_node_size/2);
+		var target_x_pos = d.target.x - (default_node_size / 2);
+		var target_y_pos = d.target.y - (default_node_size / 2);
 
 		return "M" + d.source.x + "," + d.source.y +
 			"S" + offSetX + "," + offSetY +
@@ -542,7 +542,7 @@ var graph_viz = (function () {
 
 
 	var graph_events = (function () {
-		
+
 		// Handling mouse events
 
 		function dragstarted(d) {
@@ -554,7 +554,7 @@ var graph_viz = (function () {
 		function dragged(d) {
 			var connected_edges = get_node_edges(d.id);
 			var f_connected_edges = connected_edges.filter("*:not(.active_edge)")
-			
+
 			if (f_connected_edges._groups[0].length == 0) {
 				d.fx = d3.event.x;
 				d.fy = d3.event.y;
@@ -573,7 +573,7 @@ var graph_viz = (function () {
 				.style("stroke-width", function () { return d3.select(this).attr("stroke-width"); })
 				.style("stroke-opacity", function () { return d3.select(this).attr("stroke-opacity"); })
 				.classed("blocking", false)
-			
+
 		}
 
 		function clicked(d) {
@@ -586,33 +586,33 @@ var graph_viz = (function () {
 				_simulation.stop();
 				// remove the oldest links and nodes
 				var stop_layer = layers.depth() - 1;
-				
-				var removed_id_list=[];
-				var remove_id=d3.selectAll(".old_node" + stop_layer)
-				remove_id.each(function(d){
-					var id=d3.select(this).attr("ID");
+
+				var removed_id_list = [];
+				var remove_id = d3.selectAll(".old_node" + stop_layer)
+				remove_id.each(function (d) {
+					var id = d3.select(this).attr("ID");
 					removed_id_list.push(id);
 
 				})
-				
+
 				_svg.selectAll(".old_node" + stop_layer).remove();
 				_svg.selectAll(".old_edge" + stop_layer).remove();
 				_svg.selectAll(".old_edgepath" + stop_layer).remove();
 				_svg.selectAll(".old_edgelabel" + stop_layer).remove();
 				graphio.click_query(d);
 				infobox.display_info(d);
-				
+
 			}
-			
+
 		}
 
 
 		function pin_it(d) {
-			
+
 			d3.event.stopPropagation();
 			var node_pin = d3.select(this);
 			var pinned_node = d3.select(this.parentNode);
-			
+
 			if (pinned_node.classed("active_node")) {
 				if (!pinned_node.classed("pinned")) {
 					pinned_node.classed("pinned", true);

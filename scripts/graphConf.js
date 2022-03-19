@@ -3,28 +3,15 @@
 
 //elastic search index corresponding to a particular label
 
-// const file_index = 'file_index_attack_one_new_vfour';
-// const process_index = 'process_index_attack_one_new_vfour';
-// const socket_index = 'socket_index_attack_one_new_vfour';
-// const zeek_index = 'zeek_index_attack_one_new_vfour';
-// const dhcp_index = 'dhcp_index_attack_one_new_vfour';
-// const dns_index = 'dns_index_attack_one_new_vfour';
-// const http_index = 'http_index_attack_one_new_vfour';
-// const ssl_index = 'ssl_index_attack_one_new_vfour';
-// const networkfile_index ='networkfile_index_attack_one_new_vfour';
-
-
-
-const file_index = 'test_case_file';
-const process_index = 'test_case_process';
-const socket_index = 'test_case_socket';
-const zeek_index = 'test_case_conn';
-const dhcp_index = 'test_case_dhcp';
-const dns_index = 'test_case_dns';
-const http_index = 'test_case_http';
-const ssl_index = 'test_case_ssl';
-const networkfile_index ='test_case_files';
-
+const file_index = 'file_*';
+const process_index = 'process_*';
+const socket_index = 'socket_*';
+const zeek_index = 'conn_*';
+const dhcp_index = 'dhcp_*';
+const dns_index = 'dns_*';
+const http_index = 'http_*';
+const ssl_index = 'ssl_*';
+const networkfile_index ='files_*;
 
 // link to elastic search on port 9200
 //for attack
@@ -37,19 +24,6 @@ const es_dns_index_url = 'http://localhost:9200/'.concat(dns_index.concat('/_doc
 const es_http_index_url = 'http://localhost:9200/'.concat(http_index.concat('/_doc/_search'));
 const es_ssl_index_url = 'http://localhost:9200/'.concat(ssl_index.concat('/_doc/_search'));
 const es_networkfile_index_url = 'http://localhost:9200/'.concat(networkfile_index.concat('/_doc/_search'));
-
-// above links after concatination
-//const es_file_index_url = 'http://localhost:9200/file_index_attack_one_new_vtwo/_doc/_search';
-// const es_process_index_url  ='http://localhost:9200/process_index_attack_one_new_vtwo/_doc/_search';
-// const es_socket_index_url='http://localhost:9200/socket_index_attack_one_new_vtwo/_doc/_search';
-// const es_zeek_index_url='http://localhost:9200/zeek_index_attack_one_new_vtwo/_doc/_search';
-// const es_dhcp_index_url='http://localhost:9200/dhcp_index_attack_one_new_vtwo/_doc/_search';
-// const es_dns_index_url='http://localhost:9200/dns_index_attack_one_new_vtwo/_doc/_search';
-
-
-
-
-
 
 // Graph configuration
 const default_nb_of_layers = 20;// the number of layers after which the first layer vanishes
