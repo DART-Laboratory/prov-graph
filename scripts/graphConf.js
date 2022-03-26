@@ -3,9 +3,10 @@
 
 //elastic search index corresponding to a particular label
 
-// const file_index = 'file_index_attack_one_new_vfour';
+//datatheftexam.txt
+//const file_index = 'file_index_attack_one_new_vfour';
 // const process_index = 'process_index_attack_one_new_vfour';
-// const socket_index = 'd';
+// const socket_index = 'socket_index_attack_one_new_vfour';
 // const zeek_index = 'zeek_index_attack_one_new_vfour';
 // const dhcp_index = 'dhcp_index_attack_one_new_vfour';
 // const dns_index = 'dns_index_attack_one_new_vfour';
@@ -13,17 +14,27 @@
 // const ssl_index = 'ssl_index_attack_one_new_vfour';
 // const networkfile_index ='networkfile_index_attack_one_new_vfour';
 
-const file_index = 'agent_file_events';
-const process_index = 'agent_process_events';
-const socket_index = 'agent_socket_events';
-const zeek_index = 'conn';
-const dhcp_index = 'dhcp';
-const dns_index = 'dns';
-const http_index = 'http';
-const ssl_index = 'ssl';
-const networkfile_index ='files';
+// const file_index = 'agent_file_events';
+// const process_index = 'agent_process_events';
+// const socket_index = 'agent_socket_events';
+// const zeek_index = 'conn';
+// const dhcp_index = 'dhcp';
+// const dns_index = 'dns';
+// const http_index = 'http';
+// const ssl_index = 'ssl';
+// const networkfile_index ='files';
 
 
+//mtivpaperf
+const file_index = 'motiv_f_file';
+const process_index = 'motiv_f_process';
+const socket_index = 'motiv_f_socket';
+const zeek_index = 'motiv_f_conn';
+const dhcp_index = 'motiv_f_dhcp';
+const dns_index = 'motiv_f_dns';
+const http_index = 'motiv_f_http';
+const ssl_index = 'motiv_f_ssl';
+const networkfile_index = 'motiv_f_nfile';
 
 
 // const file_index = 'test_case_file';
@@ -93,4 +104,4 @@ const use_curved_edges = false;
 
 // system files (if you want to exclude them out)
 
-const system_files=["so","lib","null","Not Found"]
+const system_files = ["so", "lib", "null", "Not Found"]

@@ -40,7 +40,7 @@ var infobox = (function () {
 		_table_IDinfo = graphElem_bar.append("table").attr("id", "tableIdDetails");
 		init_table(_table_IDinfo, ["Key", "Value"]);
 		_table_DBinfo = graphElem_bar.append("table").attr("id", "tableDBDetails");
-		init_table(_table_DBinfo, ["Key", "Value"]);
+		//init_table(_table_DBinfo, ["Key", "Value"]);
 		hide_element(label_graph);
 
 	}

@@ -78,28 +78,32 @@
 
 				</div>
 				<div class="nav input_unit_container">
-					<label for="limit_field">Results limit:</label>
+					<label for="limit_field">Results Limit:</label>
 					<input name="limit_field" id="limit_field" value="30" min="1" max="100" type="number" />
 				</div>
 				
 				<div class="nav input_unit_container">
-					<label class="nav input_label" for="nbLayers">Nb of layers</label>
+					<label class="nav input_label" for="nbLayers">Number of Layers</label>
 					<input type="number" id="nbLayers" min="1" max="128" onclick="set_nb_layers()"
 						oninput="set_nb_layers()">
 				</div>
+				<!-- <label class="switch"> -->
 				<div class="nav input_unit_container">
 					<input type="checkbox" name="Freeze" id="freeze-in" />
-					<label class="nav input_label" for="freeze-in">Freeze exploration</label>
+
+					<label class="nav input_label" for="freeze-in">Freeze Exploration</label>
 				</div>
+				<!-- <span class="slider"></span>
+				</label> -->
 				<div class="nav input_unit_container">
 					<input type="checkbox" name="showName_box" id="showName" onclick="graphShapes.show_names()"
 						checked />
-					<label class="nav input_label" for="showName">Show Vertex labels</label>
+					<label class="nav input_label" for="showName">Show Vertex Labels</label>
 				</div>
 				<div class="nav input_unit_container">
 					<input type="checkbox" name="showEdge_box" id="showEdge" onclick="graphShapes.show_names_edges()"
 						checked />
-					<label class="nav input_label" for="showEdge">Show Edge labels</label>
+					<label class="nav input_label" for="showEdge">Show Edge Labels</label>
 				</div>
 				<div class="nav input_unit_container">
 					<input type="checkbox" name="showProcess_box" id="hideProcess"
@@ -130,17 +134,17 @@
 				<div class="nav input_unit_container">
 					<input type="checkbox" name="merge_socket" id="merge_socket"
 						checked />
-					<label class="nav input_label" for="merge_socket"> Merge Socket events</label>
+					<label class="nav input_label" for="merge_socket"> Merge Socket Events</label>
 				</div>
 				<div class="nav input_unit_container">
 					<input type="checkbox" name="forward_tracking" id="forward_tracking"
 						 checked />
-					<label class="nav input_label" for="forward_tracking"> Enable forward tracking</label>
+					<label class="nav input_label" for="forward_tracking"> Enable Forward Tracking</label>
 				</div>
 				<div class="nav input_unit_container">
 					<input type="checkbox" name="backward_tracking" id="backward_tracking"
 						 checked />
-					<label class="nav input_label" for="backward_tracking"> Enable backward tracking</label>
+					<label class="nav input_label" for="backward_tracking"> Enable Backward Tracking</label>
 				</div>
 			</div>
 

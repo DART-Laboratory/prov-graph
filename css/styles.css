@@ -15,7 +15,7 @@ body
 h1,h2,h3,h4,h5,h6
 {
 	margin: 0 0 .5em;
-	font-weight: 500;
+	font-weight: 10000;
 	line-height: 1.1;
 }
 
@@ -131,7 +131,9 @@ Layout styles
 .nav-bar
 {
 	color: #000;
-	background: #00ff17;
+	/*background: #00ff17;*/
+	/*background: royalblue;*/
+	background-image: url('https://i.makeagif.com/media/8-27-2020/MLsODB.gif');
 	padding: 0;
 }
 
@@ -144,6 +146,7 @@ Layout styles
 .nav.container {
 	display: grid;
 	grid-template-rows: auto 15%;
+	color: white;
 }
 
 .nav.inputs_container_top {
@@ -166,6 +169,7 @@ Layout styles
 
 .nav.input_label {
 	white-space:nowrap;
+	color: white;
 }
 
 .nav.controls {
@@ -388,3 +392,4 @@ Wide styles
 		border-bottom: 0;
 	}
 }
+
