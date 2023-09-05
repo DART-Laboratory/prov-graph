@@ -164,28 +164,27 @@
 const { Client } = require('@elastic/elasticsearch');
 
 // Initialize the Elasticsearch client
+
 const client = new Client({
-  node: 'http://beryl.cs.virginia.edu:9200/',
-  auth: {
-    username: 'elastic',
-    password: 'stimulus5affect-roof'
-  },
+  node: 'http://elastic:stimulus5affect-roof@beryl.cs.virginia.edu:9200',
 });
 
-async function listIndices() {
-  try {
-    const { body } = await client.transport.request({
-      method: 'GET',
-      path: '_cat/indices?v',
-    });
-
-    console.log('Indices:', body);
-  } catch (error) {
-    console.error('Error fetching indices:', error);
-  } finally {
-    // Close the Elasticsearch client when done
-    await client.close();
+async function listIndices () {
+  let isConnected = false
+  while (!isConnected) {
+   console.log('Connecting to ES')
+   try {
+    const health = await client.cluster.health({})
+    console.log(health)
+    const indices = await client.cat.indices();
+    console.log(indices);
+    isConnected = true
+   } catch (err) {
+    console.log('Connection Failed, Retrying...', err)
+   }
   }
-}
+ }
+
+// listIndices();
 
 listIndices();
