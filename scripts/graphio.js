@@ -62,7 +62,7 @@ var graphio = (function () {
     // Query sent to the server when clicking the search button
     //
     // Preprocess query
-    let input_field = $('#search_field').val();
+    let input_field = $('#search_field').val(); //Vertex Value given
     // $('#outputArea').html('ZEEK-AGENT Visualizer');
     // $('#messageArea').html('ZEEK-AGENT Visualizer');
     let input_id = $('#search_value').val();
@@ -98,7 +98,7 @@ var graphio = (function () {
       if (label_field == 'none' || label_field == 'process') {//fetch the node matching the id if it exists in process index
         $.ajax({
 
-          url: es_process_index_url,
+          url: es_process_index_url, //uses this for url-- -must add auth
           type: 'POST',
 
           contentType: "application/json;charset=UTF-8",
@@ -132,6 +132,13 @@ var graphio = (function () {
           data: JSON.stringify(data),
           processData: false,
           async: false,
+          beforeSend: function (xhr) { //added auth
+            // Set the Authorization header with the username and password
+            var username = 'elastic'; //
+            var password = 'stimulus5affect-roof'; //
+            var base64Credentials = btoa(username + ':' + password);
+            xhr.setRequestHeader('Authorization', 'Basic ' + base64Credentials);
+          },
           success: function (response) {
             var data = response.hits.hits;
 
