@@ -165,9 +165,7 @@ const { Client } = require('@elastic/elasticsearch');
 
 // Initialize the Elasticsearch client
 
-const client = new Client({
-  node: 'http://elastic:stimulus5affect-roof@beryl.cs.virginia.edu:9200',
-});
+
 
 async function listIndices () {
   let isConnected = false

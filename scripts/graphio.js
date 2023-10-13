@@ -25,6 +25,37 @@ var merge_node_dict = {}
 var node_position_history_forward = []
 var node_position_history_backward = []
 
+// // creating client
+// const { Client } = require('@elastic/elasticsearch');
+//
+// // Initialize the Elasticsearch client
+//
+// const client = new Client({
+//   node: 'http://elastic:stimulus5affect-roof@beryl.cs.virginia.edu:9200',
+//   auth: {
+//     username: 'elastic',
+//     password: 'stimulus5affect-roof'
+//   },
+// });
+//
+// // function to test if correctly connected to server
+// async function listIndices () {
+//   let isConnected = false
+//   while (!isConnected) {
+//     console.log('Connecting to ES')
+//     try {
+//       const health = await client.cluster.health({})
+//       console.log(health)
+//       const indices = await client.cat.indices();
+//       console.log(indices);
+//       isConnected = true
+//     } catch (err) {
+//       console.log('Connection Failed, Retrying...', err)
+//     }--
+//   }
+// }
+
+// listIndices();
 var graphio = (function () {
 
   function search_query() {
