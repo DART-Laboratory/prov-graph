@@ -65,7 +65,7 @@ var graphio = (function () {
     let input_field = $('#search_field').val(); //Vertex Value given
     // $('#outputArea').html('ZEEK-AGENT Visualizer');
     // $('#messageArea').html('ZEEK-AGENT Visualizer');
-    let input_id = $('#search_value').val();//Vertex Key
+    let input_id = $('#search_value').val(); //Vertex Key
     let label_field = $('#label_field').val(); //Vertex Label Filter
     if (input_field == "ID") {
       // form a query to find the id from elasticsearch database
