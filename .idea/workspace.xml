@@ -1,0 +1,143 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="AutoImportSettings">
+    <option name="autoReloadType" value="SELECTIVE" />
+  </component>
+  <component name="ChangeListManager">
+    <list default="true" id="917eaed8-826b-4e95-aa56-bbd87a87c758" name="Changes" comment="Tried to change html stuff" />
+    <option name="SHOW_DIALOG" value="false" />
+    <option name="HIGHLIGHT_CONFLICTS" value="true" />
+    <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
+    <option name="LAST_RESOLUTION" value="IGNORE" />
+  </component>
+  <component name="Git.Settings">
+    <option name="RECENT_BRANCH_BY_REPOSITORY">
+      <map>
+        <entry key="$PROJECT_DIR$" value="master" />
+      </map>
+    </option>
+    <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
+  </component>
+  <component name="MarkdownSettingsMigration">
+    <option name="stateVersion" value="1" />
+  </component>
+  <component name="ProjectId" id="2UyuutNWNhGYxFSikHi7YTjwTVr" />
+  <component name="ProjectViewState">
+    <option name="hideEmptyMiddlePackages" value="true" />
+    <option name="showLibraryContents" value="true" />
+  </component>
+  <component name="PropertiesComponent">{
+  &quot;keyToString&quot;: {
+    &quot;RunOnceActivity.OpenProjectViewOnStart&quot;: &quot;true&quot;,
+    &quot;RunOnceActivity.ShowReadmeOnStart&quot;: &quot;true&quot;,
+    &quot;WebServerToolWindowFactoryState&quot;: &quot;false&quot;,
+    &quot;last_opened_file_path&quot;: &quot;C:/Users/santi/source/repos/prov-graph2&quot;,
+    &quot;node.js.detected.package.eslint&quot;: &quot;true&quot;,
+    &quot;node.js.detected.package.tslint&quot;: &quot;true&quot;,
+    &quot;node.js.selected.package.eslint&quot;: &quot;(autodetect)&quot;,
+    &quot;node.js.selected.package.tslint&quot;: &quot;(autodetect)&quot;,
+    &quot;nodejs_package_manager_path&quot;: &quot;npm&quot;,
+    &quot;vue.rearranger.settings.migration&quot;: &quot;true&quot;
+  }
+}</component>
+  <component name="SpellCheckerSettings" RuntimeDictionaries="0" Folders="0" CustomDictionaries="0" DefaultDictionary="application-level" UseSingleDictionary="true" transferred="true" />
+  <component name="TaskManager">
+    <task active="true" id="Default" summary="Default task">
+      <changelist id="917eaed8-826b-4e95-aa56-bbd87a87c758" name="Changes" comment="" />
+      <created>1693924368425</created>
+      <option name="number" value="Default" />
+      <option name="presentableId" value="Default" />
+      <updated>1693924368425</updated>
+      <workItem from="1693924369617" duration="429000" />
+      <workItem from="1693932008809" duration="69000" />
+      <workItem from="1694130056382" duration="815000" />
+      <workItem from="1694362469732" duration="43000" />
+      <workItem from="1694397654409" duration="1131000" />
+      <workItem from="1694536719529" duration="21000" />
+      <workItem from="1694581118374" duration="2142000" />
+      <workItem from="1694613780593" duration="594000" />
+      <workItem from="1694619516090" duration="2007000" />
+      <workItem from="1694636746973" duration="682000" />
+      <workItem from="1694720021956" duration="122000" />
+      <workItem from="1695009942869" duration="590000" />
+      <workItem from="1695049348145" duration="1070000" />
+      <workItem from="1695580020162" duration="684000" />
+      <workItem from="1695615597689" duration="719000" />
+      <workItem from="1695762525808" duration="63000" />
+      <workItem from="1696522014768" duration="1094000" />
+      <workItem from="1696825481775" duration="1000" />
+      <workItem from="1696967632836" duration="139000" />
+      <workItem from="1697165392944" duration="3184000" />
+      <workItem from="1697208361487" duration="2220000" />
+      <workItem from="1697435495228" duration="52000" />
+      <workItem from="1697927163939" duration="7692000" />
+      <workItem from="1697935435980" duration="293000" />
+    </task>
+    <task id="LOCAL-00001" summary="Added commented client declaration example">
+      <created>1697165867245</created>
+      <option name="number" value="00001" />
+      <option name="presentableId" value="LOCAL-00001" />
+      <option name="project" value="LOCAL" />
+      <updated>1697165867245</updated>
+    </task>
+    <task id="LOCAL-00002" summary="Added auth to first -ajax request">
+      <created>1697167899217</created>
+      <option name="number" value="00002" />
+      <option name="presentableId" value="LOCAL-00002" />
+      <option name="project" value="LOCAL" />
+      <updated>1697167899217</updated>
+    </task>
+    <task id="LOCAL-00003" summary="Added some comments">
+      <created>1697927211307</created>
+      <option name="number" value="00003" />
+      <option name="presentableId" value="LOCAL-00003" />
+      <option name="project" value="LOCAL" />
+      <updated>1697927211307</updated>
+    </task>
+    <task id="LOCAL-00004" summary="Started creating new IO class and it successfully queries with a given ID">
+      <created>1697930581875</created>
+      <option name="number" value="00004" />
+      <option name="presentableId" value="LOCAL-00004" />
+      <option name="project" value="LOCAL" />
+      <updated>1697930581875</updated>
+    </task>
+    <task id="LOCAL-00005" summary="Tried to change html stuff">
+      <created>1697934844880</created>
+      <option name="number" value="00005" />
+      <option name="presentableId" value="LOCAL-00005" />
+      <option name="project" value="LOCAL" />
+      <updated>1697934844880</updated>
+    </task>
+    <task id="LOCAL-00006" summary="Tried to change html stuff">
+      <created>1697934961613</created>
+      <option name="number" value="00006" />
+      <option name="presentableId" value="LOCAL-00006" />
+      <option name="project" value="LOCAL" />
+      <updated>1697934961613</updated>
+    </task>
+    <option name="localTasksCounter" value="7" />
+    <servers />
+  </component>
+  <component name="TypeScriptGeneratedFilesManager">
+    <option name="version" value="3" />
+  </component>
+  <component name="Vcs.Log.Tabs.Properties">
+    <option name="TAB_STATES">
+      <map>
+        <entry key="MAIN">
+          <value>
+            <State />
+          </value>
+        </entry>
+      </map>
+    </option>
+  </component>
+  <component name="VcsManagerConfiguration">
+    <MESSAGE value="Added commented client declaration example" />
+    <MESSAGE value="Added auth to first -ajax request" />
+    <MESSAGE value="Added some comments" />
+    <MESSAGE value="Started creating new IO class and it successfully queries with a given ID" />
+    <MESSAGE value="Tried to change html stuff" />
+    <option name="LAST_COMMIT_MESSAGE" value="Tried to change html stuff" />
+  </component>
+</project>
