@@ -1,4 +1,4 @@
-import { Client } from '@elastic/elasticsearch';
+const { Client } = require('@elastic/elasticsearch');
 const clientURL = 'http://elastic:stimulus5affect-roof@beryl.cs.virginia.edu:9200'
 const client = new Client({
     node: clientURL,
@@ -9,7 +9,7 @@ const client = new Client({
 // Define your Elasticsearch query
 
     function searchQuery(vertexValue, vertexKey = "_id", vertexLabel = "None") {
-        let vertexValue =  "XcLR0ooBBBvBsP_nxiN9"//$('#search_field').val(); //Vertex Value given only support ids
+        // var vertexValue =  "XcLR0ooBBBvBsP_nxiN9"//$('#search_field').val(); //Vertex Value given only support ids
         //let vertexKey = $('#search_value').val(); //Vertex Key
         //let vertexLabel = $('#label_field').val(); //Vertex Label Filter
         const exectutedQuery = {
@@ -35,9 +35,9 @@ const client = new Client({
             console.error(`Error executing Elasticsearch query: ${error}`);
         }
     }
-    return {search_query: search_query}
+    // return {search_query: search_query}
 //})()
-
+searchQuery("XcLR0ooBBBvBsP_nxiN9");
 // Call the query function
 
 
