@@ -9,8 +9,8 @@
 	<head>
 		<link rel="stylesheet" href="css/graphStyle.css">
 		<link rel="stylesheet" href="css/styles.css">
-		
 
+		<script src="elasticsearch-query.js"></script>
 		<script src="http://code.jquery.com/jquery-3.2.1.min.js"></script>
 		
 		<script src="http://d3js.org/d3.v4.min.js"></script>
@@ -19,7 +19,7 @@
 		<script src="scripts/graphShapes.js"></script>
 		<script src="scripts/infobox.js"></script>
 		<script src="scripts/graph_viz.js"></script>
-		<script src="scripts/graphio.js"></script>
+		<script src="scripts/graphIORemake.js"></script>
 		<script src="scripts/utils.js"></script>
 		
 		<script src="https://cdnjs.cloudflare.com/ajax/libs/crypto-js/4.0.0/core.min.js"></script>
@@ -29,8 +29,8 @@
 		<script type="text/javascript">
 			///////////////////////////////////////////////
 			function search_query() {
-				
-				graphio.search_query();
+
+				graphio2.search_query();
 			}
 		</script>
 		<!-- ------------------------------------------------- -->
