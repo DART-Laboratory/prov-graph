@@ -8,41 +8,34 @@ const client = new Client({
 
 // Define your Elasticsearch query
 
-    function searchQuery(vertexValue, vertexKey = "_id", vertexLabel = "None") {
-        // var vertexValue =  "XcLR0ooBBBvBsP_nxiN9"//$('#search_field').val(); //Vertex Value given only support ids
-        //let vertexKey = $('#search_value').val(); //Vertex Key
-        //let vertexLabel = $('#label_field').val(); //Vertex Label Filter
-        const exectutedQuery = {
-            index: 'atlasv2-edr-h1-s4',
-            body: {
-                query: {
-                    match: {
-                        // Your query criteria
-                        vertexKey: vertexValue
-                    }
+function searchQuery(vertexValue, vertexKey = '_id', vertexLabel = "None") {
+    // var vertexValue =  "XcLR0ooBBBvBsP_nxiN9"//$('#search_field').val(); //Vertex Value given only support ids
+    //let vertexKey = $('#search_value').val(); //Vertex Key
+    //let vertexLabel = $('#label_field').val(); //Vertex Label Filter
+    const exectutedQuery = {
+        index: 'atlasv2-edr-h1-s4',
+        body: {
+            query: {
+                match: {
+                    // Your query criteria
+                    [vertexKey]: vertexValue
                 }
             }
-        };
-        runQuery(exectutedQuery)
-    }
+        }
+    };
+    runQuery(exectutedQuery)
+}
 
 // Execute the query
-    async function runQuery(query) {
-        try {
-            const response = await client.search(query);
-            console.log(response.hits.hits); // currently only printing the query
-        } catch (error) {
-            console.error(`Error executing Elasticsearch query: ${error}`);
-        }
+async function runQuery(query) {
+    try {
+        const response = await client.search(query);
+        console.log(response.hits.hits); // currently only printing the query
+    } catch (error) {
+        console.error(`Error executing Elasticsearch query: ${error}`);
     }
+}
     // return {search_query: search_query}
 //})()
-searchQuery("XcLR0ooBBBvBsP_nxiN9");
-// Call the query function
-
-
-
-
-
-
+searchQuery('1316', 'process_pid');
 
