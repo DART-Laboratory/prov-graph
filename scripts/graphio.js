@@ -331,7 +331,42 @@ var graphio = (function () {
     }
   }
 
+
   ///////////////////////////////////////////////////////data manipulation of nodes, specified structure for front end////////////////////////////////////////////////
+
+  function data_manipulation2(data){
+    var data_list = []
+    //console.log(filename)
+    for (var key in data) {
+      var data_dict = data[key];
+      data_dict["id"] = data_dict['_id']
+      data_dict['type'] = 'vertex'
+      delete data_dict['_index']
+      delete data_dict['_score']
+      delete data_dict['_id']
+
+
+      //var ts = data_dict['properties']['ts']
+      //var host_ts = data_dict['properties']['host_ts']
+
+
+      let limit_field = $('#limit_field').val();
+      if (limit_field == "") {
+        limit_field = node_visible_per_request_limit;
+      }
+      else if (limit_field < 0 || limit_field > node_visible_per_request_limit) {
+        limit_field = node_visible_per_request_limit;
+      }
+      // removed_list=data_list.splice(limit_field)
+      // console.log(removed_list)
+      data_list = data_list.splice(0, limit_field)
+
+
+      return data_list;
+
+    }
+  }
+
   function data_manipulation(data, val, type,filename,search_or_click_for_file) {
 
     var data_list = []
@@ -339,138 +374,16 @@ var graphio = (function () {
     for (var key in data) {
       var data_dict = data[key];
       data_dict["id"] = data_dict['_id']
-      data_dict["properties"] = data_dict["_source"]
       data_dict['type'] = 'vertex'
       delete data_dict['_index']
-      delete data_dict['_type']
-      delete data_dict['_source']
       delete data_dict['_score']
       delete data_dict['_id']
-
-      if (type == "process") {
-
-        data_dict["properties"]['name'] = data_dict["properties"]['exe']
-        data_dict['label'] = "PROCESS"
-      }
-      if (type == "file") {
-        data_dict["properties"]['name'] = data_dict["properties"]['path']
-        data_dict['label'] = "FILE"
-        var exe_path=data_dict["properties"]['name']
-        //remove sys files
-        sys_file_found =false
-        for (var sys_file of system_files)
-        {
-          if (exe_path.includes(sys_file))
-          {
-            sys_file_found = true
-          }
-        }
-        if (sys_file_found)
-        {
-          continue
-        }
-        if ( search_or_click_for_file=='search' && filename[filename.length-1] != "*" )
-        {
-        if (exe_path.includes("/"))
-        {
-          var path_token=exe_path.split("/")
-          var file_name=path_token[path_token.length-1]
-          if(file_name!=filename && search_or_click_for_file=='search')
-          {
-            continue
-          }
-        }
-        else
-        {
-          //console.log('absent')
-          if (exe_path!=filename && search_or_click_for_file=='search')
-          {
-            continue
-          }
-        }
-      }
-      }
-      if (type == "socket") {
-        if (data_dict["properties"]['syscall']=='connect')
-        {
-          data_dict["properties"]['name'] = String(data_dict["properties"]['remote_address']) + ":" + String(data_dict["properties"]['remote_port'])
-        }
-        if (data_dict["properties"]['syscall']=='bind')
-        {
-          data_dict["properties"]['name'] = String(data_dict["properties"]['local_address']) + ":" + String(data_dict["properties"]['local_port'])
-        }
-        //data_dict["properties"]['name'] = data_dict["properties"]['exe']
-        data_dict['label'] = "SOCKET"
-      }
-      if (type == "conn") {
-        data_dict["properties"]['name'] = "zeek"
-        data_dict['label'] = "ZEEK"
-      }
-      if (type == "dns") {
-        data_dict["properties"]['name'] = "dns" + "," + String(data_dict["properties"]['query'])
-        data_dict['label'] = "NETWORK"
-      }
-      if (type == "dhcp") {
-        data_dict["properties"]['name'] = "dhcp"
-        data_dict['label'] = "NETWORK"
-      }
-      if (type == "http") {
-        data_dict["properties"]['name'] = "http" + "," + String(data_dict["properties"]['method']) + "," + String(data_dict["properties"]['uri'])
-        data_dict['label'] = "NETWORK"
-      }
-      if (type == "ssl") {
-        data_dict["properties"]['name'] = "ssl"
-        data_dict['label'] = "NETWORK"
-      }
-      if (type == "file.log") {
-        data_dict["properties"]['name'] = "file.log"
-        data_dict['label'] = "NETWORK"
-      }
 
 
       //var ts = data_dict['properties']['ts']
       //var host_ts = data_dict['properties']['host_ts']
-      var dict_for_hash = JSON.parse(JSON.stringify(data_dict['properties']));
-      if (data_dict['label'] != "ZEEK" && data_dict['label'] != "NETWORK") {
-        delete dict_for_hash['host_ts']
-      }
-      var merge_socket = document.getElementById("merge_socket");
-
-      var isChecked_merge_socket = merge_socket.checked;
-      if (isChecked_merge_socket){
-      if (data_dict['label'] == "SOCKET")
-      {
-        delete dict_for_hash['seuid']//merging of similar sockets
-      }
-    }
-
-      delete dict_for_hash['ts']
-
-      var hash = MD5(JSON.stringify(dict_for_hash))//merging of similar nodes
-      
-      //console.log(hash)
-      if (merge_node_history.includes(hash)) {
-
-        if (!data_list.includes(merge_node_dict[hash])) {
-          data_list.push(merge_node_dict[hash])
-        }
-
-        //var x = 2
-      }
-      else {
-        merge_node_history.push(hash)
 
 
-        for (var key2 in data_dict['properties']) {
-
-          data_dict['properties'][key2] = [{ 'id': 1, 'value': data_dict['properties'][key2], "label": key2 }]
-
-        }
-        data_dict['fx'] = val;
-        data_list.push(data_dict)
-        merge_node_dict[hash] = data_dict
-      }
-    }
     let limit_field = $('#limit_field').val();
     if (limit_field == "") {
       limit_field = node_visible_per_request_limit;

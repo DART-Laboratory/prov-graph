@@ -4,8 +4,10 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="917eaed8-826b-4e95-aa56-bbd87a87c758" name="Changes" comment="unversioned files??">
+    <list default="true" id="917eaed8-826b-4e95-aa56-bbd87a87c758" name="Changes" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/graphexp.html" beforeDir="false" afterPath="$PROJECT_DIR$/graphexp.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/scripts/graphio.js" beforeDir="false" afterPath="$PROJECT_DIR$/scripts/graphio.js" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/scripts/graphioRemake.js" beforeDir="false" afterPath="$PROJECT_DIR$/scripts/graphioRemake.js" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
@@ -24,19 +26,35 @@
     <option name="hideEmptyMiddlePackages" value="true" />
     <option name="showLibraryContents" value="true" />
   </component>
-  <component name="PropertiesComponent"><![CDATA[{
-  "keyToString": {
-    "RunOnceActivity.OpenProjectViewOnStart": "true",
-    "RunOnceActivity.ShowReadmeOnStart": "true",
-    "WebServerToolWindowFactoryState": "false",
-    "node.js.detected.package.eslint": "true",
-    "node.js.detected.package.tslint": "true",
-    "node.js.selected.package.eslint": "(autodetect)",
-    "node.js.selected.package.tslint": "(autodetect)",
-    "nodejs_package_manager_path": "npm",
-    "vue.rearranger.settings.migration": "true"
+  <component name="PropertiesComponent">{
+  &quot;keyToString&quot;: {
+    &quot;RunOnceActivity.OpenProjectViewOnStart&quot;: &quot;true&quot;,
+    &quot;RunOnceActivity.ShowReadmeOnStart&quot;: &quot;true&quot;,
+    &quot;WebServerToolWindowFactoryState&quot;: &quot;false&quot;,
+    &quot;last_opened_file_path&quot;: &quot;C:/Users/santi/source/repos/prov-graph2&quot;,
+    &quot;node.js.detected.package.eslint&quot;: &quot;true&quot;,
+    &quot;node.js.detected.package.tslint&quot;: &quot;true&quot;,
+    &quot;node.js.selected.package.eslint&quot;: &quot;(autodetect)&quot;,
+    &quot;node.js.selected.package.tslint&quot;: &quot;(autodetect)&quot;,
+    &quot;nodejs_package_manager_path&quot;: &quot;npm&quot;,
+    &quot;vue.rearranger.settings.migration&quot;: &quot;true&quot;
   }
-}]]></component>
+}</component>
+  <component name="RunManager">
+    <configuration default="true" type="JetRunConfigurationType">
+      <module name="prov-graph2" />
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
+    <configuration default="true" type="KotlinStandaloneScriptRunConfigurationType">
+      <module name="prov-graph2" />
+      <option name="filePath" />
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
+  </component>
   <component name="SpellCheckerSettings" RuntimeDictionaries="0" Folders="0" CustomDictionaries="0" DefaultDictionary="application-level" UseSingleDictionary="true" transferred="true" />
   <component name="TaskManager">
     <task active="true" id="Default" summary="Default task">
@@ -46,7 +64,25 @@
       <option name="presentableId" value="Default" />
       <updated>1698073161200</updated>
       <workItem from="1698073162656" duration="33000" />
+      <workItem from="1698073208042" duration="1158000" />
+      <workItem from="1698260705117" duration="27000" />
+      <workItem from="1698438079902" duration="3600000" />
     </task>
+    <task id="LOCAL-00001" summary="Most up to date">
+      <created>1698073377738</created>
+      <option name="number" value="00001" />
+      <option name="presentableId" value="LOCAL-00001" />
+      <option name="project" value="LOCAL" />
+      <updated>1698073377738</updated>
+    </task>
+    <task id="LOCAL-00002" summary="Unversioned files">
+      <created>1698073503914</created>
+      <option name="number" value="00002" />
+      <option name="presentableId" value="LOCAL-00002" />
+      <option name="project" value="LOCAL" />
+      <updated>1698073503914</updated>
+    </task>
+    <option name="localTasksCounter" value="3" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -62,5 +98,10 @@
         </entry>
       </map>
     </option>
+  </component>
+  <component name="VcsManagerConfiguration">
+    <MESSAGE value="Most up to date" />
+    <MESSAGE value="Unversioned files" />
+    <option name="LAST_COMMIT_MESSAGE" value="Unversioned files" />
   </component>
 </project>
