@@ -34,18 +34,12 @@ var graphioRemake = (function () {
             // removed_list=data_list.splice(limit_field)
             // console.log(removed_list)
             data_list = data_list.splice(0, limit_field)
-
-
-            return data_list;
-
         }
+        return data_list;
     }
 
-    async function search_query(vertexValue, vertexKey = '_id', vertexLabel = "None") {
-        // var vertexValue =  "XcLR0ooBBBvBsP_nxiN9"//$('#search_field').val(); //Vertex Value given only support ids
-        //let vertexKey = $('#search_value').val(); //Vertex Key
-        //let vertexLabel = $('#label_field').val(); //Vertex Label Filter
-        const exectutedQuery = {
+    async function search_query(vertexValue = 'x', vertexKey = '_id', vertexLabel = "None") {
+        const executedQuery = {
             index: 'atlasv2-edr-h1-s4',
             body: {
                 query: {
@@ -55,20 +49,20 @@ var graphioRemake = (function () {
                 }
             }
         };
-        const response = await client.search(query);
-        data = exectutedQuery.hits.hits;
-        data_manipulation2(data);
+        const response = await client.search(executedQuery);
+        data = response.hits.hits;
+        await data_manipulation2(data);
     }
 
 // Execute the query
-    async function runQuery(query) {
-        try {
-            const response = await client.search(query);
-            console.log(response.hits.hits); // currently only printing the query
-        } catch (error) {
-            console.error(`Error executing Elasticsearch query: ${error}`);
-        }
-    }
+//     async function runQuery(query) {
+//         try {
+//             const response = await client.search(query);
+//             console.log(response.hits.hits); // currently only printing the query
+//         } catch (error) {
+//             console.error(`Error executing Elasticsearch query: ${error}`);
+//         }
+//     }
 
     return {
         search_query: search_query
