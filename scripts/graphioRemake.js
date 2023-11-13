@@ -1,17 +1,31 @@
-import { Client } from '@elastic/elasticsearch';
-const clientURL = 'http://elastic:stimulus5affect-roof@beryl.cs.virginia.edu:9200'
-const client = new Client({
-    node: clientURL,
-});
+// import { Client } from '@elastic/elasticsearch';
+// const clientURL = 'http://elastic:stimulus5affect-roof@beryl.cs.virginia.edu:9200'
+// const client = new Client({
+//     node: clientURL,
+// });
 //var graphio2 = (function () {
 
 
 // Define your Elasticsearch query
 
 var graphioRemake = (function () {
+    async function search_query(vertexValue = 'x', vertexKey = '_id', vertexLabel = "None") {
+        const executedQuery = {
+            index: 'atlasv2-edr-h1-s4',
+            body: {
+                query: {
+                    match: {
+                        [vertexKey]: vertexValue
+                    }
+                }
+            }
+        };
+        const response = await client.search(executedQuery);
+        data = response.hits.hits;
+        await data_manipulation2(data);
+    }
     function data_manipulation2(data) {
         var data_list = []
-        //console.log(filename)
         for (var key in data) {
             var data_dict = data[key];
             data_dict["id"] = data_dict['_id']
@@ -38,21 +52,7 @@ var graphioRemake = (function () {
         return data_list;
     }
 
-    async function search_query(vertexValue = 'x', vertexKey = '_id', vertexLabel = "None") {
-        const executedQuery = {
-            index: 'atlasv2-edr-h1-s4',
-            body: {
-                query: {
-                    match: {
-                        [vertexKey]: vertexValue
-                    }
-                }
-            }
-        };
-        const response = await client.search(executedQuery);
-        data = response.hits.hits;
-        await data_manipulation2(data);
-    }
+
 
 // Execute the query
 //     async function runQuery(query) {
